@@ -48,6 +48,31 @@
       overflow-x: hidden;
     }
 
+    .auth-overlay {
+      position: fixed; inset: 0; z-index: 9999;
+      background: rgba(245,245,247,.98);
+      display: flex; align-items: center; justify-content: center;
+      padding: 20px;
+    }
+    .auth-card {
+      width: 100%; max-width: 420px;
+      background: #fff; border: 1px solid var(--border);
+      border-radius: 16px; padding: 24px;
+      box-shadow: var(--shadow);
+    }
+    .auth-title {
+      font-family: 'DM Serif Display', serif;
+      font-size: 1.35rem; margin-bottom: 8px;
+    }
+    .auth-sub {
+      font-size: .84rem; color: var(--text-2);
+      line-height: 1.55; margin-bottom: 14px;
+    }
+    .auth-error {
+      margin-top: 8px; font-size: .78rem; color: #b42318;
+      min-height: 1.2em;
+    }
+
     /* ====================================================
        STICKY HEADER
     ==================================================== */
@@ -511,6 +536,18 @@
   </style>
 </head>
 <body>
+  <div id="authOverlay" class="auth-overlay" aria-label="Acceso">
+    <div class="auth-card">
+      <h1 class="auth-title">Acceso interno</h1>
+      <p class="auth-sub">Ingresa la clave para crear y exportar propuestas.</p>
+      <div class="field">
+        <label class="lbl" for="authPassword">Clave</label>
+        <input id="authPassword" class="inp" type="password" autocomplete="current-password" placeholder="Ingresa la clave" />
+      </div>
+      <button id="authSubmit" class="btn btn-primary" type="button" style="width:100%;">Entrar</button>
+      <div id="authError" class="auth-error"></div>
+    </div>
+  </div>
 
   <!-- ═══════════════════════════════════
        HEADER
@@ -872,7 +909,13 @@
      DOM REFS
   ============================================================ */
   const $ = id => document.getElementById(id);
+  const ACCESS_PASSWORD = 'aberrante2025';
+  const ACCESS_KEY = 'aberrante_creator_auth_ok';
   const D = {
+    authOverlay:   $('authOverlay'),
+    authPassword:  $('authPassword'),
+    authSubmit:    $('authSubmit'),
+    authError:     $('authError'),
     clientName:    $('clientName'),
     clientMsg:     $('clientMsg'),
     greetingText:  $('greetingText'),
@@ -897,10 +940,42 @@
      INIT
   ============================================================ */
   function init() {
+    setupAccessGate();
     renderSvcGrid();
     renderExamplesByService();
     bindEvents();
     updateFooter();
+  }
+
+  function setupAccessGate() {
+    const alreadyAuthed = sessionStorage.getItem(ACCESS_KEY) === '1';
+    if (alreadyAuthed) {
+      D.authOverlay.style.display = 'none';
+      return;
+    }
+
+    const tryAuth = () => {
+      const val = (D.authPassword.value || '').trim();
+      if (val === ACCESS_PASSWORD) {
+        sessionStorage.setItem(ACCESS_KEY, '1');
+        D.authOverlay.style.display = 'none';
+        D.authError.textContent = '';
+        return;
+      }
+      D.authError.textContent = 'Clave incorrecta.';
+      D.authPassword.focus();
+      D.authPassword.select();
+    };
+
+    D.authSubmit.addEventListener('click', tryAuth);
+    D.authPassword.addEventListener('keydown', (e) => {
+      if (e.key === 'Enter') {
+        e.preventDefault();
+        tryAuth();
+      }
+    });
+
+    setTimeout(() => D.authPassword.focus(), 50);
   }
 
   /* ============================================================
