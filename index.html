@@ -1321,6 +1321,7 @@
     const wa        = `https://wa.me/${st.waNum.replace(/\D/g,'')}?text=${encodeURIComponent(st.waMsg)}`;
     const mail      = `mailto:${st.email}`;
     const title     = client ? `Propuesta para ${client} · Studio Aberrante` : 'Propuesta · Studio Aberrante';
+    const brandLogo = 'https://studioaberrante.github.io/studio-aberrante-propuestas-clientes-web/assets/logoaberrantenegro.png';
 
     const svcsHTML = selSvcs.map(s => `
       <div class="sc">
@@ -1466,6 +1467,10 @@ body{
   background:#111;display:grid;place-items:center;
   font-size:.76rem;font-weight:800;color:#fff;
   flex-shrink:0;
+}
+.nav-logo{
+  height:28px;width:auto;display:block;
+  object-fit:contain;
 }
 .nav-name{font-size:.86rem;font-weight:700}
 .nav-actions{display:flex;gap:8px}
@@ -1697,6 +1702,9 @@ section{padding:70px 0}
   flex-wrap:wrap;
 }
 .footer-text{font-size:.76rem;color:var(--t3)}
+.footer-logo{
+  height:22px;width:auto;display:block;object-fit:contain;
+}
 
 /* ── RESPONSIVE ── */
 @media(max-width:900px){
@@ -1708,6 +1716,8 @@ section{padding:70px 0}
   .svc-grid,.ex-grid{grid-template-columns:1fr}
   .hero{padding:60px 0 40px}
   .nav-actions .btn:first-child{display:none}
+  .nav-logo{height:24px}
+  .footer-logo{height:20px}
 }
 
 /* ── SCROLL ANIMATIONS ── */
@@ -1791,8 +1801,7 @@ section{padding:70px 0}
 <nav class="nav">
   <div class="container nav-inner">
     <div class="nav-brand">
-      <div class="nav-mark">SA</div>
-      <div class="nav-name">Studio Aberrante</div>
+      <img class="nav-logo" src="${ha(brandLogo)}" alt="Studio Aberrante" loading="eager" />
     </div>
     <div class="nav-actions">
       <a href="${ha(mail)}" class="btn btn-outline btn-sm">Email</a>
@@ -1866,7 +1875,7 @@ ${testHTML ? '<div class="divider"></div>' : ''}
 
 <footer class="footer">
   <div class="container footer-inner">
-    <span class="footer-text">Studio Aberrante · ${new Date().getFullYear()}</span>
+    <img class="footer-logo" src="${ha(brandLogo)}" alt="Studio Aberrante" loading="lazy" />
     <span class="footer-text">Propuesta personalizada${client ? ` para ${h(client)}` : ''}</span>
   </div>
 </footer>
