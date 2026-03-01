@@ -38,6 +38,7 @@
        BASE
     ==================================================== */
     html { font-size: 16px; }
+    html, body { -webkit-text-size-adjust: 100%; text-size-adjust: 100%; }
     body {
       font-family: 'DM Sans', system-ui, -apple-system, sans-serif;
       background: var(--bg);
@@ -327,13 +328,16 @@
     .svc-ex-inst-row {
       display: flex; align-items: flex-start; gap: 9px;
       font-size: .76rem; color: var(--text-2); line-height: 1.55;
+      overflow-wrap: anywhere;
+      word-break: break-word;
     }
-    .svc-ex-inst-row > span { flex-shrink: 0; }
+    .svc-ex-inst-row > span:first-child { flex-shrink: 0; }
+    .svc-ex-inst-row > span:last-child { min-width: 0; flex: 1; }
     .svc-ex-inst-row strong { color: var(--text); font-weight: 600; }
     .svc-ex-inst-row code {
       font-family: ui-monospace, monospace; font-size: .68rem;
       background: rgba(0,0,0,.06); padding: 1px 5px; border-radius: 4px;
-      color: var(--text-2); word-break: break-all;
+      color: var(--text-2); word-break: break-all; white-space: normal;
     }
 
     /* Inline add form */
@@ -363,6 +367,9 @@
     @media (max-width: 680px) {
       .svc-ex-iform-fields { grid-template-columns: 1fr; }
       .svc-ex-iform-fields .f-full { grid-column: span 1; }
+      .svc-ex-inst { padding: 10px 12px; }
+      .svc-ex-inst-row { font-size: .72rem; line-height: 1.45; }
+      .svc-ex-inst-lbl { font-size: .62rem; }
     }
 
     /* ====================================================
