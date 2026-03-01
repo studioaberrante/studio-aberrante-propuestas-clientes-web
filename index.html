@@ -1,0 +1,2101 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Studio Aberrante · Creator</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700;1,9..40,300;1,9..40,400&family=DM+Serif+Display:ital@0;1&display=swap" rel="stylesheet" />
+  <style>
+    /* ====================================================
+       RESET
+    ==================================================== */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    /* ====================================================
+       TOKENS
+    ==================================================== */
+    :root {
+      --bg:       #f5f5f7;
+      --surface:  #FFFFFF;
+      --border:   #e5e5e5;
+      --border-md:#d0d0d0;
+      --text:     #0a0a0a;
+      --text-2:   #666666;
+      --text-3:   #999999;
+      --accent:   #0a0a0a;
+      --blue:     #4fa3d1;
+      --blue-bg:  #f0f7fc;
+      --r:        10px;
+      --r-sm:     8px;
+      --r-pill:   999px;
+      --shadow-sm: 0 1px 4px rgba(0,0,0,.06), 0 4px 16px rgba(0,0,0,.06);
+      --shadow:    0 4px 12px rgba(0,0,0,.08), 0 12px 40px rgba(0,0,0,.06);
+    }
+
+    /* ====================================================
+       BASE
+    ==================================================== */
+    html { font-size: 16px; }
+    body {
+      font-family: 'DM Sans', system-ui, -apple-system, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      min-height: 100vh;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    /* ====================================================
+       STICKY HEADER
+    ==================================================== */
+    .hdr {
+      position: sticky; top: 0; z-index: 100;
+      background: rgba(245,245,247,.88);
+      backdrop-filter: blur(20px) saturate(140%);
+      border-bottom: 1px solid var(--border);
+    }
+    .hdr-inner {
+      max-width: 1000px; margin: 0 auto; padding: 0 28px;
+      height: 58px; display: flex;
+      align-items: center; justify-content: space-between; gap: 16px;
+    }
+    .hdr-brand { display: flex; align-items: center; gap: 10px; }
+    .hdr-mark {
+      width: 30px; height: 30px; border-radius: 8px;
+      background: #111; display: grid; place-items: center;
+      font-size: .76rem; font-weight: 800; color: #fff;
+    }
+    .hdr-name { font-size: .88rem; font-weight: 700; color: var(--text); }
+    .hdr-sub  { font-size: .7rem;  color: var(--text-3); margin-top: 1px; }
+    .hdr-actions { display: flex; align-items: center; gap: 7px; }
+
+    /* ====================================================
+       BUTTONS  — reactive on hover/active
+    ==================================================== */
+    .btn {
+      display: inline-flex; align-items: center; justify-content: center;
+      gap: 6px; padding: 10px 20px; border-radius: var(--r);
+      font: 600 .84rem/1 'DM Sans', sans-serif; cursor: pointer; border: none;
+      text-decoration: none; white-space: nowrap;
+      transition: transform .2s ease, box-shadow .2s ease,
+                  background .2s ease, color .2s ease, border-color .2s ease;
+      -webkit-user-select: none; user-select: none;
+    }
+    .btn:hover  { transform: translateY(-1px); }
+    .btn:active { transform: scale(.975); }
+
+    .btn-primary {
+      background: var(--text); color: #fff;
+    }
+    .btn-primary:hover { background: #1a1a1a; box-shadow: 0 8px 24px rgba(0,0,0,.18); }
+
+    .btn-secondary {
+      background: transparent; color: var(--text);
+      border: 1.5px solid var(--border);
+    }
+    .btn-secondary:hover { border-color: var(--text); box-shadow: var(--shadow-sm); }
+
+    .btn-ghost {
+      background: transparent; color: var(--text-2); border: 1.5px solid transparent;
+      font-weight: 500;
+    }
+    .btn-ghost:hover { background: rgba(0,0,0,.06); color: var(--text); }
+
+    .btn-sm   { padding: 8px 14px; font-size: .78rem; }
+    .btn-icon { width: 32px; height: 32px; padding: 0; border-radius: 8px; font-size: .88rem; }
+
+    /* ====================================================
+       LAYOUT
+    ==================================================== */
+    .main {
+      max-width: 1000px; margin: 0 auto;
+      padding: 32px 28px 100px;
+      display: flex; flex-direction: column; gap: 16px;
+    }
+
+    /* ====================================================
+       SECTION CARDS
+    ==================================================== */
+    .card {
+      background: var(--surface); border: 1px solid var(--border);
+      border-radius: 14px; padding: 28px 28px 24px;
+      transition: box-shadow .2s ease;
+    }
+    .card:hover { box-shadow: var(--shadow-sm); }
+
+    .card-hdr {
+      display: flex; align-items: flex-start;
+      justify-content: space-between; gap: 14px; margin-bottom: 22px;
+    }
+    .card-num {
+      font-size: .64rem; font-weight: 600; letter-spacing: .10em;
+      text-transform: uppercase; color: var(--text-3); margin-bottom: 4px;
+    }
+    .card-title {
+      font-family: 'DM Serif Display', serif;
+      font-size: 1.05rem; font-weight: 400;
+      letter-spacing: -.01em; color: var(--text);
+    }
+    .card-actions { display: flex; gap: 6px; flex-shrink: 0; margin-top: 2px; }
+
+    /* ====================================================
+       FORM ELEMENTS
+    ==================================================== */
+    .field { margin-bottom: 14px; }
+    .field:last-child { margin-bottom: 0; }
+    .field-row { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+
+    .lbl {
+      display: block; font-size: .72rem; font-weight: 500;
+      color: var(--text-2); margin-bottom: 6px;
+      text-transform: uppercase; letter-spacing: .05em;
+    }
+
+    .inp, .sel, .tex {
+      width: 100%; padding: 12px 14px;
+      border: 1.5px solid transparent; border-radius: var(--r);
+      font: 400 .88rem/1.5 'DM Sans', sans-serif; color: var(--text);
+      background: var(--bg); outline: none;
+      transition: border-color .2s ease, box-shadow .2s ease, background .2s ease;
+    }
+    .inp:focus, .sel:focus, .tex:focus {
+      border-color: var(--text);
+      background: #fff;
+      box-shadow: 0 0 0 3px rgba(0,0,0,.06);
+    }
+    .inp::placeholder, .tex::placeholder { color: var(--text-3); }
+    .tex { resize: vertical; min-height: 96px; line-height: 1.65; }
+    .sel option { background: #fff; }
+
+    .hint { font-size: .71rem; color: var(--text-3); margin-top: 5px; line-height: 1.5; }
+
+    /* Greeting preview chip */
+    .greeting-chip {
+      display: inline-flex; align-items: center; gap: 8px;
+      margin-top: 8px; padding: 7px 12px;
+      border-radius: var(--r-sm); background: var(--bg);
+      border: 1px dashed var(--border-md);
+      font-size: .82rem; color: var(--text-2);
+    }
+    .greeting-chip strong { color: var(--text); font-weight: 600; }
+
+    /* Message preview */
+    .msg-preview {
+      margin-top: 10px; padding: 12px 14px;
+      border-left: 3px solid #111; border-radius: 0 var(--r-sm) var(--r-sm) 0;
+      background: var(--bg); font-size: .82rem; color: var(--text-2); line-height: 1.6;
+      display: none;
+    }
+    .msg-preview.visible { display: block; }
+
+    /* ====================================================
+       SERVICE TOGGLE CARDS
+    ==================================================== */
+    .svc-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+      gap: 9px; margin-bottom: 12px;
+    }
+    .svc-card {
+      display: flex; align-items: center; gap: 10px;
+      padding: 12px 14px; border-radius: var(--r);
+      border: 1.5px solid transparent; background: var(--bg);
+      cursor: pointer; transition: all .18s ease;
+      -webkit-user-select: none; user-select: none;
+    }
+    .svc-card:hover {
+      background: #efefef;
+    }
+    .svc-card.on {
+      background: var(--blue-bg); border-color: var(--blue);
+    }
+
+    .svc-icon  { font-size: 1.15rem; flex-shrink: 0; width: 24px; text-align: center; }
+    .svc-info  { flex: 1; min-width: 0; }
+    .svc-name  { font-size: .78rem; font-weight: 500; line-height: 1.2; margin-bottom: 1px;
+                  color: var(--text); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+    .svc-tier  { font-size: .62rem; color: var(--text-3); }
+    .svc-check {
+      width: 18px; height: 18px; border-radius: 5px; flex-shrink: 0;
+      border: 1.5px solid var(--border); display: flex;
+      align-items: center; justify-content: center;
+      font-size: .55rem; color: transparent; transition: all .18s;
+    }
+    .svc-card.on .svc-check { background: var(--text); border-color: var(--text); color: #fff; }
+
+    .svc-count { font-size: .75rem; color: var(--text-3); margin-top: 4px; }
+
+    /* ====================================================
+       EXAMPLES MANAGER
+    ==================================================== */
+    @keyframes dropIn {
+      from { opacity: 0; transform: translateY(-6px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+    .ex-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(175px, 1fr)); gap: 11px; }
+    .ex-card {
+      border-radius: var(--r); border: 1px solid var(--border);
+      overflow: hidden; background: #fff;
+      transition: transform .18s ease, box-shadow .18s ease;
+    }
+    .ex-card:hover { transform: translateY(-2px); box-shadow: var(--shadow); }
+
+    .ex-thumb {
+      position: relative; aspect-ratio: 16/9;
+      background: var(--bg); overflow: hidden;
+    }
+    .ex-thumb img { width: 100%; height: 100%; object-fit: cover; display: block; }
+    .ex-thumb-placeholder {
+      width: 100%; height: 100%; display: flex;
+      align-items: center; justify-content: center;
+      font-size: 1.6rem; color: var(--text-3);
+    }
+    .ex-badge {
+      position: absolute; top: 7px; left: 7px;
+      padding: 2px 7px; border-radius: 999px;
+      background: rgba(0,0,0,.75); color: #fff;
+      font-size: .58rem; font-weight: 700; letter-spacing: .06em; text-transform: uppercase;
+    }
+    .ex-play {
+      position: absolute; top: 50%; left: 50%;
+      transform: translate(-50%,-50%);
+      width: 30px; height: 30px; border-radius: 50%;
+      background: rgba(255,255,255,.9); display: flex;
+      align-items: center; justify-content: center; font-size: .7rem;
+    }
+    .ex-body { padding: 9px 11px 10px; }
+    .ex-svc {
+      font-size: .6rem; font-weight: 700; letter-spacing: .08em;
+      text-transform: uppercase; color: var(--text-3); margin-bottom: 3px;
+    }
+    .ex-title { font-size: .78rem; font-weight: 600; color: var(--text); margin-bottom: 6px; line-height: 1.3; }
+    .ex-del {
+      padding: 3px 8px; border-radius: 6px; cursor: pointer;
+      background: #FEE2E2; border: none; color: #DC2626;
+      font: 600 .64rem 'DM Sans', sans-serif; transition: background .18s;
+    }
+    .ex-del:hover { background: #FCA5A5; }
+
+    .ex-empty {
+      text-align: center; padding: 36px 20px;
+      border: 1px dashed var(--border-md); border-radius: var(--r);
+      color: var(--text-3); font-size: .83rem; line-height: 1.6;
+    }
+
+    /* ====================================================
+       PER-SERVICE EXAMPLE PANELS
+    ==================================================== */
+    .svc-ex-none {
+      text-align: center; padding: 32px 20px;
+      border: 1px dashed var(--border-md); border-radius: var(--r);
+      color: var(--text-3); font-size: .82rem; line-height: 1.7;
+    }
+    .svc-ex-panels { display: flex; flex-direction: column; gap: 12px; }
+
+    .svc-ex-panel {
+      border: 1px solid var(--border); border-radius: var(--r);
+      overflow: hidden; background: var(--surface);
+      transition: box-shadow .18s;
+    }
+    .svc-ex-panel:hover { box-shadow: var(--shadow-sm); }
+
+    .svc-ex-phdr {
+      display: flex; align-items: center; justify-content: space-between;
+      gap: 12px; padding: 12px 16px; background: var(--bg);
+      border-bottom: 1px solid var(--border);
+    }
+    .svc-ex-pname {
+      display: flex; align-items: center; gap: 9px;
+      font-size: .86rem; font-weight: 600; color: var(--text);
+    }
+    .svc-ex-pname .pname-icon { font-size: 1.1rem; line-height: 1; }
+
+    .svc-ex-pbody { padding: 16px; }
+
+    /* Instructions */
+    .svc-ex-inst {
+      background: var(--blue-bg); border: 1px solid rgba(79,163,209,.2);
+      border-radius: var(--r-sm); padding: 12px 14px; margin-bottom: 14px;
+    }
+    .svc-ex-inst-lbl {
+      font-size: .66rem; font-weight: 700; text-transform: uppercase;
+      letter-spacing: .08em; color: var(--blue); margin-bottom: 9px;
+    }
+    .svc-ex-inst-rows { display: flex; flex-direction: column; gap: 7px; }
+    .svc-ex-inst-row {
+      display: flex; align-items: flex-start; gap: 9px;
+      font-size: .76rem; color: var(--text-2); line-height: 1.55;
+    }
+    .svc-ex-inst-row > span { flex-shrink: 0; }
+    .svc-ex-inst-row strong { color: var(--text); font-weight: 600; }
+    .svc-ex-inst-row code {
+      font-family: ui-monospace, monospace; font-size: .68rem;
+      background: rgba(0,0,0,.06); padding: 1px 5px; border-radius: 4px;
+      color: var(--text-2); word-break: break-all;
+    }
+
+    /* Inline add form */
+    .svc-ex-iform { display: none; margin-bottom: 14px; }
+    .svc-ex-iform.open { display: block; animation: dropIn .18s ease; }
+    .svc-ex-iform-fields {
+      display: grid; grid-template-columns: 1fr 1fr; gap: 10px;
+    }
+    .svc-ex-iform-fields .f-full { grid-column: span 2; }
+    .svc-ex-iform-footer {
+      display: flex; gap: 7px; justify-content: flex-end; margin-top: 10px;
+    }
+    .iform-hint { font-size: .71rem; margin-top: 5px; line-height: 1.4; }
+
+    /* Per-panel examples grid */
+    .svc-ex-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(155px, 1fr));
+      gap: 10px; margin-top: 4px;
+    }
+    .svc-ex-empty {
+      text-align: center; padding: 16px 14px;
+      border: 1px dashed var(--border); border-radius: var(--r-sm);
+      color: var(--text-3); font-size: .76rem; line-height: 1.5;
+    }
+
+    @media (max-width: 680px) {
+      .svc-ex-iform-fields { grid-template-columns: 1fr; }
+      .svc-ex-iform-fields .f-full { grid-column: span 1; }
+    }
+
+    /* ====================================================
+       TOGGLE SWITCH ROWS
+    ==================================================== */
+    .toggle-row {
+      display: flex; align-items: center; justify-content: space-between;
+      gap: 16px; padding: 13px 0;
+      border-bottom: 1px solid var(--border);
+    }
+    .toggle-row:last-child { border-bottom: none; padding-bottom: 0; }
+    .toggle-row:first-child { padding-top: 0; }
+
+    .tr-info strong { font-size: .88rem; font-weight: 600; display: block; margin-bottom: 2px; }
+    .tr-info span   { font-size: .76rem; color: var(--text-2); }
+
+    .sw { position: relative; width: 38px; height: 21px; flex-shrink: 0; }
+    .sw input { opacity: 0; width: 0; height: 0; position: absolute; }
+    .sw-track {
+      position: absolute; inset: 0; border-radius: 999px;
+      background: var(--border-md); cursor: pointer; transition: background .2s;
+    }
+    .sw-track::before {
+      content: ''; position: absolute;
+      top: 3px; left: 3px; width: 15px; height: 15px;
+      border-radius: 50%; background: #fff;
+      box-shadow: 0 1px 4px rgba(0,0,0,.2);
+      transition: transform .2s ease;
+    }
+    .sw input:checked + .sw-track { background: #111; }
+    .sw input:checked + .sw-track::before { transform: translateX(17px); }
+
+    /* ====================================================
+       STICKY FOOTER
+    ==================================================== */
+    .ftr {
+      position: fixed; bottom: 0; left: 0; right: 0; z-index: 100;
+      background: rgba(245,245,247,.92);
+      backdrop-filter: blur(20px) saturate(140%);
+      border-top: 1px solid var(--border);
+    }
+    .ftr-inner {
+      max-width: 1000px; margin: 0 auto; padding: 0 28px;
+      height: 62px; display: flex;
+      align-items: center; justify-content: space-between; gap: 16px;
+    }
+    .ftr-stats { display: flex; gap: 18px; }
+    .ftr-stat  { font-size: .78rem; color: var(--text-2); }
+    .ftr-stat strong { color: var(--text); font-weight: 700; }
+    .ftr-right { display: flex; gap: 8px; }
+
+    /* ====================================================
+       PREVIEW MODAL
+    ==================================================== */
+    .modal-backdrop {
+      position: fixed; inset: 0; z-index: 200;
+      background: rgba(0,0,0,.45); backdrop-filter: blur(6px);
+      display: flex; align-items: center; justify-content: center;
+      padding: 20px; opacity: 0; pointer-events: none; transition: opacity .25s ease;
+    }
+    .modal-backdrop.open { opacity: 1; pointer-events: auto; }
+
+    .modal {
+      width: 100%; max-width: 920px; max-height: 88vh;
+      background: #fff; border-radius: 20px; overflow: hidden;
+      display: flex; flex-direction: column;
+      box-shadow: 0 32px 80px rgba(0,0,0,.28);
+      transform: translateY(14px) scale(.98); transition: transform .28s ease;
+    }
+    .modal-backdrop.open .modal { transform: none; }
+
+    .modal-bar {
+      padding: 14px 20px; border-bottom: 1px solid var(--border);
+      display: flex; align-items: center; justify-content: space-between; flex-shrink: 0;
+    }
+    .modal-bar-title { font-size: .83rem; font-weight: 600; color: var(--text-2); }
+    .modal-body { flex: 1; overflow-y: auto; }
+
+    /* ====================================================
+       HOVER TEXT EFFECT (underline slide)
+    ==================================================== */
+    .ul-hover {
+      position: relative; display: inline-block;
+    }
+    .ul-hover::after {
+      content: ''; position: absolute;
+      bottom: -1px; left: 0; width: 0; height: 1px;
+      background: currentColor; transition: width .25s ease;
+    }
+    .ul-hover:hover::after { width: 100%; }
+
+    /* ====================================================
+       RESPONSIVE
+    ==================================================== */
+    @media (max-width: 680px) {
+      .hdr-inner, .ftr-inner, .main { padding-left: 16px; padding-right: 16px; }
+      .card { padding: 20px 16px; }
+      .field-row { grid-template-columns: 1fr; }
+      .svc-grid  { grid-template-columns: 1fr 1fr; }
+      .ftr-stats { display: none; }
+      .hdr-actions .btn-ghost { display: none; }
+    }
+    @media (max-width: 400px) {
+      .svc-grid { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ═══════════════════════════════════
+       HEADER
+  ═══════════════════════════════════ -->
+  <header class="hdr">
+    <div class="hdr-inner">
+      <div class="hdr-brand">
+        <div class="hdr-mark">SA</div>
+        <div>
+          <div class="hdr-name">Studio Aberrante</div>
+          <div class="hdr-sub">Creador de propuestas</div>
+        </div>
+      </div>
+      <div class="hdr-actions">
+        <button class="btn btn-ghost btn-sm" id="btnReset">Limpiar</button>
+        <button class="btn btn-secondary btn-sm" id="btnPreview">Vista previa</button>
+        <button class="btn btn-primary btn-sm" id="btnExport">⬇ Generar HTML</button>
+      </div>
+    </div>
+  </header>
+
+  <!-- ═══════════════════════════════════
+       MAIN
+  ═══════════════════════════════════ -->
+  <main class="main">
+
+    <!-- 01 › CLIENTE -->
+    <div class="card">
+      <div class="card-hdr">
+        <div>
+          <div class="card-num">01</div>
+          <div class="card-title">Para quién es esta propuesta</div>
+        </div>
+      </div>
+
+      <div class="field">
+        <label class="lbl" for="clientName">Nombre del cliente</label>
+        <input id="clientName" class="inp" type="text" maxlength="80"
+               placeholder="Ej: María, Equipo Amplify, Lucas…" />
+        <div class="greeting-chip" id="greetingChip">
+          Así verá el saludo: <strong id="greetingText">Hola.</strong>
+        </div>
+      </div>
+
+      <div class="field">
+        <label class="lbl" for="clientMsg">Mensaje personalizado para el cliente</label>
+        <textarea id="clientMsg" class="tex" rows="4" maxlength="800"
+          placeholder="Escribe el contexto de esta propuesta. Ej: 'Preparamos esta selección especialmente para ti, enfocada en contenido UGC y fotografía para tu marca…'"></textarea>
+        <div class="hint">Este texto aparecerá destacado al inicio de la propuesta, personalizado para este cliente.</div>
+        <div class="msg-preview" id="msgPreview"></div>
+      </div>
+    </div>
+
+    <!-- 02 › SERVICIOS -->
+    <div class="card">
+      <div class="card-hdr">
+        <div>
+          <div class="card-num">02</div>
+          <div class="card-title">Servicios a mostrar</div>
+        </div>
+        <div class="card-actions">
+          <button class="btn btn-ghost btn-sm" id="btnSvcAll">Todos</button>
+          <button class="btn btn-ghost btn-sm" id="btnSvcNone">Ninguno</button>
+        </div>
+      </div>
+      <div class="svc-grid" id="svcGrid"></div>
+      <div class="svc-count" id="svcCount">0 servicios seleccionados</div>
+    </div>
+
+    <!-- 03 › EJEMPLOS -->
+    <div class="card">
+      <div class="card-hdr">
+        <div>
+          <div class="card-num">03</div>
+          <div class="card-title">Ejemplos de trabajo por servicio</div>
+        </div>
+      </div>
+      <div class="hint" style="margin-bottom:12px;">
+        Instrucciones para el equipo: primero selecciona los servicios en la sección 02, luego aquí se abrirá un panel por cada servicio para cargar ejemplos.
+      </div>
+      <div class="svc-ex-panels" id="svcExPanels"></div>
+      <div class="svc-ex-none" id="svcExNone">
+        No hay servicios seleccionados. Activa al menos un servicio en la sección 02 para poder cargar ejemplos.
+      </div>
+    </div>
+
+    <!-- 04 › SECCIONES OPCIONALES -->
+    <div class="card">
+      <div class="card-hdr" style="margin-bottom:6px;">
+        <div>
+          <div class="card-num">04</div>
+          <div class="card-title">Secciones opcionales</div>
+        </div>
+      </div>
+
+      <div class="toggle-row">
+        <div class="tr-info">
+          <strong>Estadísticas de la agencia</strong>
+          <span>Muestra +40 proyectos, 3× velocidad, 100% premium.</span>
+        </div>
+        <label class="sw"><input type="checkbox" id="swStats" checked /><span class="sw-track"></span></label>
+      </div>
+      <div class="toggle-row">
+        <div class="tr-info">
+          <strong>Casos destacados</strong>
+          <span>Impacto en costos, productividad y crecimiento para empresa, marca o profesional.</span>
+        </div>
+        <label class="sw"><input type="checkbox" id="swCases" checked /><span class="sw-track"></span></label>
+      </div>
+      <div class="toggle-row">
+        <div class="tr-info">
+          <strong>Testimonios</strong>
+          <span>Referencias de clientes anteriores.</span>
+        </div>
+        <label class="sw"><input type="checkbox" id="swTest" checked /><span class="sw-track"></span></label>
+      </div>
+    </div>
+
+    <!-- 05 › CONTACTO -->
+    <div class="card">
+      <div class="card-hdr">
+        <div>
+          <div class="card-num">05</div>
+          <div class="card-title">Datos de contacto en la propuesta</div>
+        </div>
+      </div>
+      <div class="field-row">
+        <div class="field">
+          <label class="lbl" for="waNum">WhatsApp (con código de país)</label>
+          <input id="waNum" class="inp" type="tel" value="56975294979" placeholder="+56975294979" />
+        </div>
+        <div class="field">
+          <label class="lbl" for="emailAddr">Email</label>
+          <input id="emailAddr" class="inp" type="email" value="studioaberrante@gmail.com" placeholder="studioaberrante@gmail.com" />
+        </div>
+      </div>
+      <div class="field" style="margin-top:10px;">
+        <label class="lbl" for="waMsg">Mensaje pre-cargado en WhatsApp</label>
+        <input id="waMsg" class="inp" type="text" maxlength="200"
+          value="Hola Studio Aberrante, vi la propuesta y me interesa avanzar." />
+      </div>
+    </div>
+
+  </main>
+
+  <!-- ═══════════════════════════════════
+       FOOTER
+  ═══════════════════════════════════ -->
+  <div class="ftr">
+    <div class="ftr-inner">
+      <div class="ftr-stats">
+        <div class="ftr-stat"><strong id="ftrSvc">0</strong> servicios</div>
+        <div class="ftr-stat"><strong id="ftrEx">0</strong> ejemplos</div>
+      </div>
+      <div class="ftr-right">
+        <button class="btn btn-secondary" id="btnPreview2">Vista previa</button>
+        <button class="btn btn-primary" id="btnExport2">⬇ Generar y descargar HTML</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══════════════════════════════════
+       PREVIEW MODAL
+  ═══════════════════════════════════ -->
+  <div class="modal-backdrop" id="previewModal">
+    <div class="modal">
+      <div class="modal-bar">
+        <span class="modal-bar-title">Vista previa — lo que verá el cliente</span>
+        <button class="btn btn-ghost btn-sm" id="btnClosePreview">✕ Cerrar</button>
+      </div>
+      <div class="modal-body" id="previewBody"></div>
+    </div>
+  </div>
+
+  <!-- ═══════════════════════════════════
+       DATA + SCRIPTS
+  ═══════════════════════════════════ -->
+  <script>
+  /* ============================================================
+     SERVICES CATALOG
+  ============================================================ */
+  const SERVICES = [
+    { id:'svc-audiovisual', icon:'🎬', tier:'Core',      name:'Contenido Audiovisual IA',           desc:'Videos, reels y piezas audiovisuales generadas con IA para acelerar producción manteniendo estándar premium.' },
+    { id:'svc-avatar',      icon:'🤖', tier:'Core',      name:'Avatares Digitales e Influencers IA', desc:'Representantes digitales con voz, estilo y presencia consistente para comunicación y ventas.' },
+    { id:'svc-clonacion',   icon:'👤', tier:'Core',      name:'Clonación Digital Humana',            desc:'Réplica digital autorizada para contenido multiformato con continuidad narrativa garantizada.' },
+    { id:'svc-cortometraje',icon:'🎥', tier:'Specialty', name:'Cortometrajes IA',                    desc:'Piezas narrativas de alto impacto con guion, visuales y montaje asistido por inteligencia artificial.' },
+    { id:'svc-podcast',     icon:'🎙', tier:'Specialty', name:'Podcast IA',                          desc:'Producción integral de podcast con locución, música y edición IA para marcas que publican constantemente.' },
+    { id:'svc-fotografia',  icon:'📸', tier:'Specialty', name:'Fotografía Generada con IA',          desc:'Imágenes fotorrealistas para campañas, productos y branding sin límites de locación ni casting.' },
+    { id:'svc-campania',    icon:'📣', tier:'Core',      name:'Campañas Publicitarias IA',           desc:'Estrategia y producción de campañas con activos visuales, copy y variaciones para performance.' },
+    { id:'svc-consultoria', icon:'💼', tier:'Core',      name:'Consultoría Creativa Audiovisual IA', desc:'Acompañamiento para definir formatos, narrativa y planificación de contenido audiovisual generado con IA.' },
+    { id:'svc-asesoria',    icon:'🧠', tier:'Core',      name:'Dirección Creativa de Contenido IA',  desc:'Dirección creativa enfocada en piezas audiovisuales: concepto, guion y consistencia visual de marca.' },
+    { id:'svc-ugc',         icon:'📱', tier:'Specialty', name:'UGC Videos para Ads',                 desc:'Videos estilo UGC para anuncios de conversión, escalando pruebas creativas con rapidez y eficiencia.' },
+    { id:'svc-canciones',   icon:'🎵', tier:'Specialty', name:'Canciones Personalizadas',            desc:'Composición y producción musical original con IA para campañas, lanzamientos y branding sonoro.' },
+    { id:'svc-visuales',    icon:'✨', tier:'Specialty', name:'Visuales para Eventos',               desc:'Contenido inmersivo para pantallas y ambientaciones que elevan la experiencia en vivo.' },
+    { id:'svc-aimodelos',   icon:'🧍', tier:'Specialty', name:'AI Modelos',                          desc:'Stock de modelos IA con diversidad de perfiles para marcas, catálogos y material comercial.' },
+    { id:'svc-shooting',    icon:'🏙', tier:'Specialty', name:'Shooting en Estudio Virtual',         desc:'Sesiones fotográficas en entornos virtuales con control estético total y entrega de alta calidad.' },
+    { id:'svc-ecommerce',   icon:'🛍', tier:'Specialty', name:'Fotografía de Productos E-commerce',  desc:'Producción visual de producto con acabado profesional para tiendas online y catálogos escalables.' }
+  ];
+
+  const SERVICE_INSIGHTS = {
+    'svc-audiovisual': {
+      comoAyuda: 'Acelera la producción de piezas audiovisuales para campañas, redes y lanzamientos sin depender de rodajes complejos.',
+      aplicacion: 'Ideal cuando necesitas publicar más contenido de forma consistente y con estética profesional.',
+      impacto: 'Menor costo por pieza, más frecuencia de publicación y mejor capacidad de testeo creativo.'
+    },
+    'svc-avatar': {
+      comoAyuda: 'Permite tener un rostro digital constante para comunicar ofertas, contenidos y mensajes de marca en distintos formatos.',
+      aplicacion: 'Funciona muy bien para empresas o marcas personales que necesitan presencia frecuente sin grabar todo manualmente.',
+      impacto: 'Más continuidad de comunicación y reducción del tiempo de producción de videos comerciales.'
+    },
+    'svc-clonacion': {
+      comoAyuda: 'Replica voz y estilo de comunicación para producir piezas rápidas con identidad coherente.',
+      aplicacion: 'Útil para marcas personales, vocerías de empresa y contenidos educativos con alto volumen.',
+      impacto: 'Ahorro de horas de grabación y salida más rápida de contenido relevante.'
+    },
+    'svc-cortometraje': {
+      comoAyuda: 'Convierte ideas potentes en piezas narrativas de alto impacto visual para campañas y branding.',
+      aplicacion: 'Recomendado para lanzamientos, awareness de marca y contenidos con storytelling fuerte.',
+      impacto: 'Mayor recordación de marca y percepción premium con menor costo de producción tradicional.'
+    },
+    'svc-podcast': {
+      comoAyuda: 'Facilita publicar episodios con guion, voz y edición asistida por IA de forma constante.',
+      aplicacion: 'Perfecto para educar a tu audiencia, construir autoridad y mantener presencia semanal.',
+      impacto: 'Más productividad editorial y menor fricción para sostener un canal de contenido.'
+    },
+    'svc-fotografia': {
+      comoAyuda: 'Genera imágenes de alta calidad para campañas, portadas y contenido digital sin estudio físico.',
+      aplicacion: 'Ideal para marcas que necesitan visuales frecuentes, tests creativos y variantes por público.',
+      impacto: 'Reducción de costos de producción fotográfica y mayor velocidad para lanzar campañas.'
+    },
+    'svc-campania': {
+      comoAyuda: 'Permite producir y iterar piezas visuales y audiovisuales orientadas a performance en menos tiempo.',
+      aplicacion: 'Recomendado para marcas que ejecutan pauta y necesitan renovar creatividades rápido.',
+      impacto: 'Más tests por campaña, mejor optimización y menor costo por aprendizaje creativo.'
+    },
+    'svc-consultoria': {
+      comoAyuda: 'Ordena estrategia y producción para que el contenido audiovisual IA tenga dirección y foco comercial.',
+      aplicacion: 'Útil cuando hay equipo, pero falta sistema y criterio para priorizar qué producir primero.',
+      impacto: 'Mejor toma de decisiones y mayor retorno del contenido publicado.'
+    },
+    'svc-asesoria': {
+      comoAyuda: 'Aterriza ideas en guiones y formatos concretos para publicar contenido con identidad consistente.',
+      aplicacion: 'Ideal para marcas que quieren diferenciarse visualmente y sostener una narrativa clara.',
+      impacto: 'Mayor coherencia de marca y productividad creativa sostenida.'
+    },
+    'svc-ugc': {
+      comoAyuda: 'Produce videos estilo UGC listos para anuncios y redes, enfocados en conversión y claridad de oferta.',
+      aplicacion: 'Funciona para ecommerce, servicios y marcas que venden con pauta digital.',
+      impacto: 'Mejor volumen de piezas para testeo, menor costo por creativo y mayor velocidad comercial.'
+    },
+    'svc-canciones': {
+      comoAyuda: 'Crea audio original para campañas y contenidos, reforzando identidad de marca de forma memorable.',
+      aplicacion: 'Recomendado para lanzamientos, activaciones y piezas que buscan alto recuerdo.',
+      impacto: 'Mayor diferenciación y contenido más recordable sin producción musical tradicional completa.'
+    },
+    'svc-visuales': {
+      comoAyuda: 'Diseña visuales inmersivos para eventos y escenarios con una línea estética coherente.',
+      aplicacion: 'Ideal para festivales, shows y activaciones que necesitan impacto visual continuo.',
+      impacto: 'Experiencia de marca más potente y producción visual escalable.'
+    },
+    'svc-aimodelos': {
+      comoAyuda: 'Entrega modelos IA para producir contenido comercial sin costos de casting o logística física.',
+      aplicacion: 'Útil para moda, belleza, ecommerce y catálogos con alta demanda de piezas.',
+      impacto: 'Menor costo operativo y mayor velocidad para generar variaciones de contenido.'
+    },
+    'svc-shooting': {
+      comoAyuda: 'Permite crear sesiones fotográficas en entornos virtuales sin mover equipo ni producción física.',
+      aplicacion: 'Ideal para campañas y contenido social con múltiples escenarios visuales.',
+      impacto: 'Más flexibilidad creativa y mejor eficiencia en tiempo y presupuesto.'
+    },
+    'svc-ecommerce': {
+      comoAyuda: 'Genera imágenes de producto listas para venta online con estética profesional y consistencia.',
+      aplicacion: 'Perfecto para tiendas que necesitan catálogo actualizado y contenido de producto frecuente.',
+      impacto: 'Aumento de productividad del catálogo y menor costo por imagen publicada.'
+    }
+  };
+
+  const SERVICE_TESTIMONIALS = {
+    'svc-audiovisual': [
+      { texto:'Pasamos de producir una pieza por semana a tener contenido audiovisual constante sin disparar costos.', autor:'Carla M.', cargo:'Líder de Marketing · Retail' },
+      { texto:'La velocidad de entrega cambió nuestra forma de lanzar campañas. Ahora iteramos en días, no semanas.', autor:'Ignacio R.', cargo:'Director Comercial · Servicios' }
+    ],
+    'svc-avatar': [
+      { texto:'El avatar nos permitió comunicar más seguido sin depender de agendas de grabación.', autor:'Daniela V.', cargo:'Brand Manager · Educación' },
+      { texto:'Logramos mantener presencia en redes con un estilo consistente y escalable.', autor:'Felipe A.', cargo:'Fundador · Marca Personal' }
+    ],
+    'svc-clonacion': [
+      { texto:'La clonación digital nos ayudó a multiplicar contenido manteniendo la esencia de la marca.', autor:'Martina C.', cargo:'Directora de Contenido · Consultora' },
+      { texto:'Ahora producimos cápsulas rápidas sin perder tono ni identidad del vocero.', autor:'Sebastián P.', cargo:'CEO · Academia Online' }
+    ],
+    'svc-cortometraje': [
+      { texto:'El corto elevó la percepción de marca y nos dio una campaña con mucha conversación.', autor:'Camila T.', cargo:'CMO · Startup' },
+      { texto:'Con IA logramos una pieza narrativa potente con tiempos y presupuesto acotados.', autor:'Pablo G.', cargo:'Productor Ejecutivo · Agencia' }
+    ],
+    'svc-podcast': [
+      { texto:'Por fin pudimos sostener episodios semanales sin frenar la operación del equipo.', autor:'Sofía L.', cargo:'Gerente de Marca · B2B' },
+      { texto:'El podcast nos abrió un canal nuevo para educar clientes y generar confianza.', autor:'Nicolás B.', cargo:'Founder · Servicios Profesionales' }
+    ],
+    'svc-fotografia': [
+      { texto:'Reducimos costos de fotos y mejoramos la velocidad para sacar campañas visuales.', autor:'Fernanda O.', cargo:'Ecommerce Manager · Moda' },
+      { texto:'La calidad visual se mantuvo alta y pudimos crear más variantes por audiencia.', autor:'Tomás E.', cargo:'Head of Growth · DTC' }
+    ],
+    'svc-campania': [
+      { texto:'Tuvimos más creativos por campaña y eso mejoró el aprendizaje de pauta.', autor:'Valentina S.', cargo:'Performance Lead · Retail' },
+      { texto:'La capacidad de iterar rápido impactó directo en resultados comerciales.', autor:'Gonzalo M.', cargo:'Gerente de Marketing · Tech' }
+    ],
+    'svc-consultoria': [
+      { texto:'Nos ayudaron a ordenar qué producir y por qué, con foco total en negocio.', autor:'Paula D.', cargo:'Gerente General · PyME' },
+      { texto:'Pasamos de improvisar contenido a ejecutar con sistema y objetivos claros.', autor:'Javier K.', cargo:'Director Comercial · Servicios' }
+    ],
+    'svc-asesoria': [
+      { texto:'La dirección creativa nos dio coherencia de marca en todas las piezas.', autor:'Antonia H.', cargo:'Brand Strategist · Lifestyle' },
+      { texto:'Ahora sabemos qué formato usar para cada etapa del funnel.', autor:'Renato F.', cargo:'Head of Content · Startup' }
+    ],
+    'svc-ugc': [
+      { texto:'Con UGC generamos más anuncios viables y bajamos el costo por prueba creativa.', autor:'Macarena I.', cargo:'Paid Media Lead · Ecommerce' },
+      { texto:'Tener volumen de UGC cambió el rendimiento de nuestras campañas.', autor:'Diego C.', cargo:'Founder · Tienda Online' }
+    ],
+    'svc-canciones': [
+      { texto:'La canción de campaña nos dio una identidad única y fácil de recordar.', autor:'Belén N.', cargo:'Brand Manager · Consumo' },
+      { texto:'El audio original elevó muchísimo la percepción de nuestras piezas.', autor:'Cristóbal J.', cargo:'Director Creativo · Agencia' }
+    ],
+    'svc-visuales': [
+      { texto:'Los visuales transformaron el evento y mejoraron la experiencia del público.', autor:'Josefa Q.', cargo:'Productora de Eventos' },
+      { texto:'Logramos una puesta visual potente sin costos de producción tradicional.', autor:'Matías L.', cargo:'Director Artístico · Festival' }
+    ],
+    'svc-aimodelos': [
+      { texto:'Resolvimos sesiones de catálogo completas sin logística de casting.', autor:'Ignacia R.', cargo:'Ecommerce Lead · Fashion' },
+      { texto:'La variedad de perfiles nos permitió testear creatividades en menos tiempo.', autor:'Rodrigo U.', cargo:'Growth Manager · DTC' }
+    ],
+    'svc-shooting': [
+      { texto:'Obtuvimos contenido de alto nivel con escenarios distintos en una sola semana.', autor:'Trinidad S.', cargo:'Marketing Manager · Beauty' },
+      { texto:'El estudio virtual nos dio libertad creativa y mejor eficiencia de producción.', autor:'Esteban V.', cargo:'Director de Marca · Lifestyle' }
+    ],
+    'svc-ecommerce': [
+      { texto:'Aceleramos la actualización del catálogo y mejoramos la presentación de producto.', autor:'Francisca M.', cargo:'Ecommerce Manager · Retail' },
+      { texto:'Publicamos más productos en menos tiempo con visuales consistentes.', autor:'Álvaro G.', cargo:'COO · Tienda Online' }
+    ]
+  };
+
+  /* ============================================================
+     STATE
+  ============================================================ */
+  const st = {
+    clientName:    '',
+    clientMsg:     '',
+    selectedSvc:   new Set(['svc-audiovisual','svc-avatar','svc-ugc']),
+    examples:      [],
+    openExampleForms: new Set(),
+    showStats:     true,
+    showCases:     true,
+    showTest:      true,
+    waNum:         '56975294979',
+    email:         'studioaberrante@gmail.com',
+    waMsg:         'Hola Studio Aberrante, vi la propuesta y me interesa avanzar.'
+  };
+
+  /* ============================================================
+     DOM REFS
+  ============================================================ */
+  const $ = id => document.getElementById(id);
+  const D = {
+    clientName:    $('clientName'),
+    clientMsg:     $('clientMsg'),
+    greetingText:  $('greetingText'),
+    msgPreview:    $('msgPreview'),
+    svcGrid:       $('svcGrid'),
+    svcCount:      $('svcCount'),
+    svcExPanels:   $('svcExPanels'),
+    svcExNone:     $('svcExNone'),
+    swStats:       $('swStats'),
+    swCases:       $('swCases'),
+    swTest:        $('swTest'),
+    waNum:         $('waNum'),
+    emailAddr:     $('emailAddr'),
+    waMsg:         $('waMsg'),
+    ftrSvc:        $('ftrSvc'),
+    ftrEx:         $('ftrEx'),
+    previewModal:  $('previewModal'),
+    previewBody:   $('previewBody')
+  };
+
+  /* ============================================================
+     INIT
+  ============================================================ */
+  function init() {
+    renderSvcGrid();
+    renderExamplesByService();
+    bindEvents();
+    updateFooter();
+  }
+
+  /* ============================================================
+     RENDER SERVICES GRID
+  ============================================================ */
+  function renderSvcGrid() {
+    D.svcGrid.innerHTML = SERVICES.map(s => {
+      const on = st.selectedSvc.has(s.id);
+      return `
+        <div class="svc-card ${on ? 'on' : ''}" data-svc="${ha(s.id)}">
+          <span class="svc-icon">${s.icon}</span>
+          <div class="svc-info">
+            <div class="svc-name">${h(s.name)}</div>
+            <div class="svc-tier">${h(s.tier)}</div>
+          </div>
+          <div class="svc-check">${on ? '✓' : ''}</div>
+        </div>`;
+    }).join('');
+
+    const n = st.selectedSvc.size;
+    D.svcCount.textContent = `${n} servicio${n !== 1 ? 's' : ''} seleccionado${n !== 1 ? 's' : ''}`;
+    D.ftrSvc.textContent = n;
+  }
+
+  /* ============================================================
+     RENDER EXAMPLES PANELS (one panel per selected service)
+  ============================================================ */
+  function renderExamplesByService() {
+    const selected = SERVICES.filter(s => st.selectedSvc.has(s.id));
+    D.svcExNone.style.display = selected.length ? 'none' : 'block';
+
+    if (!selected.length) {
+      D.svcExPanels.innerHTML = '';
+      D.ftrEx.textContent = '0';
+      return;
+    }
+
+    D.svcExPanels.innerHTML = selected.map(svc => {
+      const isOpen = st.openExampleForms.has(svc.id);
+      const exForSvc = st.examples.filter(ex => ex.svcId === svc.id);
+      return `
+        <div class="svc-ex-panel">
+          <div class="svc-ex-phdr">
+            <div class="svc-ex-pname">
+              <span class="pname-icon">${svc.icon}</span>
+              <span>${h(svc.name)}</span>
+            </div>
+            <button class="btn btn-secondary btn-sm" data-open-add="${ha(svc.id)}">+ Agregar ejemplo</button>
+          </div>
+          <div class="svc-ex-pbody">
+            <div class="svc-ex-inst">
+              <div class="svc-ex-inst-lbl">Instrucciones rápidas</div>
+              <div class="svc-ex-inst-rows">
+                <div class="svc-ex-inst-row"><span>1.</span><span>Selecciona el tipo: <strong>Imagen</strong> o <strong>Video</strong>.</span></div>
+                <div class="svc-ex-inst-row"><span>2.</span><span>Pega una URL válida. Videos: YouTube o Vimeo. Imágenes: URL directa <code>https://...jpg/png/webp</code>.</span></div>
+                <div class="svc-ex-inst-row"><span>3.</span><span>Si pegas enlace de Drive, intentaremos incrustar la imagen automáticamente dentro del HTML.</span></div>
+                <div class="svc-ex-inst-row"><span>4.</span><span>Completa el título y guarda. El ejemplo queda ligado a <strong>${h(svc.name)}</strong>.</span></div>
+              </div>
+            </div>
+
+            <div class="svc-ex-iform ${isOpen ? 'open' : ''}" id="iform-${ha(svc.id)}">
+              <div class="svc-ex-iform-fields">
+                <div class="field">
+                  <label class="lbl">Tipo de ejemplo</label>
+                  <select class="sel" data-field-type="${ha(svc.id)}">
+                    <option value="imagen">Imagen</option>
+                    <option value="video">Video</option>
+                  </select>
+                </div>
+                <div class="field">
+                  <label class="lbl">Título del proyecto</label>
+                  <input class="inp" type="text" maxlength="80" data-field-title="${ha(svc.id)}" placeholder="Ej: Lanzamiento campaña otoño" />
+                </div>
+                <div class="field f-full">
+                  <label class="lbl">URL</label>
+                  <input class="inp" type="url" data-field-url="${ha(svc.id)}" placeholder="https://..." />
+                  <div class="hint">Tip: para YouTube sirve <code>youtube.com/watch?v=...</code> o <code>youtu.be/...</code>. Para Vimeo <code>vimeo.com/...</code>.</div>
+                </div>
+                <div class="field f-full">
+                  <label class="lbl">Descripción corta (opcional)</label>
+                  <input class="inp" type="text" maxlength="160" data-field-desc="${ha(svc.id)}" placeholder="Qué se logró con este proyecto" />
+                </div>
+                <div class="field f-full">
+                  <label class="lbl">Miniatura manual (opcional)</label>
+                  <input class="inp" type="file" accept="image/*" data-field-thumb-file="${ha(svc.id)}" />
+                  <div class="hint">Opcional. Si no subes archivo, el sistema intentará incrustar automáticamente la imagen desde la URL.</div>
+                </div>
+              </div>
+              <div class="svc-ex-iform-footer">
+                <button class="btn btn-ghost btn-sm" data-cancel-add="${ha(svc.id)}">Cancelar</button>
+                <button class="btn btn-primary btn-sm" data-save-add="${ha(svc.id)}">Guardar ejemplo</button>
+              </div>
+            </div>
+
+            ${exForSvc.length ? `
+              <div class="svc-ex-grid">
+                ${exForSvc.map(ex => renderExampleCard(ex)).join('')}
+              </div>
+            ` : '<div class="svc-ex-empty">Aún no hay ejemplos cargados para este servicio.</div>'}
+          </div>
+        </div>
+      `;
+    }).join('');
+
+    D.ftrEx.textContent = String(countVisibleExamples());
+  }
+
+  function renderExampleCard(ex) {
+    const isVid = ex.tipo === 'video';
+    const thumb = ex.thumbData || ex.thumb || (isVid ? getThumb(ex.url) : ex.url);
+    const fallbackAttr = ex.thumbFallback ? ` data-fallback-src="${ha(ex.thumbFallback)}"` : '';
+    return `
+      <div class="ex-card">
+        <div class="ex-thumb">
+          <img src="${ha(thumb)}" alt=""${fallbackAttr}
+            onerror="if(this.dataset.fallbackSrc&&this.src!==this.dataset.fallbackSrc){this.src=this.dataset.fallbackSrc;return;}this.style.display='none';this.nextElementSibling.style.display='flex'"
+            loading="lazy" />
+          <div class="ex-thumb-placeholder" style="display:none;">${isVid ? '▶' : '🖼'}</div>
+          <span class="ex-badge">${isVid ? 'Video' : 'Imagen'}</span>
+          ${isVid ? '<div class="ex-play">▶</div>' : ''}
+        </div>
+        <div class="ex-body">
+          <div class="ex-svc">${h(getSvcName(ex.svcId))}</div>
+          <div class="ex-title">${h(ex.title)}</div>
+          <div style="display:flex;justify-content:flex-end;">
+            <button class="ex-del" data-del="${ha(ex.id)}">Quitar</button>
+          </div>
+        </div>
+      </div>`;
+  }
+
+  function getSvcName(id) {
+    const s = SERVICES.find(x => x.id === id);
+    return s ? s.name : id;
+  }
+
+  function countVisibleExamples() {
+    return st.examples.filter(ex => st.selectedSvc.has(ex.svcId)).length;
+  }
+
+  /* ============================================================
+     FOOTER COUNTER
+  ============================================================ */
+  function updateFooter() {
+    D.ftrSvc.textContent = st.selectedSvc.size;
+    D.ftrEx.textContent  = String(countVisibleExamples());
+  }
+
+  /* ============================================================
+     BIND EVENTS
+  ============================================================ */
+  function bindEvents() {
+
+    // Client name
+    D.clientName.addEventListener('input', () => {
+      st.clientName = D.clientName.value.trim();
+      const name = st.clientName;
+      D.greetingText.textContent = name ? `Hola, ${name}.` : 'Hola.';
+    });
+
+    // Client message
+    D.clientMsg.addEventListener('input', () => {
+      st.clientMsg = D.clientMsg.value.trim();
+      D.msgPreview.textContent = st.clientMsg;
+      D.msgPreview.classList.toggle('visible', !!st.clientMsg);
+    });
+
+    // Service grid toggle
+    D.svcGrid.addEventListener('click', e => {
+      const card = e.target.closest('[data-svc]');
+      if (!card) return;
+      const id = card.dataset.svc;
+      if (st.selectedSvc.has(id)) st.selectedSvc.delete(id);
+      else st.selectedSvc.add(id);
+      if (!st.selectedSvc.has(id)) st.openExampleForms.delete(id);
+      renderSvcGrid();
+      renderExamplesByService();
+      updateFooter();
+    });
+
+    // Select all / none
+    $('btnSvcAll').addEventListener('click', () => {
+      SERVICES.forEach(s => st.selectedSvc.add(s.id));
+      renderSvcGrid();
+      renderExamplesByService();
+      updateFooter();
+    });
+    $('btnSvcNone').addEventListener('click', () => {
+      st.selectedSvc.clear();
+      st.openExampleForms.clear();
+      renderSvcGrid();
+      renderExamplesByService();
+      updateFooter();
+    });
+
+    // Example panels actions
+    D.svcExPanels.addEventListener('click', async e => {
+      const openBtn = e.target.closest('[data-open-add]');
+      if (openBtn) {
+        const svcId = openBtn.dataset.openAdd;
+        st.openExampleForms.add(svcId);
+        renderExamplesByService();
+        setTimeout(() => {
+          const first = D.svcExPanels.querySelector(`[data-field-url="${selEscape(svcId)}"]`);
+          if (first) first.focus();
+        }, 40);
+        return;
+      }
+
+      const cancelBtn = e.target.closest('[data-cancel-add]');
+      if (cancelBtn) {
+        const svcId = cancelBtn.dataset.cancelAdd;
+        st.openExampleForms.delete(svcId);
+        renderExamplesByService();
+        return;
+      }
+
+      const saveBtn = e.target.closest('[data-save-add]');
+      if (saveBtn) {
+        const svcId = saveBtn.dataset.saveAdd;
+        const typeEl = D.svcExPanels.querySelector(`[data-field-type="${selEscape(svcId)}"]`);
+        const urlEl = D.svcExPanels.querySelector(`[data-field-url="${selEscape(svcId)}"]`);
+        const titleEl = D.svcExPanels.querySelector(`[data-field-title="${selEscape(svcId)}"]`);
+        const descEl = D.svcExPanels.querySelector(`[data-field-desc="${selEscape(svcId)}"]`);
+        const thumbFileEl = D.svcExPanels.querySelector(`[data-field-thumb-file="${selEscape(svcId)}"]`);
+        if (!typeEl || !urlEl || !titleEl || !descEl || !thumbFileEl) return;
+
+        let tipo = typeEl.value === 'video' ? 'video' : 'imagen';
+        const rawUrl = urlEl.value.trim();
+        const url = normalizeMediaUrl(rawUrl, tipo);
+        let title = titleEl.value.trim();
+        const desc = descEl.value.trim();
+        const urlLooksVideo = !!ytId(url) || !!vmId(url);
+
+        if (!url) {
+          alert('Falta la URL del ejemplo.');
+          urlEl.focus();
+          return;
+        }
+
+        if (!title) {
+          if (urlLooksVideo) {
+            const vm = vmId(url);
+            const yt = ytId(url);
+            title = vm ? `Video Vimeo ${vm}` : (yt ? `Video YouTube ${yt}` : 'Video de referencia');
+            titleEl.value = title;
+          } else {
+            alert('Falta el título del proyecto.');
+            titleEl.focus();
+            return;
+          }
+        }
+
+        if (!isValidHttpUrl(url)) {
+          alert('La URL no es válida. Debe comenzar con http:// o https://');
+          urlEl.focus();
+          return;
+        }
+
+        // Auto-corrige tipo cuando la URL es de video (evita guardarlo como "imagen" por error humano)
+        if (urlLooksVideo && tipo !== 'video') {
+          tipo = 'video';
+          typeEl.value = 'video';
+        }
+
+        if (tipo === 'video' && !urlLooksVideo) {
+          alert('Para videos, usa un link de YouTube o Vimeo.');
+          urlEl.focus();
+          return;
+        }
+
+        if (tipo === 'imagen' && isGoogleDriveUrl(rawUrl)) {
+          alert('Tip: para que se vea la imagen de Drive, el archivo debe estar en "Cualquier persona con el enlace".');
+        }
+
+        saveBtn.disabled = true;
+        const prevText = saveBtn.textContent;
+        saveBtn.textContent = 'Guardando...';
+        try {
+          let thumb = '';
+          let thumbData = '';
+          let thumbFallback = '';
+          const manualFile = thumbFileEl.files && thumbFileEl.files[0] ? thumbFileEl.files[0] : null;
+
+          if (manualFile) {
+            thumbData = await fileToDataUrl(manualFile);
+            if (!thumbData) {
+              alert('No se pudo leer la miniatura manual. Intenta con otra imagen (JPG/PNG/WebP).');
+              return;
+            }
+            thumb = thumbData || '';
+          }
+
+          if (tipo === 'imagen') {
+            if (!thumbData) {
+              const imageAsset = await resolveImageAsset(rawUrl, url);
+              thumb = imageAsset.thumb;
+              thumbData = imageAsset.thumbData;
+              thumbFallback = imageAsset.thumbFallback;
+            } else {
+              thumb = thumb || url;
+            }
+          } else {
+            if (!thumbData) {
+              const videoAsset = await resolveVideoAsset(url);
+              thumb = videoAsset.thumb;
+              thumbData = videoAsset.thumbData;
+            }
+          }
+
+          st.examples.unshift({ id: uid(), tipo, url, title, svcId, desc, thumb, thumbData, thumbFallback });
+          st.openExampleForms.delete(svcId);
+          renderExamplesByService();
+          updateFooter();
+          alert('Ejemplo guardado correctamente.');
+        } finally {
+          saveBtn.textContent = prevText;
+          saveBtn.disabled = false;
+        }
+        return;
+      }
+
+      const btn = e.target.closest('[data-del]');
+      if (!btn) return;
+      st.examples = st.examples.filter(x => x.id !== btn.dataset.del);
+      renderExamplesByService();
+      updateFooter();
+    });
+
+    // Toggles
+    $('swStats').addEventListener('change', () => { st.showStats = $('swStats').checked; });
+    $('swCases').addEventListener('change', () => { st.showCases = $('swCases').checked; });
+    $('swTest').addEventListener('change',  () => { st.showTest  = $('swTest').checked; });
+
+    // Contact
+    D.waNum.addEventListener('input',    () => { st.waNum  = D.waNum.value.trim(); });
+    D.emailAddr.addEventListener('input',() => { st.email  = D.emailAddr.value.trim(); });
+    D.waMsg.addEventListener('input',    () => { st.waMsg  = D.waMsg.value.trim(); });
+
+    // Preview
+    $('btnPreview').addEventListener('click', openPreview);
+    $('btnPreview2').addEventListener('click', openPreview);
+    $('btnClosePreview').addEventListener('click', closePreview);
+    D.previewModal.addEventListener('click', e => { if (e.target === D.previewModal) closePreview(); });
+
+    // Export
+    $('btnExport').addEventListener('click', exportHtml);
+    $('btnExport2').addEventListener('click', exportHtml);
+
+    // Reset
+    $('btnReset').addEventListener('click', () => {
+      if (!confirm('¿Limpiar todos los datos de la propuesta?')) return;
+      st.clientName = ''; st.clientMsg = '';
+      st.selectedSvc = new Set(['svc-audiovisual','svc-avatar','svc-ugc']);
+      st.openExampleForms.clear();
+      st.examples = [];
+      D.clientName.value = ''; D.clientMsg.value = '';
+      D.greetingText.textContent = 'Hola.';
+      D.msgPreview.classList.remove('visible');
+      renderSvcGrid();
+      renderExamplesByService();
+      updateFooter();
+    });
+  }
+
+  /* ============================================================
+     PREVIEW
+  ============================================================ */
+  function openPreview() {
+    D.previewBody.innerHTML = `<iframe
+      style="width:100%;height:70vh;border:none;"
+      srcdoc="${escapeAttr(buildClientHTML())}"
+    ></iframe>`;
+    D.previewModal.classList.add('open');
+    document.body.style.overflow = 'hidden';
+  }
+  function closePreview() {
+    D.previewModal.classList.remove('open');
+    document.body.style.overflow = '';
+    D.previewBody.innerHTML = '';
+  }
+
+  /* ============================================================
+     EXPORT
+  ============================================================ */
+  function exportHtml() {
+    const html  = buildClientHTML();
+    const blob  = new Blob([html], { type: 'text/html;charset=utf-8' });
+    const name  = st.clientName
+      ? `propuesta-${slugify(st.clientName)}-${dateStr()}.html`
+      : `propuesta-aberrante-${dateStr()}.html`;
+    const a = Object.assign(document.createElement('a'), {
+      href: URL.createObjectURL(blob), download: name
+    });
+    document.body.appendChild(a); a.click(); a.remove();
+    setTimeout(() => URL.revokeObjectURL(a.href), 3000);
+  }
+
+  /* ============================================================
+     CLIENT HTML BUILDER
+     — generates the standalone proposal page for the client
+  ============================================================ */
+  function buildClientHTML() {
+    const client    = st.clientName || '';
+    const msg       = st.clientMsg  || '';
+    const exampleSvcIds = new Set(st.examples.map(ex => ex.svcId));
+    const selSvcs   = SERVICES.filter(s => st.selectedSvc.has(s.id) || exampleSvcIds.has(s.id));
+    const insightCards = selSvcs.map(s => ({
+      id: s.id,
+      titulo: s.name,
+      comoAyuda: (SERVICE_INSIGHTS[s.id] && SERVICE_INSIGHTS[s.id].comoAyuda) || 'Este servicio te ayuda a producir contenido audiovisual con IA de forma más rápida y eficiente.',
+      aplicacion: (SERVICE_INSIGHTS[s.id] && SERVICE_INSIGHTS[s.id].aplicacion) || 'Se adapta a distintos objetivos de marca, campañas y comunicación comercial.',
+      impacto: (SERVICE_INSIGHTS[s.id] && SERVICE_INSIGHTS[s.id].impacto) || 'Mayor productividad creativa y mejor uso del presupuesto de contenido.'
+    }));
+    const testimonialList = dedupeTestimonials(
+      selSvcs.flatMap(s => (SERVICE_TESTIMONIALS[s.id] || []).map(t => ({ ...t, serviceId: s.id, serviceName: s.name })))
+    );
+    const wa        = `https://wa.me/${st.waNum.replace(/\D/g,'')}?text=${encodeURIComponent(st.waMsg)}`;
+    const mail      = `mailto:${st.email}`;
+    const title     = client ? `Propuesta para ${client} · Studio Aberrante` : 'Propuesta · Studio Aberrante';
+
+    const svcsHTML = selSvcs.map(s => `
+      <div class="sc">
+        <div class="sc-icon">${s.icon}</div>
+        <div class="sc-tier">${s.tier}</div>
+        <div class="sc-name">${h(s.name)}</div>
+        <p class="sc-desc">${h(s.desc)}</p>
+      </div>`).join('');
+
+    const visibleExamples = st.examples;
+    const examplesHTML = visibleExamples.length ? visibleExamples.map(ex => {
+      const isVid = ex.tipo === 'video';
+      const thumb = ex.thumbData || ex.thumb || (isVid ? getThumb(ex.url) : ex.url);
+      const svcName = getSvcName(ex.svcId);
+      const vimeoAttr = isVid && vmId(ex.url) ? ` data-vimeo-url="${ha(ex.url)}"` : '';
+      const fallbackAttr = ex.thumbFallback ? ` data-fallback-src="${ha(ex.thumbFallback)}"` : '';
+      return `
+        <div class="ec">
+          <a class="ec-media" href="${ha(ex.url)}" target="_blank" rel="noopener">
+            <img src="${ha(thumb)}" alt="" loading="lazy"${vimeoAttr}${fallbackAttr}
+              onerror="if(this.dataset.fallbackSrc&&this.src!==this.dataset.fallbackSrc){this.src=this.dataset.fallbackSrc;return;}this.style.display='none';this.parentElement.querySelector('.ec-ph').style.display='flex'" />
+            <div class="ec-ph" style="display:none;">${isVid ? '▶' : '🖼'}</div>
+            <span class="ec-badge">${isVid ? 'Video' : 'Imagen'}</span>
+            ${isVid ? '<div class="ec-play">▶</div>' : ''}
+          </a>
+          <div class="ec-body">
+            <div class="ec-svc">${h(svcName)}</div>
+            <div class="ec-title">${h(ex.title)}</div>
+            ${ex.desc ? `<p class="ec-desc">${h(ex.desc)}</p>` : ''}
+          </div>
+        </div>`;
+    }).join('') : '';
+
+    const statsHTML = st.showStats ? `
+      <section class="stats">
+        <div class="container">
+          <div class="stats-grid">
+            <div class="stat-c"><div class="stat-num">+40</div><div class="stat-lbl">Producciones audiovisuales generadas con IA ejecutadas</div></div>
+            <div class="stat-c"><div class="stat-num">3×</div><div class="stat-lbl">Aceleración promedio en producción de contenidos</div></div>
+            <div class="stat-c"><div class="stat-num">100%</div><div class="stat-lbl">Proyectos con dirección estética premium y foco comercial</div></div>
+          </div>
+        </div>
+      </section>` : '';
+
+    const casesTitle = selSvcs.length === 1
+      ? `Cómo ${h(selSvcs[0].name)} puede ayudarte.`
+      : 'Cómo estos servicios pueden ayudarte.';
+
+    const casesHTML = st.showCases && insightCards.length ? `
+      <section class="cases">
+        <div class="container">
+          <div class="s-label">Impacto por servicio seleccionado</div>
+          <h2 class="s-title">${casesTitle}</h2>
+          <div class="cases-grid">
+            ${insightCards.map((c, i) => `
+              <div class="case-c">
+                <div class="case-num">0${i+1}</div>
+                <div class="case-title">${h(c.titulo)}</div>
+                <div class="case-row"><div class="case-lbl">Cómo te ayuda</div><div class="case-val">${h(c.comoAyuda)}</div></div>
+                <div class="case-row"><div class="case-lbl">Aplicación ideal</div><div class="case-val">${h(c.aplicacion)}</div></div>
+                <div class="case-row"><div class="case-lbl">Impacto esperado</div><div class="case-val">${h(c.impacto)}</div></div>
+              </div>`).join('')}
+          </div>
+        </div>
+      </section>` : '';
+
+    const testTitle = selSvcs.length === 1
+      ? `Experiencias reales con ${h(selSvcs[0].name)}.`
+      : 'Experiencias reales según los servicios seleccionados.';
+    const testData = (testimonialList.length ? testimonialList : [
+      { texto:'Implementamos contenido audiovisual IA con foco comercial y logramos más salida de piezas sin aumentar el costo de producción.', autor:'Cliente Studio Aberrante', cargo:'Empresa' },
+      { texto:'La propuesta nos ayudó a publicar con más frecuencia y mantener una línea visual consistente en canales digitales.', autor:'Cliente Studio Aberrante', cargo:'Marca' },
+      { texto:'Pudimos acelerar producción creativa y responder más rápido a oportunidades de campaña.', autor:'Cliente Studio Aberrante', cargo:'Equipo de Marketing' }
+    ]).slice(0, 6);
+
+    const testHTML = st.showTest ? `
+      <section class="testimonials">
+        <div class="container">
+          <div class="s-label">Testimonios por servicio</div>
+          <h2 class="s-title">${testTitle}</h2>
+          <div class="test-grid">
+            ${testData.map(t => `
+              <div class="test-c">
+                <div class="test-q">"</div>
+                <p class="test-text">${h(t.texto)}</p>
+                <div class="test-author">
+                  <div class="test-avatar">${(t.autor||'C').charAt(0)}</div>
+                  <div>
+                    <div class="test-name">${h(t.autor)}</div>
+                    <div class="test-cargo">${h(t.cargo)}</div>
+                  </div>
+                </div>
+              </div>`).join('')}
+          </div>
+        </div>
+      </section>` : '';
+
+    return `<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>${h(title)}</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700;1,9..40,300;1,9..40,400&family=DM+Serif+Display:ital@0;1&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --bg:#f5f5f7;
+  --surface:#fff;
+  --border:#e5e5e5;
+  --border-md:#d0d0d0;
+  --text:#0a0a0a;
+  --t2:#666;
+  --t3:#999;
+  --r:10px;
+}
+html{font-size:16px;scroll-behavior:smooth}
+body{
+  font-family:'DM Sans',system-ui,sans-serif;
+  background:transparent;color:var(--text);
+  -webkit-font-smoothing:antialiased;
+  min-height:100vh;
+}
+.container{width:min(1080px,calc(100% - 2.4rem));margin:0 auto}
+
+/* ── NAV ── */
+.nav{
+  position:sticky;top:0;z-index:90;
+  background:rgba(245,245,247,.88);
+  backdrop-filter:blur(20px);
+  border-bottom:1px solid var(--border);
+}
+.nav-inner{
+  display:flex;align-items:center;
+  justify-content:space-between;gap:16px;
+  height:58px;
+}
+.nav-brand{display:flex;align-items:center;gap:10px}
+.nav-mark{
+  width:30px;height:30px;border-radius:8px;
+  background:#111;display:grid;place-items:center;
+  font-size:.76rem;font-weight:800;color:#fff;
+  flex-shrink:0;
+}
+.nav-name{font-size:.86rem;font-weight:700}
+.nav-actions{display:flex;gap:8px}
+.btn{
+  display:inline-flex;align-items:center;justify-content:center;
+  gap:6px;padding:10px 22px;border-radius:var(--r);
+  font:600 .84rem/1 'DM Sans',sans-serif;
+  cursor:pointer;border:none;text-decoration:none;
+  white-space:nowrap;
+  transition:transform .2s ease,box-shadow .2s ease,background .2s ease;
+}
+.btn:hover{transform:translateY(-1px)}
+.btn:active{transform:scale(.975)}
+.btn-dark{background:var(--text);color:#fff}
+.btn-dark:hover{background:#1a1a1a;box-shadow:0 8px 24px rgba(0,0,0,.18)}
+.btn-outline{background:transparent;color:var(--text);border:1.5px solid var(--border)}
+.btn-outline:hover{border-color:var(--text);box-shadow:0 4px 12px rgba(0,0,0,.08)}
+.btn-sm{padding:8px 16px;font-size:.78rem}
+
+/* ── HERO ── */
+.hero{padding:80px 0 60px}
+.hero-greeting{
+  font-size:clamp(3.2rem,8vw,6.5rem);
+  font-weight:800;letter-spacing:-.05em;
+  line-height:.95;margin-bottom:0;
+}
+.hero-greeting .name{
+  display:inline-block;
+  border-bottom:3px solid #111;
+  padding-bottom:2px;
+}
+.hero-tagline{
+  font-size:clamp(1rem,2.5vw,1.3rem);
+  color:var(--t2);margin-top:22px;
+  font-weight:400;max-width:520px;
+  line-height:1.65;
+}
+
+/* ── MESSAGE CARD ── */
+.msg-section{padding:8px 0 60px}
+.msg-card{
+  background:var(--surface);
+  border:1px solid var(--border-md);
+  border-left:4px solid #111;
+  border-radius:0 var(--r) var(--r) 0;
+  padding:24px 28px;
+  font-size:1rem;line-height:1.75;
+  color:var(--text);
+  max-width:720px;
+}
+
+/* ── SECTIONS ── */
+section{padding:70px 0}
+.s-label{
+  font-size:.68rem;font-weight:700;
+  letter-spacing:.14em;text-transform:uppercase;
+  color:var(--t3);margin-bottom:10px;
+}
+.s-title{
+  font-size:clamp(1.8rem,4vw,2.8rem);
+  font-weight:800;letter-spacing:-.04em;
+  line-height:1.02;margin-bottom:40px;
+}
+.s-sub{
+  font-size:1rem;color:var(--t2);
+  max-width:540px;line-height:1.7;margin-bottom:40px;
+}
+
+/* ── DIVIDER ── */
+.divider{height:1px;background:var(--border);margin:0}
+
+/* ── SERVICES ── */
+.svc-section{padding:70px 0}
+.svc-grid{
+  display:grid;
+  grid-template-columns:repeat(auto-fill,minmax(280px,1fr));
+  gap:12px;
+}
+.sc{
+  background:var(--surface);
+  border:1.5px solid var(--border);
+  border-radius:14px;
+  padding:22px 22px 20px;
+  transition:transform .2s ease,box-shadow .2s ease,border-color .2s ease;
+}
+.sc:hover{
+  transform:translateY(-3px);
+  box-shadow:0 12px 32px rgba(0,0,0,.08);
+  border-color:var(--border-md);
+}
+.sc-icon{font-size:1.6rem;margin-bottom:14px;display:block}
+.sc-tier{
+  font-size:.62rem;font-weight:700;
+  letter-spacing:.1em;text-transform:uppercase;
+  color:var(--t3);margin-bottom:6px;
+}
+.sc-name{
+  font-size:1rem;font-weight:700;
+  letter-spacing:-.02em;margin-bottom:10px;
+  line-height:1.2;
+}
+.sc-desc{font-size:.82rem;color:var(--t2);line-height:1.65}
+
+/* ── EXAMPLES ── */
+.ex-section{padding:0 0 70px}
+.ex-grid{
+  display:grid;
+  grid-template-columns:repeat(auto-fill,minmax(240px,1fr));
+  gap:14px;
+}
+.ec{
+  border-radius:14px;overflow:hidden;
+  background:var(--surface);border:1px solid var(--border);
+  transition:transform .2s ease,box-shadow .2s ease;
+}
+.ec:hover{transform:translateY(-4px);box-shadow:0 14px 36px rgba(0,0,0,.1)}
+.ec-media{
+  position:relative;display:block;
+  aspect-ratio:16/9;overflow:hidden;background:#eee;
+}
+.ec-media img{width:100%;height:100%;object-fit:cover;transition:transform .4s ease}
+.ec:hover .ec-media img{transform:scale(1.05)}
+.ec-ph{
+  width:100%;height:100%;display:flex;
+  align-items:center;justify-content:center;
+  font-size:2rem;color:var(--t3);
+}
+.ec-badge{
+  position:absolute;top:10px;left:10px;
+  padding:3px 9px;border-radius:999px;
+  background:rgba(0,0,0,.75);color:#fff;
+  font-size:.6rem;font-weight:700;
+  letter-spacing:.06em;text-transform:uppercase;
+}
+.ec-play{
+  position:absolute;top:50%;left:50%;
+  transform:translate(-50%,-50%);
+  width:36px;height:36px;border-radius:50%;
+  background:rgba(255,255,255,.92);
+  display:flex;align-items:center;justify-content:center;
+  font-size:.8rem;
+}
+.ec-body{padding:13px 15px 15px}
+.ec-svc{
+  font-size:.6rem;font-weight:700;
+  letter-spacing:.09em;text-transform:uppercase;
+  color:var(--t3);margin-bottom:4px;
+}
+.ec-title{font-size:.88rem;font-weight:600;margin-bottom:5px;line-height:1.3}
+.ec-desc{font-size:.78rem;color:var(--t2);line-height:1.55}
+
+/* ── STATS ── */
+.stats{background:var(--surface);padding:60px 0;border-top:1px solid var(--border);border-bottom:1px solid var(--border)}
+.stats-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:var(--border)}
+.stat-c{
+  background:var(--surface);
+  padding:32px 28px;text-align:center;
+}
+.stat-num{
+  font-size:clamp(2.4rem,6vw,3.8rem);
+  font-weight:800;letter-spacing:-.05em;
+  margin-bottom:8px;
+}
+.stat-lbl{font-size:.8rem;color:var(--t2);line-height:1.55;max-width:200px;margin:0 auto}
+
+/* ── CASES ── */
+.cases{padding:70px 0}
+.cases-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
+.case-c{
+  background:var(--surface);border:1.5px solid var(--border);
+  border-radius:14px;padding:24px;
+  transition:transform .2s,box-shadow .2s;
+}
+.case-c:hover{transform:translateY(-3px);box-shadow:0 12px 30px rgba(0,0,0,.08)}
+.case-num{
+  font-size:.62rem;font-weight:700;
+  letter-spacing:.14em;color:var(--t3);margin-bottom:14px;
+}
+.case-title{font-size:1rem;font-weight:700;letter-spacing:-.025em;line-height:1.2;margin-bottom:16px}
+.case-row{margin-top:12px;padding-top:12px;border-top:1px solid var(--border)}
+.case-lbl{font-size:.6rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--text);margin-bottom:4px}
+.case-val{font-size:.8rem;color:var(--t2);line-height:1.6}
+
+/* ── TESTIMONIALS ── */
+.testimonials{padding:70px 0}
+.test-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
+.test-c{
+  background:var(--surface);border:1.5px solid var(--border);
+  border-radius:14px;padding:24px;
+  display:flex;flex-direction:column;gap:16px;
+}
+.test-q{font-size:2.4rem;color:#111;opacity:.15;line-height:1}
+.test-text{font-size:.9rem;color:var(--t2);line-height:1.75;flex:1}
+.test-author{display:flex;align-items:center;gap:11px}
+.test-avatar{
+  width:34px;height:34px;border-radius:50%;
+  background:#111;color:#fff;
+  display:flex;align-items:center;justify-content:center;
+  font-size:.82rem;font-weight:700;flex-shrink:0;
+}
+.test-name{font-size:.82rem;font-weight:600}
+.test-cargo{font-size:.72rem;color:var(--t3)}
+
+/* ── CTA ── */
+.cta{
+  padding:80px 0 100px;
+  text-align:center;
+}
+.cta-title{
+  font-size:clamp(2rem,5vw,3.5rem);
+  font-weight:800;letter-spacing:-.04em;
+  margin-bottom:16px;line-height:1.04;
+}
+.cta-sub{
+  font-size:1.05rem;color:var(--t2);
+  max-width:460px;margin:0 auto 36px;
+  line-height:1.7;
+}
+.cta-actions{display:flex;gap:12px;justify-content:center;flex-wrap:wrap}
+
+/* ── FOOTER ── */
+.footer{
+  padding:20px 0 28px;
+  border-top:1px solid var(--border);
+}
+.footer-inner{
+  display:flex;align-items:center;
+  justify-content:space-between;gap:20px;
+  flex-wrap:wrap;
+}
+.footer-text{font-size:.76rem;color:var(--t3)}
+
+/* ── RESPONSIVE ── */
+@media(max-width:900px){
+  .cases-grid,.test-grid,.stats-grid{grid-template-columns:1fr}
+  .stats-grid{background:transparent;gap:12px}
+  .stat-c{border:1px solid var(--border);border-radius:14px}
+}
+@media(max-width:640px){
+  .svc-grid,.ex-grid{grid-template-columns:1fr}
+  .hero{padding:60px 0 40px}
+  .nav-actions .btn:first-child{display:none}
+}
+
+/* ── SCROLL ANIMATIONS ── */
+.fade-up{opacity:1;transform:none}
+.js .fade-up{opacity:0;transform:translateY(20px);transition:opacity .65s ease,transform .65s ease}
+.js .fade-up.vis{opacity:1;transform:none}
+
+/* ── BACKGROUND ORBS ── */
+.bg-base{position:fixed;inset:0;z-index:-2;background:var(--bg)}
+.bg-orbs{position:fixed;inset:0;z-index:-1;pointer-events:none;overflow:hidden}
+.orb{
+  position:absolute;filter:blur(100px);will-change:transform;
+  animation:morphDrift var(--dur,24s) ease-in-out var(--d,0s) infinite;
+}
+@keyframes morphDrift{
+  0%,100%{border-radius:60% 40% 70% 30%/50% 60% 40% 50%;transform:translate(0,0) scale(1)}
+  25%{border-radius:40% 60% 30% 70%/60% 40% 70% 30%;transform:translate(var(--tx1,40px),var(--ty1,-50px)) scale(1.08)}
+  50%{border-radius:70% 30% 50% 50%/40% 60% 50% 60%;transform:translate(var(--tx2,-30px),var(--ty2,40px)) scale(0.94)}
+  75%{border-radius:50% 50% 40% 60%/70% 30% 60% 40%;transform:translate(var(--tx3,55px),var(--ty3,25px)) scale(1.05)}
+}
+.orb-1{
+  width:680px;height:680px;top:-160px;left:-120px;opacity:.38;
+  background:radial-gradient(circle at 40% 40%,rgba(100,155,255,.9),transparent 65%);
+  --dur:26s;--d:0s;--tx1:70px;--ty1:-55px;--tx2:-45px;--ty2:65px;--tx3:85px;--ty3:35px;
+}
+.orb-2{
+  width:580px;height:580px;top:28%;right:-100px;opacity:.30;
+  background:radial-gradient(circle at 60% 50%,rgba(255,140,90,.9),transparent 65%);
+  --dur:30s;--d:-10s;--tx1:-55px;--ty1:65px;--tx2:45px;--ty2:-50px;--tx3:-75px;--ty3:55px;
+}
+.orb-3{
+  width:780px;height:780px;top:60%;left:12%;opacity:.24;
+  background:radial-gradient(circle at 50% 60%,rgba(70,210,155,.9),transparent 65%);
+  --dur:34s;--d:-18s;--tx1:-65px;--ty1:-35px;--tx2:55px;--ty2:-65px;--tx3:-45px;--ty3:45px;
+}
+.orb-4{
+  width:500px;height:500px;bottom:-60px;right:6%;opacity:.26;
+  background:radial-gradient(circle at 45% 55%,rgba(195,115,255,.9),transparent 65%);
+  --dur:22s;--d:-6s;--tx1:45px;--ty1:-55px;--tx2:-65px;--ty2:35px;--tx3:35px;--ty3:-45px;
+}
+
+/* ── LIQUID GLASS CARDS ── */
+.sc,.case-c,.test-c{
+  background:rgba(255,255,255,.72)!important;
+  backdrop-filter:blur(24px) saturate(180%) brightness(1.04)!important;
+  border:1.5px solid rgba(255,255,255,.55)!important;
+  box-shadow:inset 0 1.5px 0 rgba(255,255,255,.8),0 8px 32px rgba(0,0,0,.06)!important;
+}
+.sc:hover,.case-c:hover,.test-c:hover{
+  background:rgba(255,255,255,.82)!important;
+  box-shadow:inset 0 1.5px 0 rgba(255,255,255,.9),0 16px 40px rgba(0,0,0,.10)!important;
+}
+.stats{
+  background:rgba(255,255,255,.65)!important;
+  backdrop-filter:blur(24px) saturate(180%)!important;
+  border-top:1px solid rgba(255,255,255,.5)!important;
+  border-bottom:1px solid rgba(255,255,255,.5)!important;
+}
+.stats-grid{background:rgba(200,200,200,.2)!important}
+.stat-c{background:transparent!important}
+.msg-card{
+  background:rgba(255,255,255,.72)!important;
+  backdrop-filter:blur(20px) saturate(160%)!important;
+  border:1px solid rgba(255,255,255,.55)!important;
+  border-left:4px solid #111!important;
+}
+.nav{backdrop-filter:blur(28px) saturate(200%) brightness(1.06)!important}
+.footer{background:rgba(245,245,247,.75);backdrop-filter:blur(20px)}
+</style>
+</head>
+<body>
+
+<div class="bg-base" aria-hidden="true"></div>
+<div class="bg-orbs" aria-hidden="true">
+  <div class="orb orb-1" data-speed="0.09"></div>
+  <div class="orb orb-2" data-speed="0.05"></div>
+  <div class="orb orb-3" data-speed="0.13"></div>
+  <div class="orb orb-4" data-speed="0.04"></div>
+</div>
+
+<nav class="nav">
+  <div class="container nav-inner">
+    <div class="nav-brand">
+      <div class="nav-mark">SA</div>
+      <div class="nav-name">Studio Aberrante</div>
+    </div>
+    <div class="nav-actions">
+      <a href="${ha(mail)}" class="btn btn-outline btn-sm">Email</a>
+      <a href="${ha(wa)}" class="btn btn-dark btn-sm" target="_blank" rel="noopener">WhatsApp →</a>
+    </div>
+  </div>
+</nav>
+
+<section class="hero">
+  <div class="container">
+    <h1 class="hero-greeting fade-up">
+      ${client
+        ? `Hola,<br><span class="name">${h(client)}.</span>`
+        : 'Hola.'}
+    </h1>
+    <p class="hero-tagline fade-up">
+      Diseñamos esta propuesta especialmente para ti.
+    </p>
+  </div>
+</section>
+
+${msg ? `
+<div class="msg-section">
+  <div class="container">
+    <div class="msg-card fade-up">${h(msg)}</div>
+  </div>
+</div>
+` : ''}
+
+${selSvcs.length ? `
+<div class="divider"></div>
+<section class="svc-section">
+  <div class="container">
+    <div class="s-label">Servicios para este proyecto</div>
+    <h2 class="s-title">Lo que creamos<br>para ti.</h2>
+    <div class="svc-grid">${svcsHTML}</div>
+  </div>
+</section>
+<div class="divider"></div>
+` : ''}
+
+    ${visibleExamples.length ? `
+<section class="ex-section" style="padding-top:70px;">
+  <div class="container">
+    <div class="s-label">Trabajo seleccionado</div>
+    <h2 class="s-title">Ejemplos de lo<br>que creamos.</h2>
+    <div class="ex-grid">${examplesHTML}</div>
+  </div>
+</section>
+<div class="divider"></div>
+` : ''}
+
+${statsHTML}
+
+${casesHTML}
+${casesHTML ? '<div class="divider"></div>' : ''}
+
+${testHTML}
+${testHTML ? '<div class="divider"></div>' : ''}
+
+<section class="cta">
+  <div class="container">
+    <h2 class="cta-title fade-up">¿Empezamos?</h2>
+    <p class="cta-sub fade-up">Cuéntanos más sobre tu proyecto. Respondemos en menos de 24 horas.</p>
+    <div class="cta-actions fade-up">
+      <a href="${ha(wa)}" class="btn btn-dark" target="_blank" rel="noopener">Escribir por WhatsApp</a>
+      <a href="${ha(mail)}" class="btn btn-outline">Enviar email</a>
+    </div>
+  </div>
+</section>
+
+<footer class="footer">
+  <div class="container footer-inner">
+    <span class="footer-text">Studio Aberrante · ${new Date().getFullYear()}</span>
+    <span class="footer-text">Propuesta personalizada${client ? ` para ${h(client)}` : ''}</span>
+  </div>
+</footer>
+
+<script>
+document.documentElement.classList.add('js');
+// Vimeo thumbs fallback: if an image fails or comes without poster, try oEmbed thumbnail
+async function hydrateVimeoThumbs(){
+  const imgs = document.querySelectorAll('img[data-vimeo-url]');
+  for (const img of imgs) {
+    const url = img.getAttribute('data-vimeo-url');
+    if (!url) continue;
+    try {
+      const ep = 'https://vimeo.com/api/oembed.json?url=' + encodeURIComponent(url);
+      const res = await fetch(ep, { mode: 'cors' });
+      if (!res.ok) continue;
+      const data = await res.json();
+      if (data && data.thumbnail_url) {
+        img.src = data.thumbnail_url;
+        img.style.display = 'block';
+      }
+    } catch {}
+  }
+}
+hydrateVimeoThumbs();
+
+// Scroll fade-in
+const io = new IntersectionObserver(entries => {
+  entries.forEach(e => { if(e.isIntersecting){e.target.classList.add('vis');io.unobserve(e.target);} });
+},{threshold:.1});
+document.querySelectorAll('.fade-up').forEach(el => io.observe(el));
+// Orb parallax
+const orbs = document.querySelectorAll('.orb');
+window.addEventListener('scroll', () => {
+  const y = window.scrollY;
+  orbs.forEach(o => {
+    const s = +o.dataset.speed;
+    o.style.marginTop = (y * s) + 'px';
+  });
+}, { passive: true });
+<\/script>
+</body>
+</html>`;
+  }
+
+  /* ============================================================
+     UTILS
+  ============================================================ */
+  async function resolveVideoAsset(url) {
+    const yt = ytId(url);
+    if (yt) {
+      const thumb = `https://img.youtube.com/vi/${yt}/hqdefault.jpg`;
+      const thumbData = await fetchImageAsDataUrl(thumb);
+      return { thumb, thumbData };
+    }
+
+    let thumb = '';
+    if (vmId(url)) {
+      const vimeoThumb = await fetchVimeoOEmbedThumb(url);
+      if (vimeoThumb) thumb = vimeoThumb;
+    }
+
+    if (!thumb) thumb = getThumb(url);
+    const thumbData = await fetchImageAsDataUrl(thumb);
+    return { thumb, thumbData };
+  }
+
+  async function resolveImageAsset(rawUrl, normalizedUrl) {
+    const candidates = imageCandidates(rawUrl, normalizedUrl);
+    for (const candidate of candidates) {
+      const data = await fetchImageAsDataUrl(candidate);
+      if (data) {
+        return {
+          thumb: candidate,
+          thumbData: data,
+          thumbFallback: buildImageFallback(rawUrl, normalizedUrl)
+        };
+      }
+    }
+    return {
+      thumb: normalizedUrl || rawUrl,
+      thumbData: '',
+      thumbFallback: buildImageFallback(rawUrl, normalizedUrl)
+    };
+  }
+
+  function imageCandidates(rawUrl, normalizedUrl) {
+    const list = [];
+    const push = (u) => { if (u && !list.includes(u)) list.push(u); };
+    const driveId = parseDriveFileId(rawUrl);
+
+    push(normalizedUrl);
+    push(rawUrl);
+
+    if (driveId) {
+      const direct = `https://drive.google.com/uc?export=view&id=${encodeURIComponent(driveId)}`;
+      const alt = `https://drive.google.com/thumbnail?id=${encodeURIComponent(driveId)}&sz=w1600`;
+      const gusercontent = `https://lh3.googleusercontent.com/d/${encodeURIComponent(driveId)}=w1600`;
+      const proxyDirect = `https://images.weserv.nl/?url=${encodeURIComponent(direct)}&w=1600&output=jpg`;
+      const proxyAlt = `https://images.weserv.nl/?url=${encodeURIComponent(alt)}&w=1600&output=jpg`;
+      push(direct);
+      push(alt);
+      push(gusercontent);
+      push(proxyDirect);
+      push(proxyAlt);
+    }
+
+    return list;
+  }
+
+  function buildImageFallback(rawUrl, normalizedUrl) {
+    const driveId = parseDriveFileId(rawUrl);
+    if (!driveId) return '';
+    return `https://drive.google.com/thumbnail?id=${encodeURIComponent(driveId)}&sz=w1600`;
+  }
+
+  async function fetchVimeoOEmbedThumb(url) {
+    try {
+      const endpoint = `https://vimeo.com/api/oembed.json?url=${encodeURIComponent(url)}`;
+      const res = await fetch(endpoint, { mode: 'cors' });
+      if (!res.ok) return '';
+      const data = await res.json();
+      return (data && typeof data.thumbnail_url === 'string') ? data.thumbnail_url : '';
+    } catch {
+      return '';
+    }
+  }
+
+  async function fetchImageAsDataUrl(url) {
+    try {
+      const res = await fetch(url, { mode: 'cors' });
+      if (!res.ok) return '';
+      const blob = await res.blob();
+      if (!blob || !blob.type || !blob.type.startsWith('image/')) return '';
+      return await blobToDataUrl(blob);
+    } catch {
+      return '';
+    }
+  }
+
+  function fileToDataUrl(file) {
+    return new Promise((resolve) => {
+      const reader = new FileReader();
+      reader.onloadend = () => resolve(typeof reader.result === 'string' ? reader.result : '');
+      reader.onerror = () => resolve('');
+      reader.readAsDataURL(file);
+    });
+  }
+
+  function blobToDataUrl(blob) {
+    return new Promise((resolve) => {
+      const reader = new FileReader();
+      reader.onloadend = () => resolve(typeof reader.result === 'string' ? reader.result : '');
+      reader.onerror = () => resolve('');
+      reader.readAsDataURL(blob);
+    });
+  }
+
+  function getThumb(url) {
+    const yt = ytId(url); if (yt) return `https://img.youtube.com/vi/${yt}/hqdefault.jpg`;
+    const vm = vmId(url); if (vm) return `https://vumbnail.com/${vm}.jpg`;
+    return 'https://images.unsplash.com/photo-1498050108023-c5249f4df085?auto=format&fit=crop&w=800&q=70';
+  }
+  function ytId(url) {
+    try {
+      const u = new URL(url);
+      if (u.hostname.includes('youtu.be')) return u.pathname.slice(1) || null;
+      if (u.hostname.includes('youtube.com')) {
+        if (u.searchParams.get('v')) return u.searchParams.get('v');
+        const m = u.pathname.match(/\/(embed|shorts)\/([^/?]+)/);
+        return m ? m[2] : null;
+      }
+    } catch {}
+    return null;
+  }
+  function vmId(url) {
+    try {
+      const u = new URL(url);
+      if (!u.hostname.includes('vimeo.com')) return null;
+      const parts = u.pathname.split('/').filter(Boolean);
+      const numeric = parts.reverse().find(p => /^\d+$/.test(p));
+      return numeric || null;
+    } catch {}
+    return null;
+  }
+  function parseDriveFileId(url) {
+    try {
+      const u = new URL(url);
+      if (!u.hostname.includes('drive.google.com')) return null;
+      const byQuery = u.searchParams.get('id');
+      if (byQuery) return byQuery;
+      const m = u.pathname.match(/\/file\/d\/([^/]+)/);
+      return m ? m[1] : null;
+    } catch {
+      return null;
+    }
+  }
+  function isGoogleDriveUrl(url) {
+    try {
+      const u = new URL(url);
+      return u.hostname.includes('drive.google.com');
+    } catch {
+      return false;
+    }
+  }
+  function driveFileToImageUrl(url) {
+    const id = parseDriveFileId(url);
+    if (!id) return url;
+    // URL principal para imagen pública de Drive
+    return `https://drive.google.com/uc?export=view&id=${encodeURIComponent(id)}`;
+  }
+  function driveFileToAltImageUrl(url) {
+    const id = parseDriveFileId(url);
+    if (!id) return '';
+    // URL alternativa de miniatura si la principal falla en algunos visores
+    return `https://drive.google.com/thumbnail?id=${encodeURIComponent(id)}&sz=w1600`;
+  }
+  function normalizeMediaUrl(url, tipo) {
+    if (tipo !== 'imagen') return url;
+    if (isGoogleDriveUrl(url)) return driveFileToImageUrl(url);
+    return url;
+  }
+  function isValidHttpUrl(url) {
+    try {
+      const u = new URL(url);
+      return u.protocol === 'http:' || u.protocol === 'https:';
+    } catch {
+      return false;
+    }
+  }
+  function uid() {
+    return (typeof crypto !== 'undefined' && crypto.randomUUID)
+      ? crypto.randomUUID()
+      : `id-${Date.now()}-${Math.random().toString(36).slice(2)}`;
+  }
+  function h(v) {
+    return String(v||'')
+      .replace(/&/g,'&amp;').replace(/</g,'&lt;')
+      .replace(/>/g,'&gt;').replace(/"/g,'&quot;').replace(/'/g,'&#039;');
+  }
+  function ha(v) { return h(v); }
+  function escapeAttr(s) {
+    return s.replace(/&/g,'&amp;').replace(/"/g,'&quot;')
+            .replace(/'/g,'&#039;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+  }
+  function selEscape(s) {
+    if (typeof CSS !== 'undefined' && CSS.escape) return CSS.escape(s);
+    return String(s).replace(/"/g, '\\"');
+  }
+  function slugify(s) {
+    return s.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g,'')
+            .replace(/[^a-z0-9]+/g,'-').replace(/^-|-$/g,'').slice(0,40);
+  }
+  function dateStr() { return new Date().toISOString().slice(0,10); }
+  function dedupeTestimonials(list) {
+    const out = [];
+    const seen = new Set();
+    list.forEach(item => {
+      const key = `${(item.texto || '').trim()}|${(item.autor || '').trim()}`;
+      if (!key || seen.has(key)) return;
+      seen.add(key);
+      out.push(item);
+    });
+    return out;
+  }
+
+  /* ============================================================
+     START
+  ============================================================ */
+  init();
+  </script>
+</body>
+</html>
