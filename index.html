@@ -44,6 +44,7 @@
       color: var(--text);
       min-height: 100vh;
       -webkit-font-smoothing: antialiased;
+      overflow-x: hidden;
     }
 
     /* ====================================================
@@ -456,16 +457,46 @@
     /* ====================================================
        RESPONSIVE
     ==================================================== */
+    @media (max-width: 900px) {
+      .hdr-inner {
+        height: auto;
+        padding-top: 10px;
+        padding-bottom: 10px;
+        flex-wrap: wrap;
+        align-items: flex-start;
+      }
+      .hdr-brand { min-width: 0; }
+      .hdr-actions {
+        width: 100%;
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+      .hdr-actions .btn-primary { grid-column: 1 / -1; }
+      .hdr-actions .btn { width: 100%; }
+
+      .ftr-inner {
+        height: auto;
+        padding-top: 10px;
+        padding-bottom: 10px;
+        flex-wrap: wrap;
+      }
+      .ftr-right {
+        width: 100%;
+        display: grid;
+        grid-template-columns: 1fr;
+      }
+      .ftr-right .btn { width: 100%; }
+    }
+
     @media (max-width: 680px) {
       .hdr-inner, .ftr-inner, .main { padding-left: 16px; padding-right: 16px; }
       .card { padding: 20px 16px; }
       .field-row { grid-template-columns: 1fr; }
-      .svc-grid  { grid-template-columns: 1fr 1fr; }
+      .svc-grid  { grid-template-columns: 1fr; }
       .ftr-stats { display: none; }
       .hdr-actions .btn-ghost { display: none; }
-    }
-    @media (max-width: 400px) {
-      .svc-grid { grid-template-columns: 1fr; }
+      .hdr-actions { grid-template-columns: 1fr; }
+      .hdr-actions .btn-primary { grid-column: auto; }
     }
   </style>
 </head>
