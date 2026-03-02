@@ -699,26 +699,91 @@
     { id:'svc-ecommerce',   icon:'🛍', tier:'Specialty', name:'Fotografía de Productos E-commerce',  desc:'Producción visual de producto con acabado profesional para tiendas online y catálogos escalables.' }
   ];
 
-  const CASES = [
-    { titulo:'Escalamiento de captación para firma legal',
-      problema:'Dependencia de tareas manuales y tiempos de respuesta lentos en canales de contacto.',
-      solucion:'Flujo automatizado de atención inicial, segmentación de leads y agenda inteligente.',
-      resultado:'−78% en tiempo de respuesta. Aumento sostenido de reuniones calificadas.' },
-    { titulo:'Rebranding de contenidos para consultora B2B',
-      problema:'Comunicación técnica sin consistencia visual ni narrativa diferenciadora.',
-      solucion:'Sistema de producción IA con lineamiento editorial y dirección visual unificada.',
-      resultado:'3× de interacción orgánica y mayor autoridad percibida en 6 semanas.' },
-    { titulo:'Demo de producto para startup SaaS',
-      problema:'Dificultad para explicar la propuesta de valor en reuniones de venta.',
-      solucion:'Kit de demostración con avatar IA, casos simulados y mensajes por segmento.',
-      resultado:'Ciclo comercial más corto y mejor tasa de avance a propuesta formal.' }
-  ];
+  const SERVICE_INSIGHTS = {
+    'svc-audiovisual': { comoAyuda:'Acelera la producción de piezas audiovisuales para campañas, redes y lanzamientos sin depender de rodajes complejos.', aplicacion:'Ideal cuando necesitas publicar más contenido de forma consistente y con estética profesional.', impacto:'Menor costo por pieza, más frecuencia de publicación y mejor capacidad de testeo creativo.' },
+    'svc-avatar':      { comoAyuda:'Permite tener un rostro digital constante para comunicar ofertas, contenidos y mensajes de marca en distintos formatos.', aplicacion:'Funciona muy bien para empresas o marcas personales que necesitan presencia frecuente sin grabar todo manualmente.', impacto:'Más continuidad de comunicación y reducción del tiempo de producción de videos comerciales.' },
+    'svc-clonacion':   { comoAyuda:'Replica voz y estilo de comunicación para producir piezas rápidas con identidad coherente.', aplicacion:'Útil para marcas personales, vocerías de empresa y contenidos educativos con alto volumen.', impacto:'Ahorro de horas de grabación y salida más rápida de contenido relevante.' },
+    'svc-cortometraje':{ comoAyuda:'Convierte ideas potentes en piezas narrativas de alto impacto visual para campañas y branding.', aplicacion:'Recomendado para lanzamientos, awareness de marca y contenidos con storytelling fuerte.', impacto:'Mayor recordación de marca y percepción premium con menor costo de producción tradicional.' },
+    'svc-podcast':     { comoAyuda:'Facilita publicar episodios con guion, voz y edición asistida por IA de forma constante.', aplicacion:'Perfecto para educar a tu audiencia, construir autoridad y mantener presencia semanal.', impacto:'Más productividad editorial y menor fricción para sostener un canal de contenido.' },
+    'svc-fotografia':  { comoAyuda:'Genera imágenes de alta calidad para campañas, portadas y contenido digital sin estudio físico.', aplicacion:'Ideal para marcas que necesitan visuales frecuentes, tests creativos y variantes por público.', impacto:'Reducción de costos de producción fotográfica y mayor velocidad para lanzar campañas.' },
+    'svc-campania':    { comoAyuda:'Permite producir y iterar piezas visuales y audiovisuales orientadas a performance en menos tiempo.', aplicacion:'Recomendado para marcas que ejecutan pauta y necesitan renovar creatividades rápido.', impacto:'Más tests por campaña, mejor optimización y menor costo por aprendizaje creativo.' },
+    'svc-consultoria': { comoAyuda:'Ordena estrategia y producción para que el contenido audiovisual IA tenga dirección y foco comercial.', aplicacion:'Útil cuando hay equipo, pero falta sistema y criterio para priorizar qué producir primero.', impacto:'Mejor toma de decisiones y mayor retorno del contenido publicado.' },
+    'svc-asesoria':    { comoAyuda:'Aterriza ideas en guiones y formatos concretos para publicar contenido con identidad consistente.', aplicacion:'Ideal para marcas que quieren diferenciarse visualmente y sostener una narrativa clara.', impacto:'Mayor coherencia de marca y productividad creativa sostenida.' },
+    'svc-ugc':         { comoAyuda:'Produce videos estilo UGC de 15 segundos listos para anuncios, enfocados en conversión y claridad de oferta.', aplicacion:'Funciona para ecommerce, servicios y marcas que venden con pauta digital y necesitan volumen rápido.', impacto:'Mejor volumen de piezas para testeo, menor costo por creativo y mayor velocidad comercial.' },
+    'svc-ugc-real':    { comoAyuda:'Produce videos UGC de hasta 30 segundos con mayor realismo y control creativo para comunicar propuestas de valor complejas.', aplicacion:'Ideal para marcas que necesitan transmitir confianza, credibilidad y detalle con naturalidad y alto impacto.', impacto:'Mayor tasa de conversión en audiencias que requieren más contexto antes de decidir.' },
+    'svc-canciones':   { comoAyuda:'Crea audio original para campañas y contenidos, reforzando identidad de marca de forma memorable.', aplicacion:'Recomendado para lanzamientos, activaciones y piezas que buscan alto recuerdo.', impacto:'Mayor diferenciación y contenido más recordable sin producción musical tradicional completa.' },
+    'svc-visuales':    { comoAyuda:'Diseña visuales inmersivos para eventos y escenarios con una línea estética coherente.', aplicacion:'Ideal para festivales, shows y activaciones que necesitan impacto visual continuo.', impacto:'Experiencia de marca más potente y producción visual escalable.' },
+    'svc-aimodelos':   { comoAyuda:'Entrega modelos IA para producir contenido comercial sin costos de casting o logística física.', aplicacion:'Útil para moda, belleza, ecommerce y catálogos con alta demanda de piezas.', impacto:'Menor costo operativo y mayor velocidad para generar variaciones de contenido.' },
+    'svc-shooting':    { comoAyuda:'Permite crear sesiones fotográficas en entornos virtuales sin mover equipo ni producción física.', aplicacion:'Ideal para campañas y contenido social con múltiples escenarios visuales.', impacto:'Más flexibilidad creativa y mejor eficiencia en tiempo y presupuesto.' },
+    'svc-ecommerce':   { comoAyuda:'Genera imágenes de producto listas para venta online con estética profesional y consistencia.', aplicacion:'Perfecto para tiendas que necesitan catálogo actualizado y contenido de producto frecuente.', impacto:'Aumento de productividad del catálogo y menor costo por imagen publicada.' }
+  };
 
-  const TESTIMONIALS = [
-    { texto:'El equipo de Studio Aberrante transformó completamente nuestra comunicación. Los resultados superaron lo que esperábamos en velocidad y calidad.', autor:'María González', cargo:'Directora de Marketing · Firma Legal' },
-    { texto:'Trabajar con ellos es otra categoría. Entienden el negocio, proponen con criterio y ejecutan sin rodeos. Recomendado sin dudas.', autor:'Pablo Ramos', cargo:'CEO · Consultora B2B' },
-    { texto:'El avatar y los videos que produjeron se convirtieron en nuestro activo de ventas más efectivo. Simple, directo y de impacto real.', autor:'Laura Vidal', cargo:'Fundadora · Startup SaaS' }
-  ];
+  const SERVICE_TESTIMONIALS = {
+    'svc-audiovisual': [
+      { texto:'Pasamos de producir una pieza por semana a tener contenido audiovisual constante sin disparar costos.', autor:'Carla M.', cargo:'Líder de Marketing · Retail' },
+      { texto:'La velocidad de entrega cambió nuestra forma de lanzar campañas. Ahora iteramos en días, no semanas.', autor:'Ignacio R.', cargo:'Director Comercial · Servicios' }
+    ],
+    'svc-avatar': [
+      { texto:'El avatar nos permitió comunicar más seguido sin depender de agendas de grabación.', autor:'Daniela V.', cargo:'Brand Manager · Educación' },
+      { texto:'Logramos mantener presencia en redes con un estilo consistente y escalable.', autor:'Felipe A.', cargo:'Fundador · Marca Personal' }
+    ],
+    'svc-clonacion': [
+      { texto:'La clonación digital nos ayudó a multiplicar contenido manteniendo la esencia de la marca.', autor:'Martina C.', cargo:'Directora de Contenido · Consultora' },
+      { texto:'Ahora producimos cápsulas rápidas sin perder tono ni identidad del vocero.', autor:'Sebastián P.', cargo:'CEO · Academia Online' }
+    ],
+    'svc-cortometraje': [
+      { texto:'El corto elevó la percepción de marca y nos dio una campaña con mucha conversación.', autor:'Camila T.', cargo:'CMO · Startup' },
+      { texto:'Con IA logramos una pieza narrativa potente con tiempos y presupuesto acotados.', autor:'Pablo G.', cargo:'Productor Ejecutivo · Agencia' }
+    ],
+    'svc-podcast': [
+      { texto:'Por fin pudimos sostener episodios semanales sin frenar la operación del equipo.', autor:'Sofía L.', cargo:'Gerente de Marca · B2B' },
+      { texto:'La producción IA bajó el costo por episodio y mejoró la calidad de edición.', autor:'Rodrigo M.', cargo:'Fundador · Podcast de Negocios' }
+    ],
+    'svc-fotografia': [
+      { texto:'Generamos visuales para tres campañas en una semana sin contratar fotógrafo.', autor:'Valentina C.', cargo:'Marketing Manager · Moda' },
+      { texto:'La calidad de las imágenes superó lo que esperábamos. El cliente ni notó la diferencia.', autor:'Andrés B.', cargo:'Director Creativo · Agencia' }
+    ],
+    'svc-campania': [
+      { texto:'Renovamos creatividades semanalmente sin frenar el equipo. El ROAS mejoró notablemente.', autor:'Lucía P.', cargo:'Performance Lead · E-commerce' },
+      { texto:'Más variaciones por campaña significa más aprendizaje y menos desperdicio de presupuesto.', autor:'Tomás R.', cargo:'CMO · Fintech' }
+    ],
+    'svc-consultoria': [
+      { texto:'Nos ayudaron a priorizar qué producir y cómo medirlo. Eso cambió todo.', autor:'Mariana F.', cargo:'Gerente General · Consultora' },
+      { texto:'Definimos un sistema de contenido que el equipo pudo ejecutar de forma autónoma.', autor:'Diego A.', cargo:'CEO · Empresa de Servicios' }
+    ],
+    'svc-asesoria': [
+      { texto:'Transformaron ideas sueltas en una narrativa clara que diferencia la marca.', autor:'Carolina V.', cargo:'Directora de Marca · Salud' },
+      { texto:'La dirección creativa nos dio consistencia y ahorro de decisiones en cada pieza.', autor:'Emilio S.', cargo:'Fundador · Estudio Creativo' }
+    ],
+    'svc-ugc': [
+      { texto:'Escalamos pruebas creativas sin disparar costos. Los UGC convirtieron mejor que los videos producidos.', autor:'Fernanda R.', cargo:'Media Buyer · E-commerce' },
+      { texto:'Nos dieron volumen de piezas para testear en pauta sin necesitar equipo de producción.', autor:'Cristóbal N.', cargo:'Growth Manager · SaaS' }
+    ],
+    'svc-ugc-real': [
+      { texto:'Los videos UGC largos nos permitieron explicar mejor el producto y la tasa de conversión subió.', autor:'Isidora M.', cargo:'Directora de Marketing · Servicios' },
+      { texto:'Con más duración y realismo logramos conectar con audiencias que necesitaban más contexto.', autor:'Benjamín T.', cargo:'Fundador · Startup B2C' }
+    ],
+    'svc-canciones': [
+      { texto:'La canción de lanzamiento se convirtió en parte de la identidad de la campaña.', autor:'Renata P.', cargo:'Brand Manager · Consumo Masivo' },
+      { texto:'Tener audio propio hizo que la marca sea más recordable en cada contacto.', autor:'Matías O.', cargo:'Director de Marca · Entretenimiento' }
+    ],
+    'svc-visuales': [
+      { texto:'Los visuales del evento impresionaron a todos y reforzaron la imagen de la marca.', autor:'Constanza H.', cargo:'Productora de Eventos · Agencia' },
+      { texto:'Obtuvimos contenido inmersivo de alto impacto con producción más ágil.', autor:'Nicolás E.', cargo:'Director Creativo · Eventos' }
+    ],
+    'svc-aimodelos': [
+      { texto:'Produjimos todo el catálogo de temporada sin casting ni logística. Fue un cambio total.', autor:'Javiera L.', cargo:'Directora de Arte · Moda' },
+      { texto:'La diversidad de perfiles disponibles nos permitió adaptar el contenido a cada mercado.', autor:'Gonzalo P.', cargo:'Head of E-commerce · Retail' }
+    ],
+    'svc-shooting': [
+      { texto:'Obtuvimos contenido de alto nivel con escenarios distintos en una sola semana.', autor:'Trinidad S.', cargo:'Marketing Manager · Beauty' },
+      { texto:'El estudio virtual nos dio libertad creativa y mejor eficiencia de producción.', autor:'Esteban V.', cargo:'Director de Marca · Lifestyle' }
+    ],
+    'svc-ecommerce': [
+      { texto:'Aceleramos la actualización del catálogo y mejoramos la presentación de producto.', autor:'Francisca M.', cargo:'Ecommerce Manager · Retail' },
+      { texto:'Publicamos más productos en menos tiempo con visuales consistentes.', autor:'Álvaro G.', cargo:'COO · Tienda Online' }
+    ]
+  };
 
   /* ============================================================
      STATE
@@ -962,6 +1027,21 @@
       </div>`;
     }).join('');
 
+    // Insights dinámicos por servicio seleccionado
+    const insightCards = selSvcs.map((s, i) => ({
+      i, titulo: s.name,
+      ...(SERVICE_INSIGHTS[s.id] || {
+        comoAyuda: 'Este servicio te ayuda a producir contenido con IA de forma más rápida y eficiente.',
+        aplicacion: 'Se adapta a distintos objetivos de marca, campañas y comunicación comercial.',
+        impacto: 'Mayor productividad creativa y mejor uso del presupuesto de contenido.'
+      })
+    }));
+
+    // Testimonios dinámicos filtrados por servicios seleccionados
+    const testimonialList = dedupeTestimonials(
+      selSvcs.flatMap(s => (SERVICE_TESTIMONIALS[s.id] || []))
+    ).slice(0, 6);
+
     const statsHTML = st.showStats ? `
       <section class="stats">
         <div class="container">
@@ -973,31 +1053,45 @@
         </div>
       </section>` : '';
 
-    const casesHTML = st.showCases ? `
+    const casesTitle = selSvcs.length === 1
+      ? `Cómo ${h(selSvcs[0].name)} puede ayudarte.`
+      : 'Cómo estos servicios pueden ayudarte.';
+
+    const casesHTML = st.showCases && insightCards.length ? `
       <section class="cases">
         <div class="container">
-          <div class="s-label">Casos destacados</div>
-          <h2 class="s-title">Resultados que hablan.</h2>
+          <div class="s-label">Impacto por servicio seleccionado</div>
+          <h2 class="s-title">${casesTitle}</h2>
           <div class="cases-grid">
-            ${CASES.map((c, i) => `
+            ${insightCards.map((c, i) => `
               <div class="case-c">
                 <div class="case-num">0${i+1}</div>
                 <div class="case-title">${h(c.titulo)}</div>
-                <div class="case-row"><div class="case-lbl">Problema</div><div class="case-val">${h(c.problema)}</div></div>
-                <div class="case-row"><div class="case-lbl">Solución</div><div class="case-val">${h(c.solucion)}</div></div>
-                <div class="case-row"><div class="case-lbl">Resultado</div><div class="case-val">${h(c.resultado)}</div></div>
+                <div class="case-row"><div class="case-lbl">Cómo te ayuda</div><div class="case-val">${h(c.comoAyuda)}</div></div>
+                <div class="case-row"><div class="case-lbl">Aplicación ideal</div><div class="case-val">${h(c.aplicacion)}</div></div>
+                <div class="case-row"><div class="case-lbl">Impacto esperado</div><div class="case-val">${h(c.impacto)}</div></div>
               </div>`).join('')}
           </div>
         </div>
       </section>` : '';
 
+    const testTitle = selSvcs.length === 1
+      ? `Experiencias reales con ${h(selSvcs[0].name)}.`
+      : 'Experiencias reales con estos servicios.';
+
+    const testData = testimonialList.length ? testimonialList : [
+      { texto:'Implementamos contenido audiovisual IA con foco comercial y logramos más salida de piezas sin aumentar el costo.', autor:'Cliente Studio Aberrante', cargo:'Empresa' },
+      { texto:'La propuesta nos ayudó a publicar con más frecuencia y mantener una línea visual consistente.', autor:'Cliente Studio Aberrante', cargo:'Marca' },
+      { texto:'Pudimos acelerar producción creativa y responder más rápido a oportunidades de campaña.', autor:'Cliente Studio Aberrante', cargo:'Equipo de Marketing' }
+    ];
+
     const testHTML = st.showTest ? `
       <section class="testimonials">
         <div class="container">
-          <div class="s-label">Testimonios</div>
-          <h2 class="s-title">Lo que dicen.</h2>
+          <div class="s-label">Testimonios por servicio</div>
+          <h2 class="s-title">${testTitle}</h2>
           <div class="test-grid">
-            ${TESTIMONIALS.map(t => `
+            ${testData.map(t => `
               <div class="test-c">
                 <div class="test-q">"</div>
                 <p class="test-text">${h(t.texto)}</p>
@@ -1555,6 +1649,15 @@ window.addEventListener('scroll', () => {
             .replace(/[^a-z0-9]+/g,'-').replace(/^-|-$/g,'').slice(0,40);
   }
   function dateStr() { return new Date().toISOString().slice(0,10); }
+  function dedupeTestimonials(list) {
+    const out = [], seen = new Set();
+    list.forEach(item => {
+      const key = `${(item.texto||'').trim()}|${(item.autor||'').trim()}`;
+      if (!key || seen.has(key)) return;
+      seen.add(key); out.push(item);
+    });
+    return out;
+  }
 
   /* ============================================================
      START
