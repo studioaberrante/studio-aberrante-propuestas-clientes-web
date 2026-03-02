@@ -552,7 +552,7 @@
       <div class="field">
         <label class="lbl" for="clientMsg">Mensaje personalizado para el cliente</label>
         <textarea id="clientMsg" class="tex" rows="4" maxlength="800"
-          placeholder="Escribe el contexto de esta propuesta. Ej: 'Preparamos esta selección especialmente para vos, pensando en los servicios de UGC y fotografía que conversamos la semana pasada…'"></textarea>
+          placeholder="Escribe el contexto de esta propuesta. Ej: 'Preparamos esta selección especialmente para ti, pensando en los servicios de UGC y fotografía que estuvimos conversando…'"></textarea>
         <div class="hint">Este texto aparecerá destacado al inicio de la propuesta, personalizado para este cliente.</div>
         <div class="msg-preview" id="msgPreview"></div>
       </div>
@@ -1054,8 +1054,8 @@
       </section>` : '';
 
     const casesTitle = selSvcs.length === 1
-      ? `Cómo ${h(selSvcs[0].name)} puede ayudarte.`
-      : 'Cómo estos servicios pueden ayudarte.';
+      ? `Qué hace ${h(selSvcs[0].name)} por tu proyecto.`
+      : 'Qué hace cada servicio por tu proyecto.';
 
     const casesHTML = st.showCases && insightCards.length ? `
       <section class="cases">
@@ -1076,8 +1076,8 @@
       </section>` : '';
 
     const testTitle = selSvcs.length === 1
-      ? `Experiencias reales con ${h(selSvcs[0].name)}.`
-      : 'Experiencias reales con estos servicios.';
+      ? `Lo que dicen quienes trabajaron con ${h(selSvcs[0].name)}.`
+      : 'Lo que dicen quienes ya trabajaron con nosotros.';
 
     const testData = testimonialList.length ? testimonialList : [
       { texto:'Implementamos contenido audiovisual IA con foco comercial y logramos más salida de piezas sin aumentar el costo.', autor:'Cliente Studio Aberrante', cargo:'Empresa' },
@@ -1517,7 +1517,7 @@ section{padding:70px 0}
         : 'Hola.'}
     </h1>
     <p class="hero-tagline">
-      Preparamos esta propuesta especialmente para vos.
+      Preparamos esto especialmente para ti.
     </p>
   </div>
 </section>
@@ -1535,7 +1535,7 @@ ${selSvcs.length ? `
 <section class="svc-section">
   <div class="container">
     <div class="s-label">Servicios para este proyecto</div>
-    <h2 class="s-title">Lo que hacemos<br>para vos.</h2>
+    <h2 class="s-title">Lo que hacemos<br>para este proyecto.</h2>
     <div class="svc-grid">${svcsHTML}</div>
   </div>
 </section>
@@ -1553,7 +1553,7 @@ ${testHTML ? '<div class="divider"></div>' : ''}
 <section class="cta">
   <div class="container">
     <h2 class="cta-title">¿Empezamos?</h2>
-    <p class="cta-sub">Cuéntanos más sobre tu proyecto. Respondemos en menos de 24 horas.</p>
+    <p class="cta-sub">Cuéntanos lo que necesitas. Respondemos en menos de 24 horas.</p>
     <div class="cta-actions">
       <a href="${ha(wa)}" class="btn btn-dark" target="_blank" rel="noopener">Escribir por WhatsApp</a>
       <a href="${ha(mail)}" class="btn btn-outline">Enviar email</a>
