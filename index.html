@@ -1313,9 +1313,20 @@ section{padding:70px 0}
   .nav-actions .btn:first-child{display:none}
 }
 
-/* ── SCROLL ANIMATIONS ── */
+/* ── SCROLL ANIMATIONS (solo elementos intermedios) ── */
 .fade-up{opacity:0;transform:translateY(20px);transition:opacity .65s ease,transform .65s ease}
 .fade-up.vis{opacity:1;transform:none}
+
+/* ── HERO & CTA: animación CSS pura, sin JS ── */
+.hero-greeting{animation:cssIn .7s .05s cubic-bezier(.22,.68,0,1.2) both}
+.hero-tagline{animation:cssIn .7s .18s cubic-bezier(.22,.68,0,1.2) both}
+.cta-title{animation:cssIn .6s ease both}
+.cta-sub{animation:cssIn .6s .1s ease both}
+.cta-actions{animation:cssIn .6s .2s ease both}
+@keyframes cssIn{
+  from{opacity:0;transform:translateY(18px)}
+  to{opacity:1;transform:none}
+}
 
 /* ── BACKGROUND ORBS ── */
 .bg-base{position:fixed;inset:0;z-index:-2;background:var(--bg)}
@@ -1405,12 +1416,12 @@ section{padding:70px 0}
 
 <section class="hero">
   <div class="container">
-    <h1 class="hero-greeting fade-up">
+    <h1 class="hero-greeting">
       ${client
         ? `Hola,<br><span class="name">${h(client)}.</span>`
         : 'Hola.'}
     </h1>
-    <p class="hero-tagline fade-up">
+    <p class="hero-tagline">
       Preparamos esta propuesta especialmente para vos.
     </p>
   </div>
@@ -1446,9 +1457,9 @@ ${testHTML ? '<div class="divider"></div>' : ''}
 
 <section class="cta">
   <div class="container">
-    <h2 class="cta-title fade-up">¿Empezamos?</h2>
-    <p class="cta-sub fade-up">Cuéntanos más sobre tu proyecto. Respondemos en menos de 24 horas.</p>
-    <div class="cta-actions fade-up">
+    <h2 class="cta-title">¿Empezamos?</h2>
+    <p class="cta-sub">Cuéntanos más sobre tu proyecto. Respondemos en menos de 24 horas.</p>
+    <div class="cta-actions">
       <a href="${ha(wa)}" class="btn btn-dark" target="_blank" rel="noopener">Escribir por WhatsApp</a>
       <a href="${ha(mail)}" class="btn btn-outline">Enviar email</a>
     </div>
