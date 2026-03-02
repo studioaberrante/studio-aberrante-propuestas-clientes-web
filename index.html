@@ -38,39 +38,12 @@
        BASE
     ==================================================== */
     html { font-size: 16px; }
-    html, body { -webkit-text-size-adjust: 100%; text-size-adjust: 100%; }
     body {
       font-family: 'DM Sans', system-ui, -apple-system, sans-serif;
       background: var(--bg);
       color: var(--text);
       min-height: 100vh;
       -webkit-font-smoothing: antialiased;
-      overflow-x: hidden;
-    }
-
-    .auth-overlay {
-      position: fixed; inset: 0; z-index: 9999;
-      background: rgba(245,245,247,.98);
-      display: flex; align-items: center; justify-content: center;
-      padding: 20px;
-    }
-    .auth-card {
-      width: 100%; max-width: 420px;
-      background: #fff; border: 1px solid var(--border);
-      border-radius: 16px; padding: 24px;
-      box-shadow: var(--shadow);
-    }
-    .auth-title {
-      font-family: 'DM Serif Display', serif;
-      font-size: 1.35rem; margin-bottom: 8px;
-    }
-    .auth-sub {
-      font-size: .84rem; color: var(--text-2);
-      line-height: 1.55; margin-bottom: 14px;
-    }
-    .auth-error {
-      margin-top: 8px; font-size: .78rem; color: #b42318;
-      min-height: 1.2em;
     }
 
     /* ====================================================
@@ -256,10 +229,23 @@
     /* ====================================================
        EXAMPLES MANAGER
     ==================================================== */
+    .add-form {
+      background: var(--bg); border: 1px dashed var(--border-md);
+      border-radius: var(--r); padding: 18px; margin-bottom: 14px;
+      display: none;
+    }
+    .add-form.open {
+      display: block;
+      animation: dropIn .18s ease;
+    }
     @keyframes dropIn {
       from { opacity: 0; transform: translateY(-6px); }
       to   { opacity: 1; transform: translateY(0); }
     }
+    .add-form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+    .add-form-grid .span2 { grid-column: span 2; }
+    .add-form-footer { display: flex; gap: 7px; justify-content: flex-end; margin-top: 10px; }
+
     .ex-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(175px, 1fr)); gap: 11px; }
     .ex-card {
       border-radius: var(--r); border: 1px solid var(--border);
@@ -353,17 +339,13 @@
     .svc-ex-inst-row {
       display: flex; align-items: flex-start; gap: 9px;
       font-size: .76rem; color: var(--text-2); line-height: 1.55;
-      overflow-wrap: anywhere;
-      word-break: break-word;
-      max-width: 100%;
     }
-    .svc-ex-inst-row > span:first-child { flex-shrink: 0; }
-    .svc-ex-inst-row > span:last-child { min-width: 0; flex: 1; }
+    .svc-ex-inst-row > span { flex-shrink: 0; }
     .svc-ex-inst-row strong { color: var(--text); font-weight: 600; }
     .svc-ex-inst-row code {
       font-family: ui-monospace, monospace; font-size: .68rem;
       background: rgba(0,0,0,.06); padding: 1px 5px; border-radius: 4px;
-      color: var(--text-2); word-break: break-all; white-space: normal;
+      color: var(--text-2); word-break: break-all;
     }
 
     /* Inline add form */
@@ -393,11 +375,26 @@
     @media (max-width: 680px) {
       .svc-ex-iform-fields { grid-template-columns: 1fr; }
       .svc-ex-iform-fields .f-full { grid-column: span 1; }
-      .svc-ex-inst { padding: 10px 12px; }
-      .svc-ex-inst-row { font-size: 13px; line-height: 1.35; gap: 7px; }
-      .svc-ex-inst-lbl { font-size: 11px; margin-bottom: 6px; }
-      .svc-ex-inst-rows { gap: 5px; }
-      .svc-ex-inst-row code { font-size: 10px; }
+    }
+
+    /* ====================================================
+       LINK-PER-SERVICE ROWS
+    ==================================================== */
+    .svcl-empty {
+      text-align: center; padding: 32px 20px;
+      border: 1px dashed var(--border-md); border-radius: var(--r);
+      color: var(--text-3); font-size: .82rem; line-height: 1.7;
+    }
+    .svcl-row {
+      padding: 14px 0;
+      border-bottom: 1px solid var(--border);
+    }
+    .svcl-row:last-child { border-bottom: none; padding-bottom: 0; }
+    .svcl-row:first-child { padding-top: 0; }
+    .svcl-label {
+      display: flex; align-items: center; gap: 8px;
+      font-size: .86rem; font-weight: 600; color: var(--text);
+      margin-bottom: 8px;
     }
 
     /* ====================================================
@@ -492,62 +489,22 @@
     /* ====================================================
        RESPONSIVE
     ==================================================== */
-    @media (max-width: 900px) {
-      .hdr-inner {
-        height: auto;
-        padding-top: 10px;
-        padding-bottom: 10px;
-        flex-wrap: wrap;
-        align-items: flex-start;
-      }
-      .hdr-brand { min-width: 0; }
-      .hdr-actions {
-        width: 100%;
-        display: grid;
-        grid-template-columns: repeat(2, minmax(0, 1fr));
-      }
-      .hdr-actions .btn-primary { grid-column: 1 / -1; }
-      .hdr-actions .btn { width: 100%; }
-
-      .ftr-inner {
-        height: auto;
-        padding-top: 10px;
-        padding-bottom: 10px;
-        flex-wrap: wrap;
-      }
-      .ftr-right {
-        width: 100%;
-        display: grid;
-        grid-template-columns: 1fr;
-      }
-      .ftr-right .btn { width: 100%; }
-    }
-
     @media (max-width: 680px) {
       .hdr-inner, .ftr-inner, .main { padding-left: 16px; padding-right: 16px; }
       .card { padding: 20px 16px; }
       .field-row { grid-template-columns: 1fr; }
-      .svc-grid  { grid-template-columns: 1fr; }
+      .svc-grid  { grid-template-columns: 1fr 1fr; }
+      .add-form-grid { grid-template-columns: 1fr; }
+      .add-form-grid .span2 { grid-column: span 1; }
       .ftr-stats { display: none; }
       .hdr-actions .btn-ghost { display: none; }
-      .hdr-actions { grid-template-columns: 1fr; }
-      .hdr-actions .btn-primary { grid-column: auto; }
+    }
+    @media (max-width: 400px) {
+      .svc-grid { grid-template-columns: 1fr; }
     }
   </style>
 </head>
 <body>
-  <div id="authOverlay" class="auth-overlay" aria-label="Acceso">
-    <div class="auth-card">
-      <h1 class="auth-title">Acceso interno</h1>
-      <p class="auth-sub">Ingresa la clave para crear y exportar propuestas.</p>
-      <div class="field">
-        <label class="lbl" for="authPassword">Clave</label>
-        <input id="authPassword" class="inp" type="password" autocomplete="current-password" placeholder="Ingresa la clave" />
-      </div>
-      <button id="authSubmit" class="btn btn-primary" type="button" style="width:100%;">Entrar</button>
-      <div id="authError" class="auth-error"></div>
-    </div>
-  </div>
 
   <!-- ═══════════════════════════════════
        HEADER
@@ -595,7 +552,7 @@
       <div class="field">
         <label class="lbl" for="clientMsg">Mensaje personalizado para el cliente</label>
         <textarea id="clientMsg" class="tex" rows="4" maxlength="800"
-          placeholder="Escribe el contexto de esta propuesta. Ej: 'Preparamos esta selección especialmente para ti, enfocada en contenido UGC y fotografía para tu marca…'"></textarea>
+          placeholder="Escribe el contexto de esta propuesta. Ej: 'Preparamos esta selección especialmente para vos, pensando en los servicios de UGC y fotografía que conversamos la semana pasada…'"></textarea>
         <div class="hint">Este texto aparecerá destacado al inicio de la propuesta, personalizado para este cliente.</div>
         <div class="msg-preview" id="msgPreview"></div>
       </div>
@@ -617,21 +574,15 @@
       <div class="svc-count" id="svcCount">0 servicios seleccionados</div>
     </div>
 
-    <!-- 03 › EJEMPLOS -->
+    <!-- 03 › LINKS DE EJEMPLOS -->
     <div class="card">
       <div class="card-hdr">
         <div>
           <div class="card-num">03</div>
-          <div class="card-title">Ejemplos de trabajo por servicio</div>
+          <div class="card-title">Links de ejemplos por servicio</div>
         </div>
       </div>
-      <div class="hint" style="margin-bottom:12px;">
-        Instrucciones para el equipo: primero selecciona los servicios en la sección 02, luego aquí se abrirá un panel por cada servicio para cargar ejemplos.
-      </div>
-      <div class="svc-ex-panels" id="svcExPanels"></div>
-      <div class="svc-ex-none" id="svcExNone">
-        No hay servicios seleccionados. Activa al menos un servicio en la sección 02 para poder cargar ejemplos.
-      </div>
+      <div id="svcLinks"></div>
     </div>
 
     <!-- 04 › SECCIONES OPCIONALES -->
@@ -653,7 +604,7 @@
       <div class="toggle-row">
         <div class="tr-info">
           <strong>Casos destacados</strong>
-          <span>Impacto en costos, productividad y crecimiento para empresa, marca o profesional.</span>
+          <span>Problema → Solución → Resultado en formato ejecutivo.</span>
         </div>
         <label class="sw"><input type="checkbox" id="swCases" checked /><span class="sw-track"></span></label>
       </div>
@@ -677,11 +628,11 @@
       <div class="field-row">
         <div class="field">
           <label class="lbl" for="waNum">WhatsApp (con código de país)</label>
-          <input id="waNum" class="inp" type="tel" value="56975294979" placeholder="+56975294979" />
+          <input id="waNum" class="inp" type="tel" value="56912345678" placeholder="+56912345678" />
         </div>
         <div class="field">
           <label class="lbl" for="emailAddr">Email</label>
-          <input id="emailAddr" class="inp" type="email" value="studioaberrante@gmail.com" placeholder="studioaberrante@gmail.com" />
+          <input id="emailAddr" class="inp" type="email" value="hola@studioaberrante.com" placeholder="hola@studioaberrante.com" />
         </div>
       </div>
       <div class="field" style="margin-top:10px;">
@@ -700,7 +651,7 @@
     <div class="ftr-inner">
       <div class="ftr-stats">
         <div class="ftr-stat"><strong id="ftrSvc">0</strong> servicios</div>
-        <div class="ftr-stat"><strong id="ftrEx">0</strong> ejemplos</div>
+        <div class="ftr-stat"><strong id="ftrEx">0</strong> links</div>
       </div>
       <div class="ftr-right">
         <button class="btn btn-secondary" id="btnPreview2">Vista previa</button>
@@ -737,8 +688,8 @@
     { id:'svc-podcast',     icon:'🎙', tier:'Specialty', name:'Podcast IA',                          desc:'Producción integral de podcast con locución, música y edición IA para marcas que publican constantemente.' },
     { id:'svc-fotografia',  icon:'📸', tier:'Specialty', name:'Fotografía Generada con IA',          desc:'Imágenes fotorrealistas para campañas, productos y branding sin límites de locación ni casting.' },
     { id:'svc-campania',    icon:'📣', tier:'Core',      name:'Campañas Publicitarias IA',           desc:'Estrategia y producción de campañas con activos visuales, copy y variaciones para performance.' },
-    { id:'svc-consultoria', icon:'💼', tier:'Core',      name:'Consultoría Creativa Audiovisual IA', desc:'Acompañamiento para definir formatos, narrativa y planificación de contenido audiovisual generado con IA.' },
-    { id:'svc-asesoria',    icon:'🧠', tier:'Core',      name:'Dirección Creativa de Contenido IA',  desc:'Dirección creativa enfocada en piezas audiovisuales: concepto, guion y consistencia visual de marca.' },
+    { id:'svc-consultoria', icon:'💼', tier:'Core',      name:'Consultoría para Empresas',           desc:'Acompañamiento estratégico para incorporar IA en marketing, comunicación y operaciones creativas.' },
+    { id:'svc-asesoria',    icon:'🧠', tier:'Core',      name:'Asesoría Creativa Estratégica',       desc:'Dirección creativa continua con foco comercial: ideas, narrativa y optimización de contenido.' },
     { id:'svc-ugc',         icon:'📱', tier:'Specialty', name:'UGC Videos para Ads',                 desc:'Videos estilo UGC para anuncios de conversión, escalando pruebas creativas con rapidez y eficiencia.' },
     { id:'svc-canciones',   icon:'🎵', tier:'Specialty', name:'Canciones Personalizadas',            desc:'Composición y producción musical original con IA para campañas, lanzamientos y branding sonoro.' },
     { id:'svc-visuales',    icon:'✨', tier:'Specialty', name:'Visuales para Eventos',               desc:'Contenido inmersivo para pantallas y ambientaciones que elevan la experiencia en vivo.' },
@@ -747,146 +698,26 @@
     { id:'svc-ecommerce',   icon:'🛍', tier:'Specialty', name:'Fotografía de Productos E-commerce',  desc:'Producción visual de producto con acabado profesional para tiendas online y catálogos escalables.' }
   ];
 
-  const SERVICE_INSIGHTS = {
-    'svc-audiovisual': {
-      comoAyuda: 'Acelera la producción de piezas audiovisuales para campañas, redes y lanzamientos sin depender de rodajes complejos.',
-      aplicacion: 'Ideal cuando necesitas publicar más contenido de forma consistente y con estética profesional.',
-      impacto: 'Menor costo por pieza, más frecuencia de publicación y mejor capacidad de testeo creativo.'
-    },
-    'svc-avatar': {
-      comoAyuda: 'Permite tener un rostro digital constante para comunicar ofertas, contenidos y mensajes de marca en distintos formatos.',
-      aplicacion: 'Funciona muy bien para empresas o marcas personales que necesitan presencia frecuente sin grabar todo manualmente.',
-      impacto: 'Más continuidad de comunicación y reducción del tiempo de producción de videos comerciales.'
-    },
-    'svc-clonacion': {
-      comoAyuda: 'Replica voz y estilo de comunicación para producir piezas rápidas con identidad coherente.',
-      aplicacion: 'Útil para marcas personales, vocerías de empresa y contenidos educativos con alto volumen.',
-      impacto: 'Ahorro de horas de grabación y salida más rápida de contenido relevante.'
-    },
-    'svc-cortometraje': {
-      comoAyuda: 'Convierte ideas potentes en piezas narrativas de alto impacto visual para campañas y branding.',
-      aplicacion: 'Recomendado para lanzamientos, awareness de marca y contenidos con storytelling fuerte.',
-      impacto: 'Mayor recordación de marca y percepción premium con menor costo de producción tradicional.'
-    },
-    'svc-podcast': {
-      comoAyuda: 'Facilita publicar episodios con guion, voz y edición asistida por IA de forma constante.',
-      aplicacion: 'Perfecto para educar a tu audiencia, construir autoridad y mantener presencia semanal.',
-      impacto: 'Más productividad editorial y menor fricción para sostener un canal de contenido.'
-    },
-    'svc-fotografia': {
-      comoAyuda: 'Genera imágenes de alta calidad para campañas, portadas y contenido digital sin estudio físico.',
-      aplicacion: 'Ideal para marcas que necesitan visuales frecuentes, tests creativos y variantes por público.',
-      impacto: 'Reducción de costos de producción fotográfica y mayor velocidad para lanzar campañas.'
-    },
-    'svc-campania': {
-      comoAyuda: 'Permite producir y iterar piezas visuales y audiovisuales orientadas a performance en menos tiempo.',
-      aplicacion: 'Recomendado para marcas que ejecutan pauta y necesitan renovar creatividades rápido.',
-      impacto: 'Más tests por campaña, mejor optimización y menor costo por aprendizaje creativo.'
-    },
-    'svc-consultoria': {
-      comoAyuda: 'Ordena estrategia y producción para que el contenido audiovisual IA tenga dirección y foco comercial.',
-      aplicacion: 'Útil cuando hay equipo, pero falta sistema y criterio para priorizar qué producir primero.',
-      impacto: 'Mejor toma de decisiones y mayor retorno del contenido publicado.'
-    },
-    'svc-asesoria': {
-      comoAyuda: 'Aterriza ideas en guiones y formatos concretos para publicar contenido con identidad consistente.',
-      aplicacion: 'Ideal para marcas que quieren diferenciarse visualmente y sostener una narrativa clara.',
-      impacto: 'Mayor coherencia de marca y productividad creativa sostenida.'
-    },
-    'svc-ugc': {
-      comoAyuda: 'Produce videos estilo UGC listos para anuncios y redes, enfocados en conversión y claridad de oferta.',
-      aplicacion: 'Funciona para ecommerce, servicios y marcas que venden con pauta digital.',
-      impacto: 'Mejor volumen de piezas para testeo, menor costo por creativo y mayor velocidad comercial.'
-    },
-    'svc-canciones': {
-      comoAyuda: 'Crea audio original para campañas y contenidos, reforzando identidad de marca de forma memorable.',
-      aplicacion: 'Recomendado para lanzamientos, activaciones y piezas que buscan alto recuerdo.',
-      impacto: 'Mayor diferenciación y contenido más recordable sin producción musical tradicional completa.'
-    },
-    'svc-visuales': {
-      comoAyuda: 'Diseña visuales inmersivos para eventos y escenarios con una línea estética coherente.',
-      aplicacion: 'Ideal para festivales, shows y activaciones que necesitan impacto visual continuo.',
-      impacto: 'Experiencia de marca más potente y producción visual escalable.'
-    },
-    'svc-aimodelos': {
-      comoAyuda: 'Entrega modelos IA para producir contenido comercial sin costos de casting o logística física.',
-      aplicacion: 'Útil para moda, belleza, ecommerce y catálogos con alta demanda de piezas.',
-      impacto: 'Menor costo operativo y mayor velocidad para generar variaciones de contenido.'
-    },
-    'svc-shooting': {
-      comoAyuda: 'Permite crear sesiones fotográficas en entornos virtuales sin mover equipo ni producción física.',
-      aplicacion: 'Ideal para campañas y contenido social con múltiples escenarios visuales.',
-      impacto: 'Más flexibilidad creativa y mejor eficiencia en tiempo y presupuesto.'
-    },
-    'svc-ecommerce': {
-      comoAyuda: 'Genera imágenes de producto listas para venta online con estética profesional y consistencia.',
-      aplicacion: 'Perfecto para tiendas que necesitan catálogo actualizado y contenido de producto frecuente.',
-      impacto: 'Aumento de productividad del catálogo y menor costo por imagen publicada.'
-    }
-  };
+  const CASES = [
+    { titulo:'Escalamiento de captación para firma legal',
+      problema:'Dependencia de tareas manuales y tiempos de respuesta lentos en canales de contacto.',
+      solucion:'Flujo automatizado de atención inicial, segmentación de leads y agenda inteligente.',
+      resultado:'−78% en tiempo de respuesta. Aumento sostenido de reuniones calificadas.' },
+    { titulo:'Rebranding de contenidos para consultora B2B',
+      problema:'Comunicación técnica sin consistencia visual ni narrativa diferenciadora.',
+      solucion:'Sistema de producción IA con lineamiento editorial y dirección visual unificada.',
+      resultado:'3× de interacción orgánica y mayor autoridad percibida en 6 semanas.' },
+    { titulo:'Demo de producto para startup SaaS',
+      problema:'Dificultad para explicar la propuesta de valor en reuniones de venta.',
+      solucion:'Kit de demostración con avatar IA, casos simulados y mensajes por segmento.',
+      resultado:'Ciclo comercial más corto y mejor tasa de avance a propuesta formal.' }
+  ];
 
-  const SERVICE_TESTIMONIALS = {
-    'svc-audiovisual': [
-      { texto:'Pasamos de producir una pieza por semana a tener contenido audiovisual constante sin disparar costos.', autor:'Carla M.', cargo:'Líder de Marketing · Retail' },
-      { texto:'La velocidad de entrega cambió nuestra forma de lanzar campañas. Ahora iteramos en días, no semanas.', autor:'Ignacio R.', cargo:'Director Comercial · Servicios' }
-    ],
-    'svc-avatar': [
-      { texto:'El avatar nos permitió comunicar más seguido sin depender de agendas de grabación.', autor:'Daniela V.', cargo:'Brand Manager · Educación' },
-      { texto:'Logramos mantener presencia en redes con un estilo consistente y escalable.', autor:'Felipe A.', cargo:'Fundador · Marca Personal' }
-    ],
-    'svc-clonacion': [
-      { texto:'La clonación digital nos ayudó a multiplicar contenido manteniendo la esencia de la marca.', autor:'Martina C.', cargo:'Directora de Contenido · Consultora' },
-      { texto:'Ahora producimos cápsulas rápidas sin perder tono ni identidad del vocero.', autor:'Sebastián P.', cargo:'CEO · Academia Online' }
-    ],
-    'svc-cortometraje': [
-      { texto:'El corto elevó la percepción de marca y nos dio una campaña con mucha conversación.', autor:'Camila T.', cargo:'CMO · Startup' },
-      { texto:'Con IA logramos una pieza narrativa potente con tiempos y presupuesto acotados.', autor:'Pablo G.', cargo:'Productor Ejecutivo · Agencia' }
-    ],
-    'svc-podcast': [
-      { texto:'Por fin pudimos sostener episodios semanales sin frenar la operación del equipo.', autor:'Sofía L.', cargo:'Gerente de Marca · B2B' },
-      { texto:'El podcast nos abrió un canal nuevo para educar clientes y generar confianza.', autor:'Nicolás B.', cargo:'Founder · Servicios Profesionales' }
-    ],
-    'svc-fotografia': [
-      { texto:'Reducimos costos de fotos y mejoramos la velocidad para sacar campañas visuales.', autor:'Fernanda O.', cargo:'Ecommerce Manager · Moda' },
-      { texto:'La calidad visual se mantuvo alta y pudimos crear más variantes por audiencia.', autor:'Tomás E.', cargo:'Head of Growth · DTC' }
-    ],
-    'svc-campania': [
-      { texto:'Tuvimos más creativos por campaña y eso mejoró el aprendizaje de pauta.', autor:'Valentina S.', cargo:'Performance Lead · Retail' },
-      { texto:'La capacidad de iterar rápido impactó directo en resultados comerciales.', autor:'Gonzalo M.', cargo:'Gerente de Marketing · Tech' }
-    ],
-    'svc-consultoria': [
-      { texto:'Nos ayudaron a ordenar qué producir y por qué, con foco total en negocio.', autor:'Paula D.', cargo:'Gerente General · PyME' },
-      { texto:'Pasamos de improvisar contenido a ejecutar con sistema y objetivos claros.', autor:'Javier K.', cargo:'Director Comercial · Servicios' }
-    ],
-    'svc-asesoria': [
-      { texto:'La dirección creativa nos dio coherencia de marca en todas las piezas.', autor:'Antonia H.', cargo:'Brand Strategist · Lifestyle' },
-      { texto:'Ahora sabemos qué formato usar para cada etapa del funnel.', autor:'Renato F.', cargo:'Head of Content · Startup' }
-    ],
-    'svc-ugc': [
-      { texto:'Con UGC generamos más anuncios viables y bajamos el costo por prueba creativa.', autor:'Macarena I.', cargo:'Paid Media Lead · Ecommerce' },
-      { texto:'Tener volumen de UGC cambió el rendimiento de nuestras campañas.', autor:'Diego C.', cargo:'Founder · Tienda Online' }
-    ],
-    'svc-canciones': [
-      { texto:'La canción de campaña nos dio una identidad única y fácil de recordar.', autor:'Belén N.', cargo:'Brand Manager · Consumo' },
-      { texto:'El audio original elevó muchísimo la percepción de nuestras piezas.', autor:'Cristóbal J.', cargo:'Director Creativo · Agencia' }
-    ],
-    'svc-visuales': [
-      { texto:'Los visuales transformaron el evento y mejoraron la experiencia del público.', autor:'Josefa Q.', cargo:'Productora de Eventos' },
-      { texto:'Logramos una puesta visual potente sin costos de producción tradicional.', autor:'Matías L.', cargo:'Director Artístico · Festival' }
-    ],
-    'svc-aimodelos': [
-      { texto:'Resolvimos sesiones de catálogo completas sin logística de casting.', autor:'Ignacia R.', cargo:'Ecommerce Lead · Fashion' },
-      { texto:'La variedad de perfiles nos permitió testear creatividades en menos tiempo.', autor:'Rodrigo U.', cargo:'Growth Manager · DTC' }
-    ],
-    'svc-shooting': [
-      { texto:'Obtuvimos contenido de alto nivel con escenarios distintos en una sola semana.', autor:'Trinidad S.', cargo:'Marketing Manager · Beauty' },
-      { texto:'El estudio virtual nos dio libertad creativa y mejor eficiencia de producción.', autor:'Esteban V.', cargo:'Director de Marca · Lifestyle' }
-    ],
-    'svc-ecommerce': [
-      { texto:'Aceleramos la actualización del catálogo y mejoramos la presentación de producto.', autor:'Francisca M.', cargo:'Ecommerce Manager · Retail' },
-      { texto:'Publicamos más productos en menos tiempo con visuales consistentes.', autor:'Álvaro G.', cargo:'COO · Tienda Online' }
-    ]
-  };
+  const TESTIMONIALS = [
+    { texto:'El equipo de Studio Aberrante transformó completamente nuestra comunicación. Los resultados superaron lo que esperábamos en velocidad y calidad.', autor:'María González', cargo:'Directora de Marketing · Firma Legal' },
+    { texto:'Trabajar con ellos es otra categoría. Entienden el negocio, proponen con criterio y ejecutan sin rodeos. Recomendado sin dudas.', autor:'Pablo Ramos', cargo:'CEO · Consultora B2B' },
+    { texto:'El avatar y los videos que produjeron se convirtieron en nuestro activo de ventas más efectivo. Simple, directo y de impacto real.', autor:'Laura Vidal', cargo:'Fundadora · Startup SaaS' }
+  ];
 
   /* ============================================================
      STATE
@@ -895,13 +726,12 @@
     clientName:    '',
     clientMsg:     '',
     selectedSvc:   new Set(['svc-audiovisual','svc-avatar','svc-ugc']),
-    examples:      [],
-    openExampleForms: new Set(),
+    svcLinks:      {},
     showStats:     true,
     showCases:     true,
     showTest:      true,
-    waNum:         '56975294979',
-    email:         'studioaberrante@gmail.com',
+    waNum:         '56912345678',
+    email:         'hola@studioaberrante.com',
     waMsg:         'Hola Studio Aberrante, vi la propuesta y me interesa avanzar.'
   };
 
@@ -909,21 +739,14 @@
      DOM REFS
   ============================================================ */
   const $ = id => document.getElementById(id);
-  const ACCESS_PASSWORD = 'aberrante2025';
-  const ACCESS_KEY = 'aberrante_creator_auth_ok';
   const D = {
-    authOverlay:   $('authOverlay'),
-    authPassword:  $('authPassword'),
-    authSubmit:    $('authSubmit'),
-    authError:     $('authError'),
     clientName:    $('clientName'),
     clientMsg:     $('clientMsg'),
     greetingText:  $('greetingText'),
     msgPreview:    $('msgPreview'),
     svcGrid:       $('svcGrid'),
     svcCount:      $('svcCount'),
-    svcExPanels:   $('svcExPanels'),
-    svcExNone:     $('svcExNone'),
+    svcLinks:      $('svcLinks'),
     swStats:       $('swStats'),
     swCases:       $('swCases'),
     swTest:        $('swTest'),
@@ -940,42 +763,10 @@
      INIT
   ============================================================ */
   function init() {
-    setupAccessGate();
     renderSvcGrid();
-    renderExamplesByService();
+    renderSvcLinks();
     bindEvents();
     updateFooter();
-  }
-
-  function setupAccessGate() {
-    const alreadyAuthed = sessionStorage.getItem(ACCESS_KEY) === '1';
-    if (alreadyAuthed) {
-      D.authOverlay.style.display = 'none';
-      return;
-    }
-
-    const tryAuth = () => {
-      const val = (D.authPassword.value || '').trim();
-      if (val === ACCESS_PASSWORD) {
-        sessionStorage.setItem(ACCESS_KEY, '1');
-        D.authOverlay.style.display = 'none';
-        D.authError.textContent = '';
-        return;
-      }
-      D.authError.textContent = 'Clave incorrecta.';
-      D.authPassword.focus();
-      D.authPassword.select();
-    };
-
-    D.authSubmit.addEventListener('click', tryAuth);
-    D.authPassword.addEventListener('keydown', (e) => {
-      if (e.key === 'Enter') {
-        e.preventDefault();
-        tryAuth();
-      }
-    });
-
-    setTimeout(() => D.authPassword.focus(), 50);
   }
 
   /* ============================================================
@@ -1001,119 +792,28 @@
   }
 
   /* ============================================================
-     RENDER EXAMPLES PANELS (one panel per selected service)
+     RENDER SERVICE LINKS
   ============================================================ */
-  function renderExamplesByService() {
-    const selected = SERVICES.filter(s => st.selectedSvc.has(s.id));
-    D.svcExNone.style.display = selected.length ? 'none' : 'block';
-
-    if (!selected.length) {
-      D.svcExPanels.innerHTML = '';
-      D.ftrEx.textContent = '0';
+  function renderSvcLinks() {
+    const container = $('svcLinks');
+    if (!container) return;
+    const selSvcs = SERVICES.filter(s => st.selectedSvc.has(s.id));
+    if (!selSvcs.length) {
+      container.innerHTML = `<div class="svcl-empty">Selecciona servicios en la sección 02 para agregar links de ejemplos.</div>`;
+      updateFooter();
       return;
     }
-
-    D.svcExPanels.innerHTML = selected.map(svc => {
-      const isOpen = st.openExampleForms.has(svc.id);
-      const exForSvc = st.examples.filter(ex => ex.svcId === svc.id);
-      return `
-        <div class="svc-ex-panel">
-          <div class="svc-ex-phdr">
-            <div class="svc-ex-pname">
-              <span class="pname-icon">${svc.icon}</span>
-              <span>${h(svc.name)}</span>
-            </div>
-            <button class="btn btn-secondary btn-sm" data-open-add="${ha(svc.id)}">+ Agregar ejemplo</button>
-          </div>
-          <div class="svc-ex-pbody">
-            <div class="svc-ex-inst">
-              <div class="svc-ex-inst-lbl">Instrucciones rápidas</div>
-              <div class="svc-ex-inst-rows">
-                <div class="svc-ex-inst-row"><span>1.</span><span>Selecciona el tipo: <strong>Imagen</strong> o <strong>Video</strong>.</span></div>
-                <div class="svc-ex-inst-row"><span>2.</span><span>Pega una URL válida. Videos: YouTube o Vimeo. Imágenes: URL directa <code>https://...jpg/png/webp</code>.</span></div>
-                <div class="svc-ex-inst-row"><span>3.</span><span>Si pegas enlace de Drive, intentaremos incrustar la imagen automáticamente dentro del HTML.</span></div>
-                <div class="svc-ex-inst-row"><span>4.</span><span>Completa el título y guarda. El ejemplo queda ligado a <strong>${h(svc.name)}</strong>.</span></div>
-              </div>
-            </div>
-
-            <div class="svc-ex-iform ${isOpen ? 'open' : ''}" id="iform-${ha(svc.id)}">
-              <div class="svc-ex-iform-fields">
-                <div class="field">
-                  <label class="lbl">Tipo de ejemplo</label>
-                  <select class="sel" data-field-type="${ha(svc.id)}">
-                    <option value="imagen">Imagen</option>
-                    <option value="video">Video</option>
-                  </select>
-                </div>
-                <div class="field">
-                  <label class="lbl">Título del proyecto</label>
-                  <input class="inp" type="text" maxlength="80" data-field-title="${ha(svc.id)}" placeholder="Ej: Lanzamiento campaña otoño" />
-                </div>
-                <div class="field f-full">
-                  <label class="lbl">URL</label>
-                  <input class="inp" type="url" data-field-url="${ha(svc.id)}" placeholder="https://..." />
-                  <div class="hint">Tip: para YouTube sirve <code>youtube.com/watch?v=...</code> o <code>youtu.be/...</code>. Para Vimeo <code>vimeo.com/...</code>.</div>
-                </div>
-                <div class="field f-full">
-                  <label class="lbl">Descripción corta (opcional)</label>
-                  <input class="inp" type="text" maxlength="160" data-field-desc="${ha(svc.id)}" placeholder="Qué se logró con este proyecto" />
-                </div>
-                <div class="field f-full">
-                  <label class="lbl">Miniatura manual (opcional)</label>
-                  <input class="inp" type="file" accept="image/*" data-field-thumb-file="${ha(svc.id)}" />
-                  <div class="hint">Opcional. Si no subes archivo, el sistema intentará incrustar automáticamente la imagen desde la URL.</div>
-                </div>
-              </div>
-              <div class="svc-ex-iform-footer">
-                <button class="btn btn-ghost btn-sm" data-cancel-add="${ha(svc.id)}">Cancelar</button>
-                <button class="btn btn-primary btn-sm" data-save-add="${ha(svc.id)}">Guardar ejemplo</button>
-              </div>
-            </div>
-
-            ${exForSvc.length ? `
-              <div class="svc-ex-grid">
-                ${exForSvc.map(ex => renderExampleCard(ex)).join('')}
-              </div>
-            ` : '<div class="svc-ex-empty">Aún no hay ejemplos cargados para este servicio.</div>'}
-          </div>
-        </div>
-      `;
-    }).join('');
-
-    D.ftrEx.textContent = String(countVisibleExamples());
-  }
-
-  function renderExampleCard(ex) {
-    const isVid = ex.tipo === 'video';
-    const thumb = ex.thumbData || ex.thumb || (isVid ? getThumb(ex.url) : ex.url);
-    const fallbackAttr = ex.thumbFallback ? ` data-fallback-src="${ha(ex.thumbFallback)}"` : '';
-    return `
-      <div class="ex-card">
-        <div class="ex-thumb">
-          <img src="${ha(thumb)}" alt=""${fallbackAttr}
-            onerror="if(this.dataset.fallbackSrc&&this.src!==this.dataset.fallbackSrc){this.src=this.dataset.fallbackSrc;return;}this.style.display='none';this.nextElementSibling.style.display='flex'"
-            loading="lazy" />
-          <div class="ex-thumb-placeholder" style="display:none;">${isVid ? '▶' : '🖼'}</div>
-          <span class="ex-badge">${isVid ? 'Video' : 'Imagen'}</span>
-          ${isVid ? '<div class="ex-play">▶</div>' : ''}
-        </div>
-        <div class="ex-body">
-          <div class="ex-svc">${h(getSvcName(ex.svcId))}</div>
-          <div class="ex-title">${h(ex.title)}</div>
-          <div style="display:flex;justify-content:flex-end;">
-            <button class="ex-del" data-del="${ha(ex.id)}">Quitar</button>
-          </div>
-        </div>
-      </div>`;
-  }
-
-  function getSvcName(id) {
-    const s = SERVICES.find(x => x.id === id);
-    return s ? s.name : id;
-  }
-
-  function countVisibleExamples() {
-    return st.examples.filter(ex => st.selectedSvc.has(ex.svcId)).length;
+    container.innerHTML = selSvcs.map(s => `
+      <div class="svcl-row">
+        <div class="svcl-label"><span>${s.icon}</span><span>${h(s.name)}</span></div>
+        <input class="inp svcl-inp" type="url"
+          placeholder="Link de Drive, YouTube, Behance, Instagram…"
+          value="${ha(st.svcLinks[s.id] || '')}"
+          data-svcl-id="${ha(s.id)}" />
+        <div class="hint">El cliente verá un botón "Ver ejemplos →" en la tarjeta de este servicio.</div>
+      </div>
+    `).join('');
+    updateFooter();
   }
 
   /* ============================================================
@@ -1121,7 +821,7 @@
   ============================================================ */
   function updateFooter() {
     D.ftrSvc.textContent = st.selectedSvc.size;
-    D.ftrEx.textContent  = String(countVisibleExamples());
+    D.ftrEx.textContent  = Object.values(st.svcLinks).filter(Boolean).length;
   }
 
   /* ============================================================
@@ -1150,158 +850,24 @@
       const id = card.dataset.svc;
       if (st.selectedSvc.has(id)) st.selectedSvc.delete(id);
       else st.selectedSvc.add(id);
-      if (!st.selectedSvc.has(id)) st.openExampleForms.delete(id);
-      renderSvcGrid();
-      renderExamplesByService();
-      updateFooter();
+      renderSvcGrid(); renderSvcLinks();
     });
 
     // Select all / none
     $('btnSvcAll').addEventListener('click', () => {
       SERVICES.forEach(s => st.selectedSvc.add(s.id));
-      renderSvcGrid();
-      renderExamplesByService();
-      updateFooter();
+      renderSvcGrid(); renderSvcLinks();
     });
     $('btnSvcNone').addEventListener('click', () => {
       st.selectedSvc.clear();
-      st.openExampleForms.clear();
-      renderSvcGrid();
-      renderExamplesByService();
-      updateFooter();
+      renderSvcGrid(); renderSvcLinks();
     });
 
-    // Example panels actions
-    D.svcExPanels.addEventListener('click', async e => {
-      const openBtn = e.target.closest('[data-open-add]');
-      if (openBtn) {
-        const svcId = openBtn.dataset.openAdd;
-        st.openExampleForms.add(svcId);
-        renderExamplesByService();
-        setTimeout(() => {
-          const first = D.svcExPanels.querySelector(`[data-field-url="${selEscape(svcId)}"]`);
-          if (first) first.focus();
-        }, 40);
-        return;
-      }
-
-      const cancelBtn = e.target.closest('[data-cancel-add]');
-      if (cancelBtn) {
-        const svcId = cancelBtn.dataset.cancelAdd;
-        st.openExampleForms.delete(svcId);
-        renderExamplesByService();
-        return;
-      }
-
-      const saveBtn = e.target.closest('[data-save-add]');
-      if (saveBtn) {
-        const svcId = saveBtn.dataset.saveAdd;
-        const typeEl = D.svcExPanels.querySelector(`[data-field-type="${selEscape(svcId)}"]`);
-        const urlEl = D.svcExPanels.querySelector(`[data-field-url="${selEscape(svcId)}"]`);
-        const titleEl = D.svcExPanels.querySelector(`[data-field-title="${selEscape(svcId)}"]`);
-        const descEl = D.svcExPanels.querySelector(`[data-field-desc="${selEscape(svcId)}"]`);
-        const thumbFileEl = D.svcExPanels.querySelector(`[data-field-thumb-file="${selEscape(svcId)}"]`);
-        if (!typeEl || !urlEl || !titleEl || !descEl || !thumbFileEl) return;
-
-        let tipo = typeEl.value === 'video' ? 'video' : 'imagen';
-        const rawUrl = urlEl.value.trim();
-        const url = normalizeMediaUrl(rawUrl, tipo);
-        let title = titleEl.value.trim();
-        const desc = descEl.value.trim();
-        const urlLooksVideo = !!ytId(url) || !!vmId(url);
-
-        if (!url) {
-          alert('Falta la URL del ejemplo.');
-          urlEl.focus();
-          return;
-        }
-
-        if (!title) {
-          if (urlLooksVideo) {
-            const vm = vmId(url);
-            const yt = ytId(url);
-            title = vm ? `Video Vimeo ${vm}` : (yt ? `Video YouTube ${yt}` : 'Video de referencia');
-            titleEl.value = title;
-          } else {
-            alert('Falta el título del proyecto.');
-            titleEl.focus();
-            return;
-          }
-        }
-
-        if (!isValidHttpUrl(url)) {
-          alert('La URL no es válida. Debe comenzar con http:// o https://');
-          urlEl.focus();
-          return;
-        }
-
-        // Auto-corrige tipo cuando la URL es de video (evita guardarlo como "imagen" por error humano)
-        if (urlLooksVideo && tipo !== 'video') {
-          tipo = 'video';
-          typeEl.value = 'video';
-        }
-
-        if (tipo === 'video' && !urlLooksVideo) {
-          alert('Para videos, usa un link de YouTube o Vimeo.');
-          urlEl.focus();
-          return;
-        }
-
-        if (tipo === 'imagen' && isGoogleDriveUrl(rawUrl)) {
-          alert('Tip: para que se vea la imagen de Drive, el archivo debe estar en "Cualquier persona con el enlace".');
-        }
-
-        saveBtn.disabled = true;
-        const prevText = saveBtn.textContent;
-        saveBtn.textContent = 'Guardando...';
-        try {
-          let thumb = '';
-          let thumbData = '';
-          let thumbFallback = '';
-          const manualFile = thumbFileEl.files && thumbFileEl.files[0] ? thumbFileEl.files[0] : null;
-
-          if (manualFile) {
-            thumbData = await fileToDataUrl(manualFile);
-            if (!thumbData) {
-              alert('No se pudo leer la miniatura manual. Intenta con otra imagen (JPG/PNG/WebP).');
-              return;
-            }
-            thumb = thumbData || '';
-          }
-
-          if (tipo === 'imagen') {
-            if (!thumbData) {
-              const imageAsset = await resolveImageAsset(rawUrl, url);
-              thumb = imageAsset.thumb;
-              thumbData = imageAsset.thumbData;
-              thumbFallback = imageAsset.thumbFallback;
-            } else {
-              thumb = thumb || url;
-            }
-          } else {
-            if (!thumbData) {
-              const videoAsset = await resolveVideoAsset(url);
-              thumb = videoAsset.thumb;
-              thumbData = videoAsset.thumbData;
-            }
-          }
-
-          st.examples.unshift({ id: uid(), tipo, url, title, svcId, desc, thumb, thumbData, thumbFallback });
-          st.openExampleForms.delete(svcId);
-          renderExamplesByService();
-          updateFooter();
-          alert('Ejemplo guardado correctamente.');
-        } finally {
-          saveBtn.textContent = prevText;
-          saveBtn.disabled = false;
-        }
-        return;
-      }
-
-      const btn = e.target.closest('[data-del]');
-      if (!btn) return;
-      st.examples = st.examples.filter(x => x.id !== btn.dataset.del);
-      renderExamplesByService();
+    // Service link inputs (delegated — survives re-renders)
+    D.svcLinks.addEventListener('input', e => {
+      const inp = e.target.closest('.svcl-inp');
+      if (!inp) return;
+      st.svcLinks[inp.dataset.svclId] = inp.value.trim();
       updateFooter();
     });
 
@@ -1330,14 +896,11 @@
       if (!confirm('¿Limpiar todos los datos de la propuesta?')) return;
       st.clientName = ''; st.clientMsg = '';
       st.selectedSvc = new Set(['svc-audiovisual','svc-avatar','svc-ugc']);
-      st.openExampleForms.clear();
-      st.examples = [];
+      st.svcLinks = {};
       D.clientName.value = ''; D.clientMsg.value = '';
       D.greetingText.textContent = 'Hola.';
       D.msgPreview.classList.remove('visible');
-      renderSvcGrid();
-      renderExamplesByService();
-      updateFooter();
+      renderSvcGrid(); renderSvcLinks();
     });
   }
 
@@ -1381,104 +944,59 @@
   function buildClientHTML() {
     const client    = st.clientName || '';
     const msg       = st.clientMsg  || '';
-    const exampleSvcIds = new Set(st.examples.map(ex => ex.svcId));
-    const selSvcs   = SERVICES.filter(s => st.selectedSvc.has(s.id) || exampleSvcIds.has(s.id));
-    const insightCards = selSvcs.map(s => ({
-      id: s.id,
-      titulo: s.name,
-      comoAyuda: (SERVICE_INSIGHTS[s.id] && SERVICE_INSIGHTS[s.id].comoAyuda) || 'Este servicio te ayuda a producir contenido audiovisual con IA de forma más rápida y eficiente.',
-      aplicacion: (SERVICE_INSIGHTS[s.id] && SERVICE_INSIGHTS[s.id].aplicacion) || 'Se adapta a distintos objetivos de marca, campañas y comunicación comercial.',
-      impacto: (SERVICE_INSIGHTS[s.id] && SERVICE_INSIGHTS[s.id].impacto) || 'Mayor productividad creativa y mejor uso del presupuesto de contenido.'
-    }));
-    const testimonialList = dedupeTestimonials(
-      selSvcs.flatMap(s => (SERVICE_TESTIMONIALS[s.id] || []).map(t => ({ ...t, serviceId: s.id, serviceName: s.name })))
-    );
+    const selSvcs   = SERVICES.filter(s => st.selectedSvc.has(s.id));
     const wa        = `https://wa.me/${st.waNum.replace(/\D/g,'')}?text=${encodeURIComponent(st.waMsg)}`;
     const mail      = `mailto:${st.email}`;
     const title     = client ? `Propuesta para ${client} · Studio Aberrante` : 'Propuesta · Studio Aberrante';
-    const brandLogo = 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAucAAAD/CAYAAABSHXgXAAAACXBIWXMAAC4jAAAuIwF4pT92AAALRWlUWHRYTUw6Y29tLmFkb2JlLnhtcAAAAAAAPD94cGFja2V0IGJlZ2luPSLvu78iIGlkPSJXNU0wTXBDZWhpSHpyZVN6TlRjemtjOWQiPz4gPHg6eG1wbWV0YSB4bWxuczp4PSJhZG9iZTpuczptZXRhLyIgeDp4bXB0az0iQWRvYmUgWE1QIENvcmUgOS4xLWMwMDMgNzkuOTY5MGE4N2ZjLCAyMDI1LzAzLzA2LTIwOjUwOjE2ICAgICAgICAiPiA8cmRmOlJERiB4bWxuczpyZGY9Imh0dHA6Ly93d3cudzMub3JnLzE5OTkvMDIvMjItcmRmLXN5bnRheC1ucyMiPiA8cmRmOkRlc2NyaXB0aW9uIHJkZjphYm91dD0iIiB4bWxuczp4bXA9Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC8iIHhtbG5zOmRjPSJodHRwOi8vcHVybC5vcmcvZGMvZWxlbWVudHMvMS4xLyIgeG1sbnM6cGhvdG9zaG9wPSJodHRwOi8vbnMuYWRvYmUuY29tL3Bob3Rvc2hvcC8xLjAvIiB4bWxuczp4bXBNTT0iaHR0cDovL25zLmFkb2JlLmNvbS94YXAvMS4wL21tLyIgeG1sbnM6c3RFdnQ9Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC9zVHlwZS9SZXNvdXJjZUV2ZW50IyIgeG1sbnM6c3RSZWY9Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC9zVHlwZS9SZXNvdXJjZVJlZiMiIHhtbG5zOnRpZmY9Imh0dHA6Ly9ucy5hZG9iZS5jb20vdGlmZi8xLjAvIiB4bWxuczpleGlmPSJodHRwOi8vbnMuYWRvYmUuY29tL2V4aWYvMS4wLyIgeG1wOkNyZWF0b3JUb29sPSJBZG9iZSBQaG90b3Nob3AgMjYuMTEgKE1hY2ludG9zaCkiIHhtcDpDcmVhdGVEYXRlPSIyMDI2LTAxLTI2VDA1OjQ4OjAwLTAzOjAwIiB4bXA6TW9kaWZ5RGF0ZT0iMjAyNi0wMy0wMVQwNDozMjo0MS0wMzowMCIgeG1wOk1ldGFkYXRhRGF0ZT0iMjAyNi0wMy0wMVQwNDozMjo0MS0wMzowMCIgZGM6Zm9ybWF0PSJpbWFnZS9wbmciIHBob3Rvc2hvcDpDb2xvck1vZGU9IjMiIHhtcE1NOkluc3RhbmNlSUQ9InhtcC5paWQ6MDViY2I0YjgtNjE2Ny00ZGRiLTgwZWYtYzI0MmU2MTFiYTk5IiB4bXBNTTpEb2N1bWVudElEPSJhZG9iZTpkb2NpZDpwaG90b3Nob3A6NDA0ZjI1M2ItZmNkZS1lMDRmLThhNTgtMTc0MmYwMDE1YjFjIiB4bXBNTTpPcmlnaW5hbERvY3VtZW50SUQ9InhtcC5kaWQ6YTRkNmU3MzctYjNhMi00Zjc5LWEyOTYtYTNlNThhMzY4Yzg3IiB0aWZmOk9yaWVudGF0aW9uPSIxIiB0aWZmOlhSZXNvbHV0aW9uPSIzMDAwMDAwLzEwMDAwIiB0aWZmOllSZXNvbHV0aW9uPSIzMDAwMDAwLzEwMDAwIiB0aWZmOlJlc29sdXRpb25Vbml0PSIyIiBleGlmOkNvbG9yU3BhY2U9IjEiIGV4aWY6UGl4ZWxYRGltZW5zaW9uPSIzMDAwIiBleGlmOlBpeGVsWURpbWVuc2lvbj0iNDAwMCI+IDx4bXBNTTpIaXN0b3J5PiA8cmRmOlNlcT4gPHJkZjpsaSBzdEV2dDphY3Rpb249ImNyZWF0ZWQiIHN0RXZ0Omluc3RhbmNlSUQ9InhtcC5paWQ6YTRkNmU3MzctYjNhMi00Zjc5LWEyOTYtYTNlNThhMzY4Yzg3IiBzdEV2dDp3aGVuPSIyMDI2LTAxLTI2VDA1OjQ4OjAwLTAzOjAwIiBzdEV2dDpzb2Z0d2FyZUFnZW50PSJBZG9iZSBQaG90b3Nob3AgMjYuMTEgKE1hY2ludG9zaCkiLz4gPHJkZjpsaSBzdEV2dDphY3Rpb249InNhdmVkIiBzdEV2dDppbnN0YW5jZUlEPSJ4bXAuaWlkOmJhN2JlMTM2LTM3OTItNDkyMS1hOTI5LTI0YzgzODdmZGNlOCIgc3RFdnQ6d2hlbj0iMjAyNi0wMS0yOFQxNjowODo0MS0wMzowMCIgc3RFdnQ6c29mdHdhcmVBZ2VudD0iQWRvYmUgUGhvdG9zaG9wIDI2LjExIChNYWNpbnRvc2gpIiBzdEV2dDpjaGFuZ2VkPSIvIi8+IDxyZGY6bGkgc3RFdnQ6YWN0aW9uPSJzYXZlZCIgc3RFdnQ6aW5zdGFuY2VJRD0ieG1wLmlpZDoxYjEzYmE1MC0wMWI2LTQ4YjQtYjU4Yi02MWNjODQ4MDgzNDYiIHN0RXZ0OndoZW49IjIwMjYtMDEtMjlUMjE6Mjk6MTQtMDM6MDAiIHN0RXZ0OnNvZnR3YXJlQWdlbnQ9IkFkb2JlIFBob3Rvc2hvcCAyNy4yIChNYWNpbnRvc2gpIiBzdEV2dDpjaGFuZ2VkPSIvIi8+IDxyZGY6bGkgc3RFdnQ6YWN0aW9uPSJjb252ZXJ0ZWQiIHN0RXZ0OnBhcmFtZXRlcnM9ImZyb20gYXBwbGljYXRpb24vdm5kLmFkb2JlLnBob3Rvc2hvcCB0byBpbWFnZS9wbmciLz4gPHJkZjpsaSBzdEV2dDphY3Rpb249ImRlcml2ZWQiIHN0RXZ0OnBhcmFtZXRlcnM9ImNvbnZlcnRlZCBmcm9tIGFwcGxpY2F0aW9uL3ZuZC5hZG9iZS5waG90b3Nob3AgdG8gaW1hZ2UvcG5nIi8+IDxyZGY6bGkgc3RFdnQ6YWN0aW9uPSJzYXZlZCIgc3RFdnQ6aW5zdGFuY2VJRD0ieG1wLmlpZDoyODlhMjkyYS01ZmQ2LTQxMDAtYWE1ZC0xMjYyNWE0YjkyYzAiIHN0RXZ0OndoZW49IjIwMjYtMDEtMjlUMjE6Mjk6MTQtMDM6MDAiIHN0RXZ0OnNvZnR3YXJlQWdlbnQ9IkFkb2JlIFBob3Rvc2hvcCAyNy4yIChNYWNpbnRvc2gpIiBzdEV2dDpjaGFuZ2VkPSIvIi8+IDxyZGY6bGkgc3RFdnQ6YWN0aW9uPSJzYXZlZCIgc3RFdnQ6aW5zdGFuY2VJRD0ieG1wLmlpZDowNWJjYjRiOC02MTY3LTRkZGItODBlZi1jMjQyZTYxMWJhOTkiIHN0RXZ0OndoZW49IjIwMjYtMDMtMDFUMDQ6MzI6NDEtMDM6MDAiIHN0RXZ0OnNvZnR3YXJlQWdlbnQ9IkFkb2JlIFBob3Rvc2hvcCAyNi4xMSAoTWFjaW50b3NoKSIgc3RFdnQ6Y2hhbmdlZD0iLyIvPiA8L3JkZjpTZXE+IDwveG1wTU06SGlzdG9yeT4gPHhtcE1NOkRlcml2ZWRGcm9tIHN0UmVmOmluc3RhbmNlSUQ9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';
 
-    const svcsHTML = selSvcs.map(s => `
+    const svcsHTML = selSvcs.map(s => {
+      const link = st.svcLinks[s.id] || '';
+      return `
       <div class="sc">
         <div class="sc-icon">${s.icon}</div>
         <div class="sc-tier">${s.tier}</div>
         <div class="sc-name">${h(s.name)}</div>
         <p class="sc-desc">${h(s.desc)}</p>
-      </div>`).join('');
-
-    const visibleExamples = st.examples;
-    const examplesHTML = visibleExamples.length ? visibleExamples.map(ex => {
-      const isVid = ex.tipo === 'video';
-      const thumb = ex.thumbData || ex.thumb || (isVid ? getThumb(ex.url) : ex.url);
-      const svcName = getSvcName(ex.svcId);
-      const vimeoAttr = isVid && vmId(ex.url) ? ` data-vimeo-url="${ha(ex.url)}"` : '';
-      const fallbackAttr = ex.thumbFallback ? ` data-fallback-src="${ha(ex.thumbFallback)}"` : '';
-      return `
-        <div class="ec">
-          <a class="ec-media" href="${ha(ex.url)}" target="_blank" rel="noopener">
-            <img src="${ha(thumb)}" alt="" loading="lazy"${vimeoAttr}${fallbackAttr}
-              onerror="if(this.dataset.fallbackSrc&&this.src!==this.dataset.fallbackSrc){this.src=this.dataset.fallbackSrc;return;}this.style.display='none';this.parentElement.querySelector('.ec-ph').style.display='flex'" />
-            <div class="ec-ph" style="display:none;">${isVid ? '▶' : '🖼'}</div>
-            <span class="ec-badge">${isVid ? 'Video' : 'Imagen'}</span>
-            ${isVid ? '<div class="ec-play">▶</div>' : ''}
-          </a>
-          <div class="ec-body">
-            <div class="ec-svc">${h(svcName)}</div>
-            <div class="ec-title">${h(ex.title)}</div>
-            ${ex.desc ? `<p class="ec-desc">${h(ex.desc)}</p>` : ''}
-          </div>
-        </div>`;
-    }).join('') : '';
+        ${link ? `<a href="${ha(link)}" class="sc-link" target="_blank" rel="noopener">Ver ejemplos →</a>` : ''}
+      </div>`;
+    }).join('');
 
     const statsHTML = st.showStats ? `
       <section class="stats">
         <div class="container">
           <div class="stats-grid">
-            <div class="stat-c"><div class="stat-num">+40</div><div class="stat-lbl">Producciones audiovisuales generadas con IA ejecutadas</div></div>
+            <div class="stat-c"><div class="stat-num">+40</div><div class="stat-lbl">Implementaciones creativas y de automatización IA ejecutadas</div></div>
             <div class="stat-c"><div class="stat-num">3×</div><div class="stat-lbl">Aceleración promedio en producción de contenidos</div></div>
             <div class="stat-c"><div class="stat-num">100%</div><div class="stat-lbl">Proyectos con dirección estética premium y foco comercial</div></div>
           </div>
         </div>
       </section>` : '';
 
-    const casesTitle = selSvcs.length === 1
-      ? `Cómo ${h(selSvcs[0].name)} puede ayudarte.`
-      : 'Cómo estos servicios pueden ayudarte.';
-
-    const casesHTML = st.showCases && insightCards.length ? `
+    const casesHTML = st.showCases ? `
       <section class="cases">
         <div class="container">
-          <div class="s-label">Impacto por servicio seleccionado</div>
-          <h2 class="s-title">${casesTitle}</h2>
+          <div class="s-label">Casos destacados</div>
+          <h2 class="s-title">Resultados que hablan.</h2>
           <div class="cases-grid">
-            ${insightCards.map((c, i) => `
+            ${CASES.map((c, i) => `
               <div class="case-c">
                 <div class="case-num">0${i+1}</div>
                 <div class="case-title">${h(c.titulo)}</div>
-                <div class="case-row"><div class="case-lbl">Cómo te ayuda</div><div class="case-val">${h(c.comoAyuda)}</div></div>
-                <div class="case-row"><div class="case-lbl">Aplicación ideal</div><div class="case-val">${h(c.aplicacion)}</div></div>
-                <div class="case-row"><div class="case-lbl">Impacto esperado</div><div class="case-val">${h(c.impacto)}</div></div>
+                <div class="case-row"><div class="case-lbl">Problema</div><div class="case-val">${h(c.problema)}</div></div>
+                <div class="case-row"><div class="case-lbl">Solución</div><div class="case-val">${h(c.solucion)}</div></div>
+                <div class="case-row"><div class="case-lbl">Resultado</div><div class="case-val">${h(c.resultado)}</div></div>
               </div>`).join('')}
           </div>
         </div>
       </section>` : '';
 
-    const testTitle = selSvcs.length === 1
-      ? `Experiencias reales con ${h(selSvcs[0].name)}.`
-      : 'Experiencias reales según los servicios seleccionados.';
-    const testData = (testimonialList.length ? testimonialList : [
-      { texto:'Implementamos contenido audiovisual IA con foco comercial y logramos más salida de piezas sin aumentar el costo de producción.', autor:'Cliente Studio Aberrante', cargo:'Empresa' },
-      { texto:'La propuesta nos ayudó a publicar con más frecuencia y mantener una línea visual consistente en canales digitales.', autor:'Cliente Studio Aberrante', cargo:'Marca' },
-      { texto:'Pudimos acelerar producción creativa y responder más rápido a oportunidades de campaña.', autor:'Cliente Studio Aberrante', cargo:'Equipo de Marketing' }
-    ]).slice(0, 6);
-
     const testHTML = st.showTest ? `
       <section class="testimonials">
         <div class="container">
-          <div class="s-label">Testimonios por servicio</div>
-          <h2 class="s-title">${testTitle}</h2>
+          <div class="s-label">Testimonios</div>
+          <h2 class="s-title">Lo que dicen.</h2>
           <div class="test-grid">
-            ${testData.map(t => `
+            ${TESTIMONIALS.map(t => `
               <div class="test-c">
                 <div class="test-q">"</div>
                 <p class="test-text">${h(t.texto)}</p>
@@ -1542,10 +1060,6 @@ body{
   background:#111;display:grid;place-items:center;
   font-size:.76rem;font-weight:800;color:#fff;
   flex-shrink:0;
-}
-.nav-logo{
-  height:28px;width:auto;display:block;
-  object-fit:contain;
 }
 .nav-name{font-size:.86rem;font-weight:700}
 .nav-actions{display:flex;gap:8px}
@@ -1648,6 +1162,15 @@ section{padding:70px 0}
   line-height:1.2;
 }
 .sc-desc{font-size:.82rem;color:var(--t2);line-height:1.65}
+.sc-link{
+  display:inline-flex;align-items:center;gap:6px;
+  margin-top:16px;padding:8px 16px;
+  border-radius:var(--r);font:600 .78rem/1 'DM Sans',sans-serif;
+  background:transparent;color:var(--text);
+  border:1.5px solid rgba(0,0,0,.15);text-decoration:none;
+  transition:border-color .2s,background .2s;
+}
+.sc-link:hover{border-color:var(--text);background:rgba(0,0,0,.04)}
 
 /* ── EXAMPLES ── */
 .ex-section{padding:0 0 70px}
@@ -1777,9 +1300,6 @@ section{padding:70px 0}
   flex-wrap:wrap;
 }
 .footer-text{font-size:.76rem;color:var(--t3)}
-.footer-logo{
-  height:22px;width:auto;display:block;object-fit:contain;
-}
 
 /* ── RESPONSIVE ── */
 @media(max-width:900px){
@@ -1791,14 +1311,11 @@ section{padding:70px 0}
   .svc-grid,.ex-grid{grid-template-columns:1fr}
   .hero{padding:60px 0 40px}
   .nav-actions .btn:first-child{display:none}
-  .nav-logo{height:24px}
-  .footer-logo{height:20px}
 }
 
 /* ── SCROLL ANIMATIONS ── */
-.fade-up{opacity:1;transform:none}
-.js .fade-up{opacity:0;transform:translateY(20px);transition:opacity .65s ease,transform .65s ease}
-.js .fade-up.vis{opacity:1;transform:none}
+.fade-up{opacity:0;transform:translateY(20px);transition:opacity .65s ease,transform .65s ease}
+.fade-up.vis{opacity:1;transform:none}
 
 /* ── BACKGROUND ORBS ── */
 .bg-base{position:fixed;inset:0;z-index:-2;background:var(--bg)}
@@ -1876,7 +1393,8 @@ section{padding:70px 0}
 <nav class="nav">
   <div class="container nav-inner">
     <div class="nav-brand">
-      <img class="nav-logo" src="${ha(brandLogo)}" alt="Studio Aberrante" loading="eager" />
+      <div class="nav-mark">SA</div>
+      <div class="nav-name">Studio Aberrante</div>
     </div>
     <div class="nav-actions">
       <a href="${ha(mail)}" class="btn btn-outline btn-sm">Email</a>
@@ -1893,7 +1411,7 @@ section{padding:70px 0}
         : 'Hola.'}
     </h1>
     <p class="hero-tagline fade-up">
-      Diseñamos esta propuesta especialmente para ti.
+      Preparamos esta propuesta especialmente para vos.
     </p>
   </div>
 </section>
@@ -1911,19 +1429,8 @@ ${selSvcs.length ? `
 <section class="svc-section">
   <div class="container">
     <div class="s-label">Servicios para este proyecto</div>
-    <h2 class="s-title">Lo que creamos<br>para ti.</h2>
+    <h2 class="s-title">Lo que hacemos<br>para vos.</h2>
     <div class="svc-grid">${svcsHTML}</div>
-  </div>
-</section>
-<div class="divider"></div>
-` : ''}
-
-    ${visibleExamples.length ? `
-<section class="ex-section" style="padding-top:70px;">
-  <div class="container">
-    <div class="s-label">Trabajo seleccionado</div>
-    <h2 class="s-title">Ejemplos de lo<br>que creamos.</h2>
-    <div class="ex-grid">${examplesHTML}</div>
   </div>
 </section>
 <div class="divider"></div>
@@ -1950,33 +1457,12 @@ ${testHTML ? '<div class="divider"></div>' : ''}
 
 <footer class="footer">
   <div class="container footer-inner">
-    <img class="footer-logo" src="${ha(brandLogo)}" alt="Studio Aberrante" loading="lazy" />
+    <span class="footer-text">Studio Aberrante · ${new Date().getFullYear()}</span>
     <span class="footer-text">Propuesta personalizada${client ? ` para ${h(client)}` : ''}</span>
   </div>
 </footer>
 
 <script>
-document.documentElement.classList.add('js');
-// Vimeo thumbs fallback: if an image fails or comes without poster, try oEmbed thumbnail
-async function hydrateVimeoThumbs(){
-  const imgs = document.querySelectorAll('img[data-vimeo-url]');
-  for (const img of imgs) {
-    const url = img.getAttribute('data-vimeo-url');
-    if (!url) continue;
-    try {
-      const ep = 'https://vimeo.com/api/oembed.json?url=' + encodeURIComponent(url);
-      const res = await fetch(ep, { mode: 'cors' });
-      if (!res.ok) continue;
-      const data = await res.json();
-      if (data && data.thumbnail_url) {
-        img.src = data.thumbnail_url;
-        img.style.display = 'block';
-      }
-    } catch {}
-  }
-}
-hydrateVimeoThumbs();
-
 // Scroll fade-in
 const io = new IntersectionObserver(entries => {
   entries.forEach(e => { if(e.isIntersecting){e.target.classList.add('vis');io.unobserve(e.target);} });
@@ -1999,116 +1485,6 @@ window.addEventListener('scroll', () => {
   /* ============================================================
      UTILS
   ============================================================ */
-  async function resolveVideoAsset(url) {
-    const yt = ytId(url);
-    if (yt) {
-      const thumb = `https://img.youtube.com/vi/${yt}/hqdefault.jpg`;
-      const thumbData = await fetchImageAsDataUrl(thumb);
-      return { thumb, thumbData };
-    }
-
-    let thumb = '';
-    if (vmId(url)) {
-      const vimeoThumb = await fetchVimeoOEmbedThumb(url);
-      if (vimeoThumb) thumb = vimeoThumb;
-    }
-
-    if (!thumb) thumb = getThumb(url);
-    const thumbData = await fetchImageAsDataUrl(thumb);
-    return { thumb, thumbData };
-  }
-
-  async function resolveImageAsset(rawUrl, normalizedUrl) {
-    const candidates = imageCandidates(rawUrl, normalizedUrl);
-    for (const candidate of candidates) {
-      const data = await fetchImageAsDataUrl(candidate);
-      if (data) {
-        return {
-          thumb: candidate,
-          thumbData: data,
-          thumbFallback: buildImageFallback(rawUrl, normalizedUrl)
-        };
-      }
-    }
-    return {
-      thumb: normalizedUrl || rawUrl,
-      thumbData: '',
-      thumbFallback: buildImageFallback(rawUrl, normalizedUrl)
-    };
-  }
-
-  function imageCandidates(rawUrl, normalizedUrl) {
-    const list = [];
-    const push = (u) => { if (u && !list.includes(u)) list.push(u); };
-    const driveId = parseDriveFileId(rawUrl);
-
-    push(normalizedUrl);
-    push(rawUrl);
-
-    if (driveId) {
-      const direct = `https://drive.google.com/uc?export=view&id=${encodeURIComponent(driveId)}`;
-      const alt = `https://drive.google.com/thumbnail?id=${encodeURIComponent(driveId)}&sz=w1600`;
-      const gusercontent = `https://lh3.googleusercontent.com/d/${encodeURIComponent(driveId)}=w1600`;
-      const proxyDirect = `https://images.weserv.nl/?url=${encodeURIComponent(direct)}&w=1600&output=jpg`;
-      const proxyAlt = `https://images.weserv.nl/?url=${encodeURIComponent(alt)}&w=1600&output=jpg`;
-      push(direct);
-      push(alt);
-      push(gusercontent);
-      push(proxyDirect);
-      push(proxyAlt);
-    }
-
-    return list;
-  }
-
-  function buildImageFallback(rawUrl, normalizedUrl) {
-    const driveId = parseDriveFileId(rawUrl);
-    if (!driveId) return '';
-    return `https://drive.google.com/thumbnail?id=${encodeURIComponent(driveId)}&sz=w1600`;
-  }
-
-  async function fetchVimeoOEmbedThumb(url) {
-    try {
-      const endpoint = `https://vimeo.com/api/oembed.json?url=${encodeURIComponent(url)}`;
-      const res = await fetch(endpoint, { mode: 'cors' });
-      if (!res.ok) return '';
-      const data = await res.json();
-      return (data && typeof data.thumbnail_url === 'string') ? data.thumbnail_url : '';
-    } catch {
-      return '';
-    }
-  }
-
-  async function fetchImageAsDataUrl(url) {
-    try {
-      const res = await fetch(url, { mode: 'cors' });
-      if (!res.ok) return '';
-      const blob = await res.blob();
-      if (!blob || !blob.type || !blob.type.startsWith('image/')) return '';
-      return await blobToDataUrl(blob);
-    } catch {
-      return '';
-    }
-  }
-
-  function fileToDataUrl(file) {
-    return new Promise((resolve) => {
-      const reader = new FileReader();
-      reader.onloadend = () => resolve(typeof reader.result === 'string' ? reader.result : '');
-      reader.onerror = () => resolve('');
-      reader.readAsDataURL(file);
-    });
-  }
-
-  function blobToDataUrl(blob) {
-    return new Promise((resolve) => {
-      const reader = new FileReader();
-      reader.onloadend = () => resolve(typeof reader.result === 'string' ? reader.result : '');
-      reader.onerror = () => resolve('');
-      reader.readAsDataURL(blob);
-    });
-  }
-
   function getThumb(url) {
     const yt = ytId(url); if (yt) return `https://img.youtube.com/vi/${yt}/hqdefault.jpg`;
     const vm = vmId(url); if (vm) return `https://vumbnail.com/${vm}.jpg`;
@@ -2131,55 +1507,9 @@ window.addEventListener('scroll', () => {
       const u = new URL(url);
       if (!u.hostname.includes('vimeo.com')) return null;
       const parts = u.pathname.split('/').filter(Boolean);
-      const numeric = parts.reverse().find(p => /^\d+$/.test(p));
-      return numeric || null;
+      return parts.length ? parts[parts.length-1] : null;
     } catch {}
     return null;
-  }
-  function parseDriveFileId(url) {
-    try {
-      const u = new URL(url);
-      if (!u.hostname.includes('drive.google.com')) return null;
-      const byQuery = u.searchParams.get('id');
-      if (byQuery) return byQuery;
-      const m = u.pathname.match(/\/file\/d\/([^/]+)/);
-      return m ? m[1] : null;
-    } catch {
-      return null;
-    }
-  }
-  function isGoogleDriveUrl(url) {
-    try {
-      const u = new URL(url);
-      return u.hostname.includes('drive.google.com');
-    } catch {
-      return false;
-    }
-  }
-  function driveFileToImageUrl(url) {
-    const id = parseDriveFileId(url);
-    if (!id) return url;
-    // URL principal para imagen pública de Drive
-    return `https://drive.google.com/uc?export=view&id=${encodeURIComponent(id)}`;
-  }
-  function driveFileToAltImageUrl(url) {
-    const id = parseDriveFileId(url);
-    if (!id) return '';
-    // URL alternativa de miniatura si la principal falla en algunos visores
-    return `https://drive.google.com/thumbnail?id=${encodeURIComponent(id)}&sz=w1600`;
-  }
-  function normalizeMediaUrl(url, tipo) {
-    if (tipo !== 'imagen') return url;
-    if (isGoogleDriveUrl(url)) return driveFileToImageUrl(url);
-    return url;
-  }
-  function isValidHttpUrl(url) {
-    try {
-      const u = new URL(url);
-      return u.protocol === 'http:' || u.protocol === 'https:';
-    } catch {
-      return false;
-    }
   }
   function uid() {
     return (typeof crypto !== 'undefined' && crypto.randomUUID)
@@ -2196,26 +1526,11 @@ window.addEventListener('scroll', () => {
     return s.replace(/&/g,'&amp;').replace(/"/g,'&quot;')
             .replace(/'/g,'&#039;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
   }
-  function selEscape(s) {
-    if (typeof CSS !== 'undefined' && CSS.escape) return CSS.escape(s);
-    return String(s).replace(/"/g, '\\"');
-  }
   function slugify(s) {
     return s.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g,'')
             .replace(/[^a-z0-9]+/g,'-').replace(/^-|-$/g,'').slice(0,40);
   }
   function dateStr() { return new Date().toISOString().slice(0,10); }
-  function dedupeTestimonials(list) {
-    const out = [];
-    const seen = new Set();
-    list.forEach(item => {
-      const key = `${(item.texto || '').trim()}|${(item.autor || '').trim()}`;
-      if (!key || seen.has(key)) return;
-      seen.add(key);
-      out.push(item);
-    });
-    return out;
-  }
 
   /* ============================================================
      START
