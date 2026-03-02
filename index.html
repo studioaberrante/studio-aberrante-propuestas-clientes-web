@@ -1468,6 +1468,13 @@ const io = new IntersectionObserver(entries => {
   entries.forEach(e => { if(e.isIntersecting){e.target.classList.add('vis');io.unobserve(e.target);} });
 },{threshold:.1});
 document.querySelectorAll('.fade-up').forEach(el => io.observe(el));
+// Fallback: make already-visible elements appear immediately
+requestAnimationFrame(() => {
+  document.querySelectorAll('.fade-up').forEach(el => {
+    const r = el.getBoundingClientRect();
+    if (r.top < window.innerHeight) el.classList.add('vis');
+  });
+});
 // Orb parallax
 const orbs = document.querySelectorAll('.orb');
 window.addEventListener('scroll', () => {
