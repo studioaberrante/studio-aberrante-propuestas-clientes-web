@@ -1468,11 +1468,16 @@ const io = new IntersectionObserver(entries => {
   entries.forEach(e => { if(e.isIntersecting){e.target.classList.add('vis');io.unobserve(e.target);} });
 },{threshold:.1});
 document.querySelectorAll('.fade-up').forEach(el => io.observe(el));
-// Fallback: make already-visible elements appear immediately
-requestAnimationFrame(() => {
+// Double rAF: ensures layout is fully calculated before checking positions
+requestAnimationFrame(() => requestAnimationFrame(() => {
   document.querySelectorAll('.fade-up').forEach(el => {
-    const r = el.getBoundingClientRect();
-    if (r.top < window.innerHeight) el.classList.add('vis');
+    if (el.getBoundingClientRect().top < window.innerHeight) el.classList.add('vis');
+  });
+}));
+// Safety net: catch anything still invisible after full page load
+window.addEventListener('load', () => {
+  document.querySelectorAll('.fade-up:not(.vis)').forEach(el => {
+    if (el.getBoundingClientRect().top < window.innerHeight) el.classList.add('vis');
   });
 });
 // Orb parallax
