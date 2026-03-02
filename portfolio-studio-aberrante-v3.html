@@ -102,13 +102,7 @@
     }
     .btn-ghost:hover { background: rgba(0,0,0,.06); color: var(--text); }
 
-    .btn-outline {
-      background: transparent; color: var(--text);
-      border: 1.5px solid var(--border);
-    }
-    .btn-outline:hover { border-color: var(--text); box-shadow: var(--shadow-sm); }
-
-    .btn-sm   { padding: 8px 14px; font-size: .78rem; }
+.btn-sm   { padding: 8px 14px; font-size: .78rem; }
     .btn-icon { width: 32px; height: 32px; padding: 0; border-radius: 8px; font-size: .88rem; }
 
     /* ====================================================
@@ -527,8 +521,7 @@
       <div class="hdr-actions">
         <button class="btn btn-ghost btn-sm" id="btnReset">Limpiar</button>
         <button class="btn btn-secondary btn-sm" id="btnPreview">Vista previa</button>
-        <button class="btn btn-outline btn-sm" id="btnExportPdf">⬇ PDF</button>
-        <button class="btn btn-primary btn-sm" id="btnExport">⬇ Generar HTML</button>
+<button class="btn btn-primary btn-sm" id="btnExport">⬇ Generar HTML</button>
       </div>
     </div>
   </header>
@@ -662,8 +655,7 @@
       </div>
       <div class="ftr-right">
         <button class="btn btn-secondary" id="btnPreview2">Vista previa</button>
-        <button class="btn btn-outline" id="btnExportPdf2">⬇ Descargar PDF</button>
-        <button class="btn btn-primary" id="btnExport2">⬇ Generar y descargar HTML</button>
+<button class="btn btn-primary" id="btnExport2">⬇ Generar y descargar HTML</button>
       </div>
     </div>
   </div>
@@ -965,10 +957,6 @@
     $('btnExport').addEventListener('click', exportHtml);
     $('btnExport2').addEventListener('click', exportHtml);
 
-    // Export PDF
-    $('btnExportPdf').addEventListener('click', exportPdf);
-    $('btnExportPdf2').addEventListener('click', exportPdf);
-
     // Reset
     $('btnReset').addEventListener('click', () => {
       if (!confirm('¿Limpiar todos los datos de la propuesta?')) return;
@@ -1015,25 +1003,7 @@
     setTimeout(() => URL.revokeObjectURL(a.href), 3000);
   }
 
-  function exportPdf() {
-    const html = buildClientHTML();
-    const blob = new Blob([html], { type: 'text/html;charset=utf-8' });
-    const url  = URL.createObjectURL(blob);
-    const win  = window.open(url, '_blank');
-    if (!win) {
-      alert('El navegador bloqueó la ventana emergente. Permite los pop-ups para esta página y vuelve a intentarlo.');
-      URL.revokeObjectURL(url);
-      return;
-    }
-    win.addEventListener('load', () => {
-      setTimeout(() => {
-        win.print();
-        setTimeout(() => URL.revokeObjectURL(url), 5000);
-      }, 600);
-    });
-  }
-
-  /* ============================================================
+/* ============================================================
      CLIENT HTML BUILDER
      — generates the standalone proposal page for the client
   ============================================================ */
@@ -1515,36 +1485,6 @@ section{padding:70px 0}
 .nav{backdrop-filter:blur(28px) saturate(200%) brightness(1.06)!important}
 .footer{background:rgba(245,245,247,.75);backdrop-filter:blur(20px)}
 
-/* ── PRINT / PDF ── */
-@media print{
-  /* ocultar fondo animado y nav sticky */
-  .bg-base,.bg-orbs,.nav{display:none!important}
-  /* quitar sticky/fixed para que el contenido fluya */
-  .nav{position:relative!important}
-  /* fondo blanco limpio */
-  body,html{background:#fff!important;color:#111!important}
-  /* todos los backdrop-filter rompen en PDF → quitarlos */
-  *{backdrop-filter:none!important;-webkit-backdrop-filter:none!important}
-  /* tarjetas con borde simple */
-  .sc,.case-c,.test-c,.msg-card,.stats{
-    background:#fff!important;
-    border:1px solid #ddd!important;
-    box-shadow:none!important;
-  }
-  /* evitar cortes de página dentro de secciones clave */
-  .sc,.case-c,.test-c{page-break-inside:avoid;break-inside:avoid}
-  /* sección hero: padding reducido */
-  .hero{padding:40px 0 32px!important}
-  /* footer siempre visible */
-  .footer{position:relative!important;background:#f5f5f7!important}
-  /* links: mostrar URL junto al texto */
-  a[href^="http"]::after{content:" (" attr(href) ")";font-size:.75em;color:#555}
-  a[href^="mailto"]::after{content:" (" attr(href) ")";font-size:.75em;color:#555}
-  /* botones del nav: ocultar */
-  .nav-actions{display:none!important}
-  /* separadores de página entre secciones grandes */
-  .cases-section,.testimonials-section{page-break-before:auto}
-}
 </style>
 </head>
 <body>
